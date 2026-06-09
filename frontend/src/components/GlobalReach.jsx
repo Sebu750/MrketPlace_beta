@@ -7,7 +7,7 @@ const stats = [
 
 export default function GlobalReach() {
   return (
-    <section className="relative py-24 md:py-32 bg-white border-y border-noir-100 overflow-hidden">
+    <section className="relative py-24 md:py-32 bg-white border-y border-stone-100 overflow-hidden">
       {/* Subtle ambient glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(187,148,87,0.04)_0%,_transparent_70%)]" />
 
@@ -20,10 +20,10 @@ export default function GlobalReach() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-y-16 gap-x-8">
           {stats.map((stat, i) => (
             <div key={i} className="flex flex-col items-center">
-              <span className="font-serif text-5xl md:text-6xl lg:text-7xl text-noir-900 font-medium tracking-tight">
+              <span className="font-serif text-5xl md:text-6xl lg:text-7xl text-charcoal-900 font-medium tracking-tight">
                 {stat.value}
               </span>
-              <span className="mt-3 text-xs uppercase tracking-[0.25em] text-noir-400">
+              <span className="mt-3 text-xs uppercase tracking-[0.25em] text-charcoal-300">
                 {stat.label}
               </span>
             </div>

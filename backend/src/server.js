@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === "development") {
 
 // ── Routes ──────────────────────────────────────────────────────────────────
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/auth", require("./routes/authRoutes"));
 
 app.get("/api/health", (req, res) => {
   res.json({ success: true, message: "Adorzia Marketplace API is live" });

@@ -27,10 +27,10 @@ export default function NewsletterCTA() {
         <h2 className="section-heading mb-6">
           Join the First Generation of
           <br />
-          <span className="italic text-gold-500">Adorzia Visionaries</span>
+          <span className="italic text-bronze-500">Adorzia Visionaries</span>
         </h2>
 
-        <p className="text-noir-600 leading-relaxed max-w-xl mx-auto mb-12">
+        <p className="text-charcoal-500 leading-relaxed max-w-xl mx-auto mb-12">
           We are currently accepting applications from emerging Pakistani designers
           for our inaugural Spotlight cohort — and opening early access to collectors
           worldwide. Register your interest below.
@@ -47,18 +47,18 @@ export default function NewsletterCTA() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Your email address"
-              className="flex-1 px-5 py-3.5 bg-white border border-noir-200 text-noir-900 text-sm placeholder:text-noir-400 focus:outline-none focus:border-noir-900 transition-colors"
+              className="flex-1 px-5 py-3.5 bg-white border border-stone-200 text-charcoal-900 text-sm placeholder:text-charcoal-300 focus:outline-none focus:border-charcoal-900 transition-colors"
             />
             <button type="submit" className="btn-primary shrink-0">
               Register Interest
             </button>
           </form>
         ) : (
-          <div className="border border-gold-500/30 bg-gold-50 px-8 py-6 max-w-lg mx-auto">
-            <p className="text-gold-600 text-sm tracking-wide">
+          <div className="border border-bronze-500/30 bg-bronze-50 px-8 py-6 max-w-lg mx-auto">
+            <p className="text-bronze-600 text-sm tracking-wide">
               Application Received — Reference: AD-2026-{Math.floor(1000 + Math.random() * 9000)}
             </p>
-            <p className="text-noir-400 text-xs mt-2">
+            <p className="text-charcoal-300 text-xs mt-2">
               Confirmation email sent. Expected review: August 2026.
             </p>
           </div>
@@ -75,12 +75,12 @@ export default function NewsletterCTA() {
             <a
               key={i}
               href={`/${item.role.toLowerCase()}`}
-              className="group border border-noir-200 px-5 py-4 hover:border-noir-900 transition-colors duration-300"
+              className="group border border-stone-200 px-5 py-4 hover:border-charcoal-900 transition-colors duration-300"
             >
-              <p className="text-[10px] uppercase tracking-[0.25em] text-noir-400 group-hover:text-noir-900 transition-colors">
+              <p className="text-[10px] uppercase tracking-[0.25em] text-charcoal-300 group-hover:text-charcoal-900 transition-colors">
                 {item.role}
               </p>
-              <p className="mt-1 text-xs text-noir-600 group-hover:text-noir-900 transition-colors">
+              <p className="mt-1 text-xs text-charcoal-500 group-hover:text-charcoal-900 transition-colors">
                 {item.cta}
               </p>
             </a>

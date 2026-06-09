@@ -34,9 +34,9 @@ export default function Register() {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-10">
-          <Link to="/" className="font-serif text-2xl text-noir-900">Adorzia</Link>
-          <h1 className="mt-6 font-serif text-3xl text-noir-900">Create account</h1>
-          <p className="mt-2 text-sm text-noir-500">Join Pakistan's premier fashion marketplace</p>
+          <Link to="/" className="font-serif text-2xl text-charcoal-900">Adorzia</Link>
+          <h1 className="mt-6 font-serif text-3xl text-charcoal-900">Create account</h1>
+          <p className="mt-2 text-sm text-charcoal-400">Join Pakistan's premier fashion marketplace</p>
         </div>
 
         {/* Form */}
@@ -49,15 +49,15 @@ export default function Register() {
 
           {/* Role selector */}
           <div>
-            <label className="block text-xs uppercase tracking-wider text-noir-500 mb-2">I am a</label>
+            <label className="block text-xs uppercase tracking-wider text-charcoal-400 mb-2">I am a</label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={() => setRole("buyer")}
                 className={`px-4 py-3 border text-sm transition-colors ${
                   role === "buyer"
-                    ? "border-noir-900 bg-noir-900 text-white"
-                    : "border-noir-200 text-noir-600 hover:border-noir-400"
+                    ? "border-charcoal-900 bg-charcoal-900 text-white"
+                    : "border-stone-200 text-charcoal-500 hover:border-stone-400"
                 }`}
               >
                 Customer
@@ -68,8 +68,8 @@ export default function Register() {
                 onClick={() => setRole("seller")}
                 className={`px-4 py-3 border text-sm transition-colors ${
                   role === "seller"
-                    ? "border-noir-900 bg-noir-900 text-white"
-                    : "border-noir-200 text-noir-600 hover:border-noir-400"
+                    ? "border-charcoal-900 bg-charcoal-900 text-white"
+                    : "border-stone-200 text-charcoal-500 hover:border-stone-400"
                 }`}
               >
                 Designer / Brand
@@ -79,45 +79,45 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block text-xs uppercase tracking-wider text-noir-500 mb-2">Full Name</label>
+            <label className="block text-xs uppercase tracking-wider text-charcoal-400 mb-2">Full Name</label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 border border-noir-200 text-noir-900 text-sm focus:outline-none focus:border-noir-900 transition-colors"
+              className="w-full px-4 py-3 border border-stone-200 text-charcoal-900 text-sm focus:outline-none focus:border-charcoal-900 transition-colors"
               placeholder="Your full name"
             />
           </div>
 
           <div>
-            <label className="block text-xs uppercase tracking-wider text-noir-500 mb-2">Email</label>
+            <label className="block text-xs uppercase tracking-wider text-charcoal-400 mb-2">Email</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-noir-200 text-noir-900 text-sm focus:outline-none focus:border-noir-900 transition-colors"
+              className="w-full px-4 py-3 border border-stone-200 text-charcoal-900 text-sm focus:outline-none focus:border-charcoal-900 transition-colors"
               placeholder="your@email.com"
             />
           </div>
 
           <div>
-            <label className="block text-xs uppercase tracking-wider text-noir-500 mb-2">Password</label>
+            <label className="block text-xs uppercase tracking-wider text-charcoal-400 mb-2">Password</label>
             <input
               type="password"
               required
               minLength={8}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-noir-200 text-noir-900 text-sm focus:outline-none focus:border-noir-900 transition-colors"
+              className="w-full px-4 py-3 border border-stone-200 text-charcoal-900 text-sm focus:outline-none focus:border-charcoal-900 transition-colors"
               placeholder="At least 8 characters"
             />
           </div>
 
           {role === "seller" && (
-            <div className="bg-stone-50 border border-noir-100 p-4 text-sm text-noir-600">
-              <p className="font-medium text-noir-900 mb-1">Designer Application</p>
+            <div className="bg-stone-50 border border-stone-100 p-4 text-sm text-charcoal-500">
+              <p className="font-medium text-charcoal-900 mb-1">Designer Application</p>
               <p>After registration, you'll be directed to complete your designer profile and submit your first collection for review.</p>
             </div>
           )}
@@ -133,9 +133,9 @@ export default function Register() {
 
         {/* Footer */}
         <div className="mt-8 text-center">
-          <p className="text-sm text-noir-500">
+          <p className="text-sm text-charcoal-400">
             Already have an account?{" "}
-            <Link to="/login" className="text-noir-900 hover:text-gold-500 transition-colors">
+            <Link to="/login" className="text-charcoal-900 hover:text-bronze-500 transition-colors">
               Sign in
             </Link>
           </p>

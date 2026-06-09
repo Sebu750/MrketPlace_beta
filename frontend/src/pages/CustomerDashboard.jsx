@@ -24,14 +24,14 @@ export default function CustomerDashboard() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="border-b border-noir-100">
+      <header className="border-b border-stone-100">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="font-serif text-xl text-noir-900">Adorzia</Link>
+          <Link to="/" className="font-serif text-xl text-charcoal-900">Adorzia</Link>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-noir-500">{user?.name}</span>
+            <span className="text-sm text-charcoal-400">{user?.name}</span>
             <button
               onClick={() => dispatch(logout())}
-              className="text-xs uppercase tracking-wider text-noir-500 hover:text-noir-900 transition-colors"
+              className="text-xs uppercase tracking-wider text-charcoal-400 hover:text-charcoal-900 transition-colors"
             >
               Sign Out
             </button>
@@ -43,15 +43,15 @@ export default function CustomerDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Sidebar */}
           <aside className="lg:col-span-3">
-            <p className="text-xs uppercase tracking-wider text-noir-400 mb-4">My Account</p>
+            <p className="text-xs uppercase tracking-wider text-charcoal-300 mb-4">My Account</p>
             <nav className="space-y-1">
               {navItems.map((item, i) => (
                 <button
                   key={i}
                   className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
                     i === 0
-                      ? "bg-noir-900 text-white"
-                      : "text-noir-600 hover:bg-stone-50 hover:text-noir-900"
+                      ? "bg-charcoal-900 text-white"
+                      : "text-charcoal-500 hover:bg-stone-50 hover:text-charcoal-900"
                   }`}
                 >
                   <span className="mr-3">{item.icon}</span>
@@ -65,10 +65,10 @@ export default function CustomerDashboard() {
           <main className="lg:col-span-9">
             {/* Welcome */}
             <div className="mb-10">
-              <h1 className="font-serif text-3xl text-noir-900">
-                Welcome back, <span className="text-gold-500">{user?.name?.split(" ")[0]}</span>
+              <h1 className="font-serif text-3xl text-charcoal-900">
+                Welcome back, <span className="text-bronze-500">{user?.name?.split(" ")[0]}</span>
               </h1>
-              <p className="mt-2 text-sm text-noir-500">Manage your orders, wishlist, and account settings.</p>
+              <p className="mt-2 text-sm text-charcoal-400">Manage your orders, wishlist, and account settings.</p>
             </div>
 
             {/* Stats */}
@@ -79,31 +79,31 @@ export default function CustomerDashboard() {
                 { label: "Following", value: "8", sub: "designers" },
                 { label: "Points", value: "2,450", sub: "loyalty tier" },
               ].map((stat, i) => (
-                <div key={i} className="border border-noir-100 p-5">
-                  <p className="text-xs uppercase tracking-wider text-noir-400 mb-2">{stat.label}</p>
-                  <p className="font-serif text-2xl text-noir-900">{stat.value}</p>
-                  <p className="text-xs text-noir-400 mt-1">{stat.sub}</p>
+                <div key={i} className="border border-stone-100 p-5">
+                  <p className="text-xs uppercase tracking-wider text-charcoal-300 mb-2">{stat.label}</p>
+                  <p className="font-serif text-2xl text-charcoal-900">{stat.value}</p>
+                  <p className="text-xs text-charcoal-300 mt-1">{stat.sub}</p>
                 </div>
               ))}
             </div>
 
             {/* Recent Orders */}
-            <div className="border border-noir-100">
-              <div className="px-6 py-4 border-b border-noir-100 flex items-center justify-between">
-                <h2 className="text-sm font-medium text-noir-900">Recent Orders</h2>
-                <Link to="/orders" className="text-xs text-noir-500 hover:text-noir-900 transition-colors">View All</Link>
+            <div className="border border-stone-100">
+              <div className="px-6 py-4 border-b border-stone-100 flex items-center justify-between">
+                <h2 className="text-sm font-medium text-charcoal-900">Recent Orders</h2>
+                <Link to="/orders" className="text-xs text-charcoal-400 hover:text-charcoal-900 transition-colors">View All</Link>
               </div>
-              <div className="divide-y divide-noir-100">
+              <div className="divide-y divide-stone-100">
                 {recentOrders.map((order, i) => (
                   <div key={i} className="px-6 py-4 flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-noir-900">{order.item}</p>
-                      <p className="text-xs text-noir-400 mt-0.5">
+                      <p className="text-sm text-charcoal-900">{order.item}</p>
+                      <p className="text-xs text-charcoal-300 mt-0.5">
                         {order.id} · {order.date} · {order.designer}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm text-noir-900">{order.total}</p>
+                      <p className="text-sm text-charcoal-900">{order.total}</p>
                       <span className={`text-xs mt-0.5 inline-block px-2 py-0.5 ${
                         order.status === "Delivered"
                           ? "bg-green-50 text-green-600"
@@ -121,15 +121,15 @@ export default function CustomerDashboard() {
 
             {/* Quick actions */}
             <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link to="/products" className="border border-noir-100 p-6 hover:border-noir-300 transition-colors group">
-                <p className="text-xs uppercase tracking-wider text-noir-400 mb-2">Discover</p>
-                <p className="font-serif text-lg text-noir-900 group-hover:text-gold-500 transition-colors">Browse Collections</p>
-                <p className="text-sm text-noir-500 mt-1">Explore new arrivals from Pakistan's finest designers</p>
+              <Link to="/products" className="border border-stone-100 p-6 hover:border-stone-300 transition-colors group">
+                <p className="text-xs uppercase tracking-wider text-charcoal-300 mb-2">Discover</p>
+                <p className="font-serif text-lg text-charcoal-900 group-hover:text-bronze-500 transition-colors">Browse Collections</p>
+                <p className="text-sm text-charcoal-400 mt-1">Explore new arrivals from Pakistan's finest designers</p>
               </Link>
-              <Link to="/designers" className="border border-noir-100 p-6 hover:border-noir-300 transition-colors group">
-                <p className="text-xs uppercase tracking-wider text-noir-400 mb-2">Connect</p>
-                <p className="font-serif text-lg text-noir-900 group-hover:text-gold-500 transition-colors">Meet Our Designers</p>
-                <p className="text-sm text-noir-500 mt-1">Follow your favorite creators and see their latest work</p>
+              <Link to="/designers" className="border border-stone-100 p-6 hover:border-stone-300 transition-colors group">
+                <p className="text-xs uppercase tracking-wider text-charcoal-300 mb-2">Connect</p>
+                <p className="font-serif text-lg text-charcoal-900 group-hover:text-bronze-500 transition-colors">Meet Our Designers</p>
+                <p className="text-sm text-charcoal-400 mt-1">Follow your favorite creators and see their latest work</p>
               </Link>
             </div>
           </main>

@@ -19,45 +19,34 @@ export default function BestSellers() {
   const ref = useReveal();
 
   return (
-    <section className="bg-white py-20 md:py-28">
-      <div ref={ref} className="reveal max-w-[1440px] mx-auto px-6">
+    <section className="bg-white py-24 md:py-32 border-t border-stone-100">
+      <div ref={ref} className="reveal max-w-[1520px] mx-auto px-6 lg:px-10">
         {/* Header */}
-        <div className="flex items-end justify-between mb-12">
+        <div className="flex items-end justify-between mb-14">
           <div>
-            <p className="section-label mb-3">Most Loved</p>
-            <h2 className="font-serif text-3xl md:text-4xl text-noir-900 font-medium">Best Sellers</h2>
-            <div className="mt-3 w-16 h-px bg-gold-300" />
+            <p className="section-label mb-4">Most Loved</p>
+            <h2 className="font-serif text-display-sm md:text-display text-charcoal-900 font-light">Best Sellers</h2>
           </div>
-          <Link to="/products" className="text-[11px] uppercase tracking-[0.2em] text-noir-500 hover:text-crimson-600 transition-colors border-b border-noir-300 hover:border-crimson-600 pb-0.5">
+          <Link to="/shop" className="btn-text">
             View All
           </Link>
         </div>
 
         {/* 4-col grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 stagger-children">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 stagger-children">
           {products.map((p) => (
             <Link key={p.id} to={`/pieces/${p.id}`}
-              className="reveal group bg-cream-50 transition-shadow duration-500 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+              className="reveal group bg-ivory-50 transition-all duration-500 hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
               {/* Image */}
-              <div className="relative aspect-[3/4] overflow-hidden bg-parchment-100">
+              <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
                 <img src={p.image} alt={p.name}
-                  className="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.04]" />
-                <button onClick={(e) => e.preventDefault()}
-                  className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-cream-50/80 backdrop-blur-sm border border-gold-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <IconHeart className="w-3.5 h-3.5 text-noir-400" />
-                </button>
+                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.03]" />
               </div>
               {/* Info */}
-              <div className="p-4">
-                <h3 className="font-serif text-sm text-noir-900 group-hover:text-crimson-600 transition-colors duration-300 line-clamp-1">{p.name}</h3>
-                <p className="text-xs text-noir-400 mt-0.5">{p.designer}</p>
-                <div className="flex items-center justify-between mt-3">
-                  <p className="text-sm text-noir-800">{p.price}</p>
-                  <span className="flex items-center gap-1 text-[11px] text-noir-600">
-                    <IconStar className="w-3 h-3 text-gold-400" />
-                    {p.rating}
-                  </span>
-                </div>
+              <div className="p-5">
+                <h3 className="font-serif text-base text-charcoal-900 transition-colors duration-500 line-clamp-1">{p.name}</h3>
+                <p className="text-[11px] text-charcoal-400 mt-1 tracking-wide">{p.designer}</p>
+                <p className="text-sm text-charcoal-700 mt-2.5 font-light">{p.price}</p>
               </div>
             </Link>
           ))}

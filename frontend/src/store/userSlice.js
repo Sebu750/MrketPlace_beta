@@ -10,37 +10,89 @@ const setAuthToken = (token) => {
   }
 };
 
-// Login
-export const loginUser = createAsyncThunk(
-  "user/login",
+// Helper: handle successful auth response
+const handleAuthSuccess = (data) => {
+  setAuthToken(data.token);
+  localStorage.setItem("user", JSON.stringify(data));
+  return data;
+};
+
+// Helper: extract error message
+const getError = (err, fallback) =>
+  err.response?.data?.message || fallback;
+
+/* ══════════════════════════════════════════════════════════════════════
+   CUSTOMER THUNKS
+══════════════════════════════════════════════════════════════════════ */
+export const customerLogin = createAsyncThunk(
+  "user/customerLogin",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("/api/users/login", { email, password });
-      setAuthToken(data.data.token);
-      localStorage.setItem("user", JSON.stringify(data.data));
-      return data.data;
+      const { data } = await axios.post("/api/auth/customer/login", { email, password });
+      return handleAuthSuccess(data.data);
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Login failed");
+      return rejectWithValue(getError(err, "Login failed"));
     }
   }
 );
 
-// Register
-export const registerUser = createAsyncThunk(
-  "user/register",
-  async ({ name, email, password, role }, { rejectWithValue }) => {
+export const customerRegister = createAsyncThunk(
+  "user/customerRegister",
+  async ({ name, email, password }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("/api/users/register", { name, email, password, role });
-      setAuthToken(data.data.token);
-      localStorage.setItem("user", JSON.stringify(data.data));
-      return data.data;
+      const { data } = await axios.post("/api/auth/customer/register", { name, email, password });
+      return handleAuthSuccess(data.data);
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Registration failed");
+      return rejectWithValue(getError(err, "Registration failed"));
     }
   }
 );
 
-// Get current user
+/* ══════════════════════════════════════════════════════════════════════
+   DESIGNER THUNKS
+══════════════════════════════════════════════════════════════════════ */
+export const designerLogin = createAsyncThunk(
+  "user/designerLogin",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post("/api/auth/designer/login", { email, password });
+      return handleAuthSuccess(data.data);
+    } catch (err) {
+      return rejectWithValue(getError(err, "Login failed"));
+    }
+  }
+);
+
+export const designerRegister = createAsyncThunk(
+  "user/designerRegister",
+  async ({ name, email, password }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post("/api/auth/designer/register", { name, email, password });
+      return handleAuthSuccess(data.data);
+    } catch (err) {
+      return rejectWithValue(getError(err, "Registration failed"));
+    }
+  }
+);
+
+/* ══════════════════════════════════════════════════════════════════════
+   ADMIN THUNKS  (login only — no public registration)
+══════════════════════════════════════════════════════════════════════ */
+export const adminLogin = createAsyncThunk(
+  "user/adminLogin",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post("/api/auth/admin/login", { email, password });
+      return handleAuthSuccess(data.data);
+    } catch (err) {
+      return rejectWithValue(getError(err, "Login failed"));
+    }
+  }
+);
+
+/* ══════════════════════════════════════════════════════════════════════
+   GENERIC (legacy — kept for backward compat)
+══════════════════════════════════════════════════════════════════════ */
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
   async (_, { rejectWithValue }) => {
@@ -48,10 +100,21 @@ export const fetchUser = createAsyncThunk(
       const { data } = await axios.get("/api/users/me");
       return data.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to fetch user");
+      return rejectWithValue(getError(err, "Failed to fetch user"));
     }
   }
 );
+
+/* ══════════════════════════════════════════════════════════════════════
+   SLICE
+══════════════════════════════════════════════════════════════════════ */
+
+// All login/register thunk action types
+const authThunks = [
+  customerLogin, customerRegister,
+  designerLogin, designerRegister,
+  adminLogin,
+];
 
 const userSlice = createSlice({
   name: "user",
@@ -71,16 +134,15 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    authThunks.forEach((thunk) => {
+      builder
+        .addCase(thunk.pending, (state) => { state.loading = true; state.error = null; })
+        .addCase(thunk.fulfilled, (state, { payload }) => { state.loading = false; state.data = payload; })
+        .addCase(thunk.rejected, (state, { payload }) => { state.loading = false; state.error = payload; });
+    });
+
+    // fetchUser
     builder
-      // Login
-      .addCase(loginUser.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(loginUser.fulfilled, (state, { payload }) => { state.loading = false; state.data = payload; })
-      .addCase(loginUser.rejected, (state, { payload }) => { state.loading = false; state.error = payload; })
-      // Register
-      .addCase(registerUser.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(registerUser.fulfilled, (state, { payload }) => { state.loading = false; state.data = payload; })
-      .addCase(registerUser.rejected, (state, { payload }) => { state.loading = false; state.error = payload; })
-      // Fetch user
       .addCase(fetchUser.pending, (state) => { state.loading = true; state.error = null; })
       .addCase(fetchUser.fulfilled, (state, { payload }) => { state.loading = false; state.data = payload; })
       .addCase(fetchUser.rejected, (state, { payload }) => { state.loading = false; state.error = payload; });

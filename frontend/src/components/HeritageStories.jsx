@@ -44,17 +44,17 @@ export default function HeritageStories() {
 
               {/* Text */}
               <div className={`lg:col-span-6 ${story.reverse && "lg:order-1"}`}>
-                <span className="text-[11px] uppercase tracking-[0.2em] text-gold-500/70">
+                <span className="text-[11px] uppercase tracking-[0.2em] text-bronze-500/70">
                   {story.era}
                 </span>
-                <h3 className="mt-3 font-serif text-3xl md:text-4xl text-noir-900 leading-snug">
+                <h3 className="mt-3 font-serif text-3xl md:text-4xl text-charcoal-900 leading-snug">
                   {story.title}
                 </h3>
                 <div className="divider my-8" />
-                <p className="text-noir-600 leading-relaxed">{story.text}</p>
+                <p className="text-charcoal-500 leading-relaxed">{story.text}</p>
                 <a
                   href="/stories"
-                  className="inline-flex items-center gap-2 mt-8 text-sm text-noir-900 tracking-wide hover:text-gold-500 transition-colors"
+                  className="inline-flex items-center gap-2 mt-8 text-sm text-charcoal-900 tracking-wide hover:text-bronze-500 transition-colors"
                 >
                   Read Full Story
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

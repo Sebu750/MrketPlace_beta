@@ -12,17 +12,17 @@ export default function Newsletter() {
   };
 
   return (
-    <section className="bg-parchment-100 py-20 md:py-28">
+    <section className="bg-stone-50 py-20 md:py-28">
       <div ref={ref} className="reveal max-w-2xl mx-auto px-6">
         {/* Corner bracket frame */}
-        <div className="corner-bracket p-10 md:p-14 text-center">
+        <div className="p-10 md:p-14 text-center">
           {!submitted ? (
             <>
               <p className="section-label mb-4">Stay Connected</p>
-              <h2 className="font-serif text-3xl md:text-4xl text-noir-900 font-medium">
+              <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-medium">
                 First to Know.
               </h2>
-              <p className="mt-4 text-noir-500 text-sm leading-relaxed max-w-sm mx-auto">
+              <p className="mt-4 text-charcoal-400 text-sm leading-relaxed max-w-sm mx-auto">
                 New designer drops, heritage stories, and exclusive access —
                 delivered to your inbox before anyone else.
               </p>
@@ -34,23 +34,23 @@ export default function Newsletter() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your email address"
                   required
-                  className="flex-1 px-5 py-3 text-sm border border-gold-300 bg-cream-50 text-noir-800 placeholder:text-noir-400 focus:border-gold-500 focus:outline-none transition-colors"
+                  className="flex-1 px-5 py-3 text-sm border border-bronze-300 bg-white text-charcoal-800 placeholder:text-charcoal-300 focus:border-bronze-500 focus:outline-none transition-colors"
                 />
                 <button type="submit" className="btn-primary whitespace-nowrap px-8">
                   Subscribe
                 </button>
               </form>
-              <p className="mt-4 text-[10px] text-noir-400 uppercase tracking-wider">
+              <p className="mt-4 text-[10px] text-charcoal-300 uppercase tracking-wider">
                 No spam · Unsubscribe anytime
               </p>
             </>
           ) : (
             <div className="py-6">
               <p className="section-label mb-3">Welcome</p>
-              <h2 className="font-serif text-2xl md:text-3xl text-noir-900 font-medium">
+              <h2 className="font-serif text-2xl md:text-3xl text-charcoal-900 font-medium">
                 You're on the list.
               </h2>
-              <p className="mt-3 text-noir-500 text-sm">
+              <p className="mt-3 text-charcoal-400 text-sm">
                 Expect something beautiful soon.
               </p>
             </div>

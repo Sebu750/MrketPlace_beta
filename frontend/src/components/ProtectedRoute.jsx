@@ -6,7 +6,12 @@ export default function ProtectedRoute({ children, allowedRoles }) {
   const location = useLocation();
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    // Route to the login page that matches the required role
+    const loginPath =
+      allowedRoles?.includes("admin")  ? "/admin/login" :
+      allowedRoles?.includes("seller") ? "/designer/login" :
+      "/customer/login";
+    return <Navigate to={loginPath} state={{ from: location.pathname }} replace />;
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {

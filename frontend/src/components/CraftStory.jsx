@@ -28,17 +28,17 @@ export default function CraftStory() {
           />
         </div>
         {/* Light cream overlay — keeps it airy, not dark */}
-        <div className="absolute inset-0 bg-cream-100/75" />
+        <div className="absolute inset-0 bg-ivory-50/75" />
       </div>
 
       {/* Centered quote */}
       <div className="relative z-10 h-full flex items-center justify-center px-6">
         <blockquote className="max-w-3xl text-center">
-          <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-noir-800 leading-snug">
+          <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-charcoal-800 leading-snug">
             "Every thread carries the memory of a hand that spun it, a loom that held it,
             and a tradition that refused to be forgotten."
           </p>
-          <cite className="block mt-8 text-[11px] uppercase tracking-[0.3em] text-noir-400 not-italic">
+          <cite className="block mt-8 text-[11px] uppercase tracking-[0.3em] text-charcoal-300 not-italic">
             Adorzia · Heritage Manifesto
           </cite>
         </blockquote>

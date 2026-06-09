@@ -16,14 +16,14 @@ export default function GlobalTrustStrip() {
   const ref = useReveal();
 
   return (
-    <section className="bg-parchment-100 border-t border-b border-gold-200">
+    <section className="bg-stone-50 border-t border-b border-bronze-200">
       <div ref={ref} className="reveal max-w-[1440px] mx-auto px-6 py-14 md:py-16">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6">
           {trusts.map((t) => (
             <div key={t.title} className="text-center">
-              <t.icon className="w-7 h-7 mx-auto text-noir-700 mb-3" />
-              <p className="text-sm text-noir-800 font-medium">{t.title}</p>
-              <p className="text-xs text-noir-400 mt-1">{t.sub}</p>
+              <t.icon className="w-7 h-7 mx-auto text-charcoal-700 mb-3" />
+              <p className="text-sm text-charcoal-800 font-medium">{t.title}</p>
+              <p className="text-xs text-charcoal-300 mt-1">{t.sub}</p>
             </div>
           ))}
         </div>

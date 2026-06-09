@@ -1,11 +1,11 @@
 const items = [
-  "New Arrivals",
-  "Heritage Craft",
-  "Emerging Designers",
+  "Independent Designers",
+  "Heritage Craftsmanship",
+  "Limited Editions",
   "Ships Worldwide",
-  "Handmade in Pakistan",
-  "Authentic & Verified",
-  "Spotlight Alumni",
+  "Made in Pakistan",
+  "Curated Not Catalogued",
+  "Designer-First Platform",
 ];
 
 export default function MarqueeTicker() {
@@ -13,13 +13,13 @@ export default function MarqueeTicker() {
   const doubled = `${text}  ·  ${text}`;
 
   return (
-    <section className="bg-parchment-100 border-t border-b border-gold-200 overflow-hidden">
-      <div className="py-4 flex whitespace-nowrap">
+    <section className="bg-ivory-50 border-t border-b border-stone-100 overflow-hidden">
+      <div className="py-5 flex whitespace-nowrap">
         <div className="animate-marquee flex shrink-0">
           {[0, 1].map((i) => (
             <span
               key={i}
-              className="text-[11px] uppercase tracking-[0.3em] text-crimson-600 font-medium px-4"
+              className="text-[9px] uppercase tracking-[0.4em] text-charcoal-400 font-light px-6"
             >
               {doubled}
             </span>

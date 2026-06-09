@@ -66,7 +66,7 @@ export default function FeaturedCollections() {
           </div>
           <a
             href="/collections"
-            className="hidden md:inline-flex items-center gap-2 text-sm text-noir-500 tracking-wide hover:text-noir-900 transition-colors"
+            className="hidden md:inline-flex items-center gap-2 text-sm text-charcoal-400 tracking-wide hover:text-charcoal-900 transition-colors"
           >
             View All
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -94,7 +94,7 @@ export default function FeaturedCollections() {
 
               {/* Tag */}
               {item.tag && (
-                <span className="absolute top-4 left-4 px-3 py-1 text-[10px] uppercase tracking-[0.2em] bg-white text-noir-900 font-medium">
+                <span className="absolute top-4 left-4 px-3 py-1 text-[10px] uppercase tracking-[0.2em] bg-white text-charcoal-900 font-medium">
                   {item.tag}
                 </span>
               )}

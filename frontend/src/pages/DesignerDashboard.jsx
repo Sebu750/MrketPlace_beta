@@ -9,7 +9,8 @@ const navItems = [
   { label: "Analytics", icon: "◐" },
   { label: "Payouts", icon: "◇" },
   { label: "Studio", icon: "⌂" },
-  { label: "Profile Settings", icon: "⚙" },
+  { label: "Profile Settings", icon: "\u2699" },
+  { label: "Plans & Pricing", icon: "\u2666", to: "/designer/plans" },
 ];
 
 const collections = [
@@ -30,15 +31,15 @@ export default function DesignerDashboard() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="border-b border-noir-100">
+      <header className="border-b border-stone-100">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="font-serif text-xl text-noir-900">Adorzia</Link>
+          <Link to="/" className="font-serif text-xl text-charcoal-900">Adorzia</Link>
           <div className="flex items-center gap-4">
-            <span className="text-xs uppercase tracking-wider text-gold-500 border border-gold-500/30 px-2 py-0.5">Designer</span>
-            <span className="text-sm text-noir-500">{user?.name}</span>
+            <span className="text-xs uppercase tracking-wider text-bronze-500 border border-bronze-500/30 px-2 py-0.5">Designer</span>
+            <span className="text-sm text-charcoal-400">{user?.name}</span>
             <button
               onClick={() => dispatch(logout())}
-              className="text-xs uppercase tracking-wider text-noir-500 hover:text-noir-900 transition-colors"
+              className="text-xs uppercase tracking-wider text-charcoal-400 hover:text-charcoal-900 transition-colors"
             >
               Sign Out
             </button>
@@ -50,29 +51,40 @@ export default function DesignerDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Sidebar */}
           <aside className="lg:col-span-3">
-            <p className="text-xs uppercase tracking-wider text-noir-400 mb-4">Designer Panel</p>
+            <p className="text-xs uppercase tracking-wider text-charcoal-300 mb-4">Designer Panel</p>
             <nav className="space-y-1">
               {navItems.map((item, i) => (
-                <button
-                  key={i}
-                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
-                    i === 0
-                      ? "bg-noir-900 text-white"
-                      : "text-noir-600 hover:bg-stone-50 hover:text-noir-900"
-                  }`}
-                >
-                  <span className="mr-3">{item.icon}</span>
-                  {item.label}
-                </button>
+                item.to ? (
+                  <Link
+                    key={i}
+                    to={item.to}
+                    className="w-full text-left px-4 py-2.5 text-sm text-charcoal-500 hover:bg-stone-50 hover:text-charcoal-900 transition-colors flex items-center"
+                  >
+                    <span className="mr-3">{item.icon}</span>
+                    {item.label}
+                  </Link>
+                ) : (
+                  <button
+                    key={i}
+                    className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
+                      i === 0
+                        ? "bg-charcoal-900 text-white"
+                        : "text-charcoal-500 hover:bg-stone-50 hover:text-charcoal-900"
+                    }`}
+                  >
+                    <span className="mr-3">{item.icon}</span>
+                    {item.label}
+                  </button>
+                )
               ))}
             </nav>
 
             {/* Studio info */}
-            <div className="mt-8 p-4 bg-stone-50 border border-noir-100">
-              <p className="text-xs uppercase tracking-wider text-noir-400 mb-2">Your Studio</p>
-              <p className="font-serif text-lg text-noir-900">Adorzia Lahore</p>
-              <p className="text-sm text-noir-500 mt-1">Coworking space assigned</p>
-              <Link to="/studios" className="text-xs text-gold-500 hover:text-gold-600 mt-2 inline-block">
+            <div className="mt-8 p-4 bg-stone-50 border border-stone-100">
+              <p className="text-xs uppercase tracking-wider text-charcoal-300 mb-2">Your Studio</p>
+              <p className="font-serif text-lg text-charcoal-900">Adorzia Lahore</p>
+              <p className="text-sm text-charcoal-400 mt-1">Coworking space assigned</p>
+              <Link to="/studios" className="text-xs text-bronze-500 hover:text-bronze-600 mt-2 inline-block">
                 Manage studio →
               </Link>
             </div>
@@ -82,10 +94,10 @@ export default function DesignerDashboard() {
           <main className="lg:col-span-9">
             {/* Welcome */}
             <div className="mb-10">
-              <h1 className="font-serif text-3xl text-noir-900">
-                Hello, <span className="text-gold-500">{user?.name?.split(" ")[0]}</span>
+              <h1 className="font-serif text-3xl text-charcoal-900">
+                Hello, <span className="text-bronze-500">{user?.name?.split(" ")[0]}</span>
               </h1>
-              <p className="mt-2 text-sm text-noir-500">Manage your collections, orders, and grow your brand on Adorzia.</p>
+              <p className="mt-2 text-sm text-charcoal-400">Manage your collections, orders, and grow your brand on Adorzia.</p>
             </div>
 
             {/* Stats */}
@@ -96,28 +108,28 @@ export default function DesignerDashboard() {
                 { label: "Revenue", value: "PKR 576K", sub: "total to date" },
                 { label: "Following", value: "234", sub: "customers" },
               ].map((stat, i) => (
-                <div key={i} className="border border-noir-100 p-5">
-                  <p className="text-xs uppercase tracking-wider text-noir-400 mb-2">{stat.label}</p>
-                  <p className="font-serif text-2xl text-noir-900">{stat.value}</p>
-                  <p className="text-xs text-noir-400 mt-1">{stat.sub}</p>
+                <div key={i} className="border border-stone-100 p-5">
+                  <p className="text-xs uppercase tracking-wider text-charcoal-300 mb-2">{stat.label}</p>
+                  <p className="font-serif text-2xl text-charcoal-900">{stat.value}</p>
+                  <p className="text-xs text-charcoal-300 mt-1">{stat.sub}</p>
                 </div>
               ))}
             </div>
 
             {/* Collections */}
-            <div className="border border-noir-100 mb-8">
-              <div className="px-6 py-4 border-b border-noir-100 flex items-center justify-between">
-                <h2 className="text-sm font-medium text-noir-900">Your Collections</h2>
-                <button className="text-xs bg-noir-900 text-white px-3 py-1.5 hover:bg-noir-800 transition-colors">
+            <div className="border border-stone-100 mb-8">
+              <div className="px-6 py-4 border-b border-stone-100 flex items-center justify-between">
+                <h2 className="text-sm font-medium text-charcoal-900">Your Collections</h2>
+                <button className="text-xs bg-charcoal-900 text-white px-3 py-1.5 hover:bg-charcoal-800 transition-colors">
                   + New Collection
                 </button>
               </div>
-              <div className="divide-y divide-noir-100">
+              <div className="divide-y divide-stone-100">
                 {collections.map((col, i) => (
                   <div key={i} className="px-6 py-4 flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-noir-900">{col.name}</p>
-                      <p className="text-xs text-noir-400 mt-0.5">
+                      <p className="text-sm text-charcoal-900">{col.name}</p>
+                      <p className="text-xs text-charcoal-300 mt-0.5">
                         {col.pieces} pieces · {col.sales} sales · {col.revenue}
                       </p>
                     </div>
@@ -134,22 +146,22 @@ export default function DesignerDashboard() {
             </div>
 
             {/* Recent Orders */}
-            <div className="border border-noir-100 mb-8">
-              <div className="px-6 py-4 border-b border-noir-100 flex items-center justify-between">
-                <h2 className="text-sm font-medium text-noir-900">Recent Orders</h2>
-                <Link to="/designer-orders" className="text-xs text-noir-500 hover:text-noir-900 transition-colors">View All</Link>
+            <div className="border border-stone-100 mb-8">
+              <div className="px-6 py-4 border-b border-stone-100 flex items-center justify-between">
+                <h2 className="text-sm font-medium text-charcoal-900">Recent Orders</h2>
+                <Link to="/designer-orders" className="text-xs text-charcoal-400 hover:text-charcoal-900 transition-colors">View All</Link>
               </div>
-              <div className="divide-y divide-noir-100">
+              <div className="divide-y divide-stone-100">
                 {recentOrders.map((order, i) => (
                   <div key={i} className="px-6 py-4 flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-noir-900">{order.item}</p>
-                      <p className="text-xs text-noir-400 mt-0.5">
+                      <p className="text-sm text-charcoal-900">{order.item}</p>
+                      <p className="text-xs text-charcoal-300 mt-0.5">
                         {order.id} · {order.date} · {order.customer}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm text-noir-900">{order.total}</p>
+                      <p className="text-sm text-charcoal-900">{order.total}</p>
                       <span className={`text-xs mt-0.5 inline-block px-2 py-0.5 ${
                         order.status === "Delivered"
                           ? "bg-green-50 text-green-600"
@@ -167,20 +179,20 @@ export default function DesignerDashboard() {
 
             {/* Quick actions */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <button className="border border-noir-100 p-6 hover:border-noir-300 transition-colors text-left group">
-                <p className="text-xs uppercase tracking-wider text-noir-400 mb-2">Create</p>
-                <p className="font-serif text-lg text-noir-900 group-hover:text-gold-500 transition-colors">New Collection</p>
-                <p className="text-sm text-noir-500 mt-1">Upload pieces and launch your next collection</p>
+              <button className="border border-stone-100 p-6 hover:border-stone-300 transition-colors text-left group">
+                <p className="text-xs uppercase tracking-wider text-charcoal-300 mb-2">Create</p>
+                <p className="font-serif text-lg text-charcoal-900 group-hover:text-bronze-500 transition-colors">New Collection</p>
+                <p className="text-sm text-charcoal-400 mt-1">Upload pieces and launch your next collection</p>
               </button>
-              <button className="border border-noir-100 p-6 hover:border-noir-300 transition-colors text-left group">
-                <p className="text-xs uppercase tracking-wider text-noir-400 mb-2">Grow</p>
-                <p className="font-serif text-lg text-noir-900 group-hover:text-gold-500 transition-colors">Apply for Spotlight</p>
-                <p className="text-sm text-noir-500 mt-1">Get featured on the Adorzia homepage</p>
+              <button className="border border-stone-100 p-6 hover:border-stone-300 transition-colors text-left group">
+                <p className="text-xs uppercase tracking-wider text-charcoal-300 mb-2">Grow</p>
+                <p className="font-serif text-lg text-charcoal-900 group-hover:text-bronze-500 transition-colors">Apply for Spotlight</p>
+                <p className="text-sm text-charcoal-400 mt-1">Get featured on the Adorzia homepage</p>
               </button>
-              <button className="border border-noir-100 p-6 hover:border-noir-300 transition-colors text-left group">
-                <p className="text-xs uppercase tracking-wider text-noir-400 mb-2">Connect</p>
-                <p className="font-serif text-lg text-noir-900 group-hover:text-gold-500 transition-colors">Artisan Network</p>
-                <p className="text-sm text-noir-500 mt-1">Find craft partners across Pakistan</p>
+              <button className="border border-stone-100 p-6 hover:border-stone-300 transition-colors text-left group">
+                <p className="text-xs uppercase tracking-wider text-charcoal-300 mb-2">Connect</p>
+                <p className="font-serif text-lg text-charcoal-900 group-hover:text-bronze-500 transition-colors">Artisan Network</p>
+                <p className="text-sm text-charcoal-400 mt-1">Find craft partners across Pakistan</p>
               </button>
             </div>
           </main>

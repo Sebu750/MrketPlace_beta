@@ -30,7 +30,7 @@ const values = [
 
 export default function WhyShopHere() {
   return (
-    <section className="py-24 md:py-32 bg-white border-t border-noir-100">
+    <section className="py-24 md:py-32 bg-white border-t border-stone-100">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <p className="section-label mb-4">The Adorzia Standard</p>
@@ -39,17 +39,17 @@ export default function WhyShopHere() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-noir-100">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-stone-100">
           {values.map((v, i) => (
             <div
               key={i}
               className="bg-white p-10 md:p-12 group hover:bg-stone-50 transition-colors duration-500"
             >
-              <div className="text-gold-500/80 group-hover:text-gold-600 transition-colors duration-500">
+              <div className="text-bronze-500/80 group-hover:text-bronze-600 transition-colors duration-500">
                 {v.icon}
               </div>
-              <h3 className="mt-6 font-serif text-xl text-noir-900">{v.title}</h3>
-              <p className="mt-4 text-noir-500 leading-relaxed text-sm">{v.text}</p>
+              <h3 className="mt-6 font-serif text-xl text-charcoal-900">{v.title}</h3>
+              <p className="mt-4 text-charcoal-400 leading-relaxed text-sm">{v.text}</p>
             </div>
           ))}
         </div>

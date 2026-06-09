@@ -17,40 +17,40 @@ export default function FeaturedCollection() {
   const ref = useReveal();
 
   return (
-    <section className="relative bg-cream-100 border-t-[3px] border-crimson-600 py-20 md:py-28 overflow-hidden">
-      <div ref={ref} className="reveal max-w-[1440px] mx-auto px-6">
+    <section className="relative bg-ivory-50 py-24 md:py-36 overflow-hidden">
+      <div ref={ref} className="reveal max-w-[1520px] mx-auto px-6 lg:px-10">
         {/* Ghost collection name */}
-        <span className="absolute top-10 left-0 right-0 text-center font-serif text-[5rem] sm:text-[8rem] lg:text-[11rem] leading-none text-crimson-50 pointer-events-none select-none whitespace-nowrap overflow-hidden">
+        <span className="absolute top-12 left-0 right-0 text-center font-serif text-[6rem] sm:text-[9rem] lg:text-[13rem] leading-none text-stone-100 pointer-events-none select-none whitespace-nowrap overflow-hidden font-light">
           {collection.name}
         </span>
 
         {/* Header */}
-        <div className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between mb-12">
+        <div className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between mb-14">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-crimson-600 mb-3">{collection.season}</p>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-noir-900 font-medium">{collection.name}</h2>
-            <p className="mt-2 text-sm text-noir-500">by <span className="text-noir-700">{collection.designer}</span></p>
+            <p className="text-[9px] uppercase tracking-[0.35em] text-bronze-500 mb-4">{collection.season}</p>
+            <h2 className="font-serif text-display-sm md:text-display text-charcoal-900 font-light">{collection.name}</h2>
+            <p className="mt-3 text-sm text-charcoal-500 font-light">by <span className="text-charcoal-700">{collection.designer}</span></p>
           </div>
           <Link to={`/collections/geometries-of-belonging`}
             className="mt-6 md:mt-0 btn-primary text-sm">
-            Shop the Collection
+            View the Collection
           </Link>
         </div>
 
-        {/* Product cards row */}
-        <div className="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 stagger-children">
+        {/* Product cards */}
+        <div className="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-5 stagger-children">
           {collection.pieces.map((p) => (
             <Link key={p.id} to={`/pieces/${p.id}`}
-              className="reveal group relative bg-white corner-bracket">
+              className="reveal group relative bg-white">
               {/* Image */}
-              <div className="relative aspect-[3/4] overflow-hidden bg-parchment-50">
+              <div className="relative aspect-[3/4] overflow-hidden bg-stone-50">
                 <img src={p.image} alt={p.name}
-                  className="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]" />
+                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.03]" />
               </div>
               {/* Info */}
-              <div className="p-4">
-                <h3 className="font-serif text-sm text-noir-900 group-hover:text-crimson-600 transition-colors duration-300 line-clamp-1">{p.name}</h3>
-                <p className="text-sm text-noir-700 mt-1.5">{p.price}</p>
+              <div className="p-5">
+                <h3 className="font-serif text-base text-charcoal-900 transition-colors duration-500 line-clamp-1">{p.name}</h3>
+                <p className="text-sm text-charcoal-600 mt-2 font-light">{p.price}</p>
               </div>
             </Link>
           ))}
