@@ -14,6 +14,7 @@ const setAuthToken = (token) => {
 const handleAuthSuccess = (data) => {
   setAuthToken(data.token);
   localStorage.setItem("user", JSON.stringify(data));
+  localStorage.setItem("token", data.token);
   return data;
 };
 
@@ -127,6 +128,7 @@ const userSlice = createSlice({
     logout(state) {
       state.data = null;
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
       setAuthToken(null);
     },
     clearError(state) {

@@ -21,6 +21,7 @@ const IconStar = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColo
 /* ── Navigation items ──────────────────────────────────────────────── */
 const navItems = [
   { label: "Overview", to: "", icon: IconHome, end: true },
+  { label: "Products", to: "products", icon: IconGrid },
   { label: "Collections", to: "collections", icon: IconGrid },
   { label: "Orders", to: "orders", icon: IconBag },
   { label: "Analytics", to: "analytics", icon: IconChart },
@@ -31,6 +32,8 @@ const navItems = [
 /* ── Page title map ────────────────────────────────────────────────── */
 const pageTitles = {
   "": "Overview",
+  "products": "Products",
+  "products/new": "New Product",
   "collections": "Collections",
   "collections/new": "New Collection",
   "orders": "Orders",

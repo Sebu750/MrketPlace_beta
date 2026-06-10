@@ -30,10 +30,41 @@ import DesignerPlans from "./pages/DesignerPlans";
 // Auth pages — Admin
 import AdminLogin from "./pages/AdminLogin";
 
-// Dashboard pages
-import CustomerDashboard from "./pages/CustomerDashboard";
-import DesignerDashboard from "./pages/DesignerDashboard";
-import AdminPanel from "./pages/AdminPanel";
+// Customer Dashboard — nested layout
+import CustomerLayout from "./pages/CustomerLayout";
+import CustomerOverview from "./pages/CustomerOverview";
+import CustomerOrders from "./pages/CustomerOrders";
+import CustomerOrderDetail from "./pages/CustomerOrderDetail";
+import CustomerWishlist from "./pages/CustomerWishlist";
+import CustomerAddresses from "./pages/CustomerAddresses";
+import CustomerReviews from "./pages/CustomerReviews";
+import CustomerSettings from "./pages/CustomerSettings";
+
+// Admin Dashboard — nested layout
+import AdminLayout from "./pages/AdminLayout";
+import AdminOverview from "./pages/AdminOverview";
+import AdminUsers from "./pages/AdminUsers";
+import AdminDesigners from "./pages/AdminDesigners";
+import AdminProducts from "./pages/AdminProducts";
+import AdminOrders from "./pages/AdminOrders";
+import AdminCollections from "./pages/AdminCollections";
+import AdminPayouts from "./pages/AdminPayouts";
+import AdminReports from "./pages/AdminReports";
+import AdminReviews from "./pages/AdminReviews";
+import AdminSettings from "./pages/AdminSettings";
+
+// Designer Dashboard — nested layout
+import DesignerLayout from "./pages/DesignerLayout";
+import DesignerOverview from "./pages/DesignerOverview";
+import DesignerCollections from "./pages/DesignerCollections";
+import DesignerCollectionForm from "./pages/DesignerCollectionForm";
+import DesignerProducts from "./pages/DesignerProducts";
+import DesignerProductForm from "./pages/DesignerProductForm";
+import DesignerOrders from "./pages/DesignerOrders";
+import DesignerOrderDetail from "./pages/DesignerOrderDetail";
+import DesignerAnalytics from "./pages/DesignerAnalytics";
+import DesignerPayouts from "./pages/DesignerPayouts";
+import DesignerProfileSettings from "./pages/DesignerProfileSettings";
 
 export default function App() {
   return (
@@ -75,26 +106,58 @@ export default function App() {
           path="/dashboard"
           element={
             <ProtectedRoute allowedRoles={["buyer"]}>
-              <CustomerDashboard />
+              <CustomerLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<CustomerOverview />} />
+          <Route path="orders" element={<CustomerOrders />} />
+          <Route path="orders/:id" element={<CustomerOrderDetail />} />
+          <Route path="wishlist" element={<CustomerWishlist />} />
+          <Route path="addresses" element={<CustomerAddresses />} />
+          <Route path="reviews" element={<CustomerReviews />} />
+          <Route path="settings" element={<CustomerSettings />} />
+        </Route>
         <Route
           path="/designer-dashboard"
           element={
             <ProtectedRoute allowedRoles={["seller"]}>
-              <DesignerDashboard />
+              <DesignerLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<DesignerOverview />} />
+          <Route path="collections" element={<DesignerCollections />} />
+          <Route path="collections/new" element={<DesignerCollectionForm />} />
+          <Route path="collections/:id/edit" element={<DesignerCollectionForm />} />
+          <Route path="products" element={<DesignerProducts />} />
+          <Route path="products/new" element={<DesignerProductForm />} />
+          <Route path="products/:id/edit" element={<DesignerProductForm />} />
+          <Route path="orders" element={<DesignerOrders />} />
+          <Route path="orders/:id" element={<DesignerOrderDetail />} />
+          <Route path="analytics" element={<DesignerAnalytics />} />
+          <Route path="payouts" element={<DesignerPayouts />} />
+          <Route path="settings" element={<DesignerProfileSettings />} />
+        </Route>
         <Route
           path="/admin"
           element={
             <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminPanel />
+              <AdminLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<AdminOverview />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="designers" element={<AdminDesigners />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="collections" element={<AdminCollections />} />
+          <Route path="payouts" element={<AdminPayouts />} />
+          <Route path="reports" element={<AdminReports />} />
+          <Route path="reviews" element={<AdminReviews />} />
+          <Route path="settings" element={<AdminSettings />} />
+        </Route>
       </Routes>
     </>
   );
