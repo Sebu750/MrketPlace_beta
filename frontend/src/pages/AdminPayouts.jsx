@@ -71,17 +71,17 @@ export default function AdminPayouts() {
             {items.map((p) => (
               <tr key={p._id} className="hover:bg-stone-50/50 transition-colors">
                 <td className="px-5 py-3 text-xs text-charcoal-900 font-mono">{p.reference}</td>
-                <td className="px-5 py-3 text-sm text-charcoal-700">{p.designer?.brandName || p.designer?.name || "—"}</td>
+                <td className="px-5 py-3 text-sm text-charcoal-700">{p.designer?.brandName || p.designer?.name || ","}</td>
                 <td className="px-5 py-3 text-sm text-charcoal-900 font-medium">{fmt(p.amount)}</td>
                 <td className="px-5 py-3 text-sm text-charcoal-500">{fmt(p.commission)}</td>
                 <td className="px-5 py-3 text-xs text-charcoal-500">
-                  {new Date(p.periodStart).toLocaleDateString()} — {new Date(p.periodEnd).toLocaleDateString()}
+                  {new Date(p.periodStart).toLocaleDateString()} , {new Date(p.periodEnd).toLocaleDateString()}
                 </td>
                 <td className="px-5 py-3">
                   <span className={`text-[10px] px-2 py-0.5 ${statusColor[p.status] || ""}`}>{p.status}</span>
                 </td>
                 <td className="px-5 py-3 text-xs text-charcoal-400">
-                  {p.processedAt ? new Date(p.processedAt).toLocaleDateString() : "—"}
+                  {p.processedAt ? new Date(p.processedAt).toLocaleDateString() : ","}
                 </td>
                 <td className="px-5 py-3">
                   {p.status === "pending" && (

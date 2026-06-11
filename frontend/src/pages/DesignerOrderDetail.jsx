@@ -165,8 +165,8 @@ export default function DesignerOrderDetail() {
                     <p className="text-sm text-charcoal-900 font-medium">{item.name}</p>
                     <p className="text-[11px] text-charcoal-400 mt-0.5">{item.collection || ""}</p>
                     <div className="flex items-center gap-3 mt-1.5 text-[11px] text-charcoal-500">
-                      <span>Size: {item.size || "—"}</span>
-                      <span>Color: {item.color || "—"}</span>
+                      <span>Size: {item.size || ","}</span>
+                      <span>Color: {item.color || ","}</span>
                       <span>Qty: {item.quantity || 1}</span>
                     </div>
                   </div>

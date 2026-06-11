@@ -65,8 +65,8 @@ export default function AdminOrders() {
               <>
                 <tr key={o._id} className="hover:bg-stone-50/50 transition-colors cursor-pointer" onClick={() => setExpandedId(expandedId === o._id ? null : o._id)}>
                   <td className="px-5 py-3 text-xs text-charcoal-900 font-mono">{o.orderNumber}</td>
-                  <td className="px-5 py-3 text-sm text-charcoal-700">{o.customer?.name || "—"}</td>
-                  <td className="px-5 py-3 text-sm text-charcoal-700">{o.designer?.brandName || o.designer?.name || "—"}</td>
+                  <td className="px-5 py-3 text-sm text-charcoal-700">{o.customer?.name || ","}</td>
+                  <td className="px-5 py-3 text-sm text-charcoal-700">{o.designer?.brandName || o.designer?.name || ","}</td>
                   <td className="px-5 py-3 text-sm text-charcoal-600">{o.items?.length || 0} items</td>
                   <td className="px-5 py-3 text-sm text-charcoal-900 font-medium">{fmt(o.financial?.subtotal)}</td>
                   <td className="px-5 py-3 text-sm text-charcoal-500">{fmt(o.financial?.commission)}</td>
@@ -88,7 +88,7 @@ export default function AdminOrders() {
                         <div>
                           <p className="text-[10px] uppercase tracking-wider text-charcoal-400 mb-2">Items</p>
                           {o.items?.map((item, i) => (
-                            <p key={i} className="text-xs text-charcoal-700">{item.name} × {item.quantity} — {item.price}</p>
+                            <p key={i} className="text-xs text-charcoal-700">{item.name} × {item.quantity} , {item.price}</p>
                           ))}
                         </div>
                         <div>

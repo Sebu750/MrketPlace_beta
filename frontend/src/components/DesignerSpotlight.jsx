@@ -13,7 +13,7 @@ export default function DesignerSpotlight() {
             <div className="relative aspect-[4/5] overflow-hidden bg-stone-100">
               <img
                 src="/assets/images/Zara-ahmad.webp"
-                alt="Zara Hameed — Designer Spotlight"
+                alt="Zara Hameed , Designer Spotlight"
                 className="w-full h-full object-cover opacity-90"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/20 to-transparent" />
@@ -24,7 +24,7 @@ export default function DesignerSpotlight() {
           <div className="lg:pl-12 pt-8 lg:pt-0 border-t lg:border-t-0 lg:border-l border-bronze-300 lg:pl-14">
             <p className="text-[10px] uppercase tracking-[0.35em] text-bronze-500 mb-4">Spotlight</p>
 
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-charcoal-900 font-medium leading-tight">
+            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-charcoal-900 leading-tight">
               Zara Hameed
             </h2>
 
@@ -33,7 +33,7 @@ export default function DesignerSpotlight() {
             </p>
 
             <p className="mt-6 text-charcoal-400 text-base leading-relaxed max-w-md">
-              Punjabi Phulkari reimagined for the contemporary wardrobe — each stitch a quiet
+              Punjabi Phulkari reimagined for the contemporary wardrobe , each stitch a quiet
               act of cultural preservation, connecting rural artisan communities with global fashion audiences.
             </p>
 

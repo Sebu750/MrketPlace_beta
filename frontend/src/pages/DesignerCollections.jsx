@@ -203,7 +203,7 @@ export default function DesignerCollections() {
                   <div>
                     <span className="text-[10px] uppercase tracking-[0.2em] text-charcoal-300">Revenue</span>
                     <p className="text-sm text-charcoal-900 tabular-nums">
-                      {col.revenue > 0 ? `PKR ${(col.revenue / 1000).toFixed(0)}K` : "—"}
+                      {col.revenue > 0 ? `PKR ${(col.revenue / 1000).toFixed(0)}K` : ","}
                     </p>
                   </div>
                   <div className="w-px h-8 bg-stone-200" />

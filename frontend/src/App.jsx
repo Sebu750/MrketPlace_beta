@@ -15,22 +15,23 @@ import Shop from "./pages/Shop";
 import CraftsArchive from "./pages/CraftsArchive";
 import CraftDetail from "./pages/CraftDetail";
 import Editorial from "./pages/Editorial";
+import ArticleDetail from "./pages/ArticleDetail";
 
-// Auth pages — Customer
+// Auth pages , Customer
 import CustomerLogin from "./pages/CustomerLogin";
 import CustomerRegister from "./pages/CustomerRegister";
 
-// Auth pages — Designer
+// Auth pages , Designer
 import DesignerLogin from "./pages/DesignerLogin";
 import DesignerRegister from "./pages/DesignerRegister";
 
-// Designer — public pages
+// Designer , public pages
 import DesignerPlans from "./pages/DesignerPlans";
 
-// Auth pages — Admin
+// Auth pages , Admin
 import AdminLogin from "./pages/AdminLogin";
 
-// Customer Dashboard — nested layout
+// Customer Dashboard , nested layout
 import CustomerLayout from "./pages/CustomerLayout";
 import CustomerOverview from "./pages/CustomerOverview";
 import CustomerOrders from "./pages/CustomerOrders";
@@ -40,7 +41,7 @@ import CustomerAddresses from "./pages/CustomerAddresses";
 import CustomerReviews from "./pages/CustomerReviews";
 import CustomerSettings from "./pages/CustomerSettings";
 
-// Admin Dashboard — nested layout
+// Admin Dashboard , nested layout
 import AdminLayout from "./pages/AdminLayout";
 import AdminOverview from "./pages/AdminOverview";
 import AdminUsers from "./pages/AdminUsers";
@@ -53,7 +54,7 @@ import AdminReports from "./pages/AdminReports";
 import AdminReviews from "./pages/AdminReviews";
 import AdminSettings from "./pages/AdminSettings";
 
-// Designer Dashboard — nested layout
+// Designer Dashboard , nested layout
 import DesignerLayout from "./pages/DesignerLayout";
 import DesignerOverview from "./pages/DesignerOverview";
 import DesignerCollections from "./pages/DesignerCollections";
@@ -80,10 +81,11 @@ export default function App() {
           <Route path="crafts" element={<CraftsArchive />} />
           <Route path="crafts/:slug" element={<CraftDetail />} />
           <Route path="editorial" element={<Editorial />} />
+          <Route path="editorial/:slug" element={<ArticleDetail />} />
           <Route path="collections" element={<CollectionsDirectory />} />
           <Route path="collections/:slug" element={<CollectionDetail />} />
           <Route path="pieces/:id" element={<ProductDetail />} />
-          {/* Designer profiles at root level — MUST be last to avoid catching other routes */}
+          {/* Designer profiles at root level , MUST be last to avoid catching other routes */}
           <Route path=":slug" element={<DesignerProfile />} />
         </Route>
 

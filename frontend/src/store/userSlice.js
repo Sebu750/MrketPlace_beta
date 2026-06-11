@@ -77,7 +77,7 @@ export const designerRegister = createAsyncThunk(
 );
 
 /* ══════════════════════════════════════════════════════════════════════
-   ADMIN THUNKS  (login only — no public registration)
+   ADMIN THUNKS  (login only , no public registration)
 ══════════════════════════════════════════════════════════════════════ */
 export const adminLogin = createAsyncThunk(
   "user/adminLogin",
@@ -92,7 +92,7 @@ export const adminLogin = createAsyncThunk(
 );
 
 /* ══════════════════════════════════════════════════════════════════════
-   GENERIC (legacy — kept for backward compat)
+   GENERIC (legacy , kept for backward compat)
 ══════════════════════════════════════════════════════════════════════ */
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",

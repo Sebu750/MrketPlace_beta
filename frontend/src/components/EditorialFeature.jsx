@@ -6,7 +6,7 @@ export default function EditorialFeature() {
   const imgRef = useRef(null);
   const ref = useReveal(0.2);
 
-  /* Subtle parallax — slow and cinematic */
+  /* Subtle parallax , slow and cinematic */
   useEffect(() => {
     const onScroll = () => {
       const el = imgRef.current;
@@ -30,6 +30,8 @@ export default function EditorialFeature() {
                 src="/assets/images/home-sustainable-fashion.webp"
                 alt="The Art of Block Printing — Craft Editorial"
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -45,7 +47,7 @@ export default function EditorialFeature() {
             </h2>
 
             <p className="mt-8 text-charcoal-500 text-sm md:text-base leading-[1.85] max-w-sm font-light">
-              Hand-carved wooden blocks, natural dyes from indigo and pomegranate —
+              Hand-carved wooden blocks, natural dyes from indigo and pomegranate ,
               Ajrak printing is a 3,000-year-old Sindhi tradition being reimagined by a
               new generation of independent designers.
             </p>

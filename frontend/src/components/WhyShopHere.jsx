@@ -6,7 +6,7 @@ const values = [
       </svg>
     ),
     title: "Authenticated Craft",
-    text: "Every piece is verified by our textile specialists before listing — provenance documented, artisan credited, quality assured.",
+    text: "Every piece is verified by our textile specialists before listing , provenance documented, artisan credited, quality assured.",
   },
   {
     icon: (
@@ -15,7 +15,7 @@ const values = [
       </svg>
     ),
     title: "Zero Middleman",
-    text: "Direct from atelier to wardrobe. Designers set their own prices — artisans earn fairly, buyers pay honestly.",
+    text: "Direct from atelier to wardrobe. Designers set their own prices , artisans earn fairly, buyers pay honestly.",
   },
   {
     icon: (
@@ -24,7 +24,7 @@ const values = [
       </svg>
     ),
     title: "Global Shipping",
-    text: "From Karachi to New York, London to Dubai — insured international delivery with full tracking within 7–14 business days.",
+    text: "From Karachi to New York, London to Dubai , insured international delivery with full tracking within 7–14 business days.",
   },
 ];
 

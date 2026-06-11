@@ -31,13 +31,14 @@ export default function NewArrivals() {
         <div className="flex items-end justify-between mb-14">
           <div>
             <p className="section-label mb-4">New In</p>
-            <h2 className="font-serif text-display-sm md:text-display text-charcoal-900 font-light">Latest Arrivals</h2>
+            <h2 className="font-display text-display-sm md:text-display text-charcoal-900">Latest Arrivals</h2>
           </div>
+          {/* Arrow buttons with hover micro-animation */}
           <div className="hidden md:flex items-center gap-3">
-            <button onClick={() => scroll("left")} className="w-11 h-11 flex items-center justify-center border border-stone-200 text-charcoal-500 hover:border-charcoal-400 hover:text-charcoal-900 transition-colors duration-500">
+            <button onClick={() => scroll("left")} className="w-11 h-11 flex items-center justify-center border border-stone-200 text-charcoal-500 hover:border-charcoal-400 hover:text-charcoal-900 hover:scale-105 transition-all duration-300">
               <IconChevronLeft className="w-4 h-4" />
             </button>
-            <button onClick={() => scroll("right")} className="w-11 h-11 flex items-center justify-center border border-stone-200 text-charcoal-500 hover:border-charcoal-400 hover:text-charcoal-900 transition-colors duration-500">
+            <button onClick={() => scroll("right")} className="w-11 h-11 flex items-center justify-center border border-stone-200 text-charcoal-500 hover:border-charcoal-400 hover:text-charcoal-900 hover:scale-105 transition-all duration-300">
               <IconChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -50,8 +51,8 @@ export default function NewArrivals() {
               className="group shrink-0 w-[280px] sm:w-[300px] snap-start">
               {/* Image */}
               <div className="relative aspect-[3/4] overflow-hidden bg-ivory-100">
-                <img src={p.image} alt={p.name}
-                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.03]" />
+                <img src={p.image} alt={p.name} loading="lazy" decoding="async"
+                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.04]" />
               </div>
               {/* Info */}
               <div className="pt-4 pb-1">

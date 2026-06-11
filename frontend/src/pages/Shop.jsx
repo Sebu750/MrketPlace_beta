@@ -1,23 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-
-/* ════════════════════════════════════════════════════════════════
-   MOCK DATA
-════════════════════════════════════════════════════════════════ */
-const products = [
-  { id: 1, name: "Ajrak Architect Coat", designer: "Ayesha Siddiqui", price: 48000, category: "Outerwear", craft: "Ajrak", sizes: ["XS","S","M","L","XL"], color: "Indigo", img: "/assets/images/ajrak-architect-coat-adorzia1.webp", collection: "Geometry of Home" },
-  { id: 2, name: "Phulkari Reborn Blazer", designer: "Zara Hameed", price: 42000, category: "Outerwear", craft: "Phulkari", sizes: ["S","M","L"], color: "Crimson", img: "/assets/images/phulkari-reborn-blazer-adorzia.webp", collection: "Mughal Geometry" },
-  { id: 3, name: "Khaddar Modern Suit", designer: "Bilal Raza", price: 36000, category: "Formal", craft: "Block Printing", sizes: ["S","M","L","XL"], color: "Sand", img: "/assets/images/khaddar-modern-suit-adorzia.webp", collection: "Sindhi Indigo Edit" },
-  { id: 4, name: "Pashmina Wrap Dress", designer: "Hira Khan", price: 29500, category: "Dress", craft: "Handloom", sizes: ["XS","S","M","L"], color: "Bone", img: "/assets/images/pashmina-wrap-dress-adorzia.webp", collection: "Chitral Weave" },
-  { id: 5, name: "Mirrorwork Bomber Jacket", designer: "Noor & Sons", price: 44000, category: "Outerwear", craft: "Sindhi Mirror Work", sizes: ["S","M","L"], color: "Charcoal", img: "/assets/images/mirrorwork-bomber-jacket-adorzia.webp", collection: "Desert Light" },
-  { id: 6, name: "Rilli Sculpt Tote", designer: "Ayesha Siddiqui", price: 18000, category: "Accessories", craft: "Ralli Quilting", sizes: ["One Size"], color: "Multi", img: "/assets/images/rilli-sculpt-tote-adorzia.webp", collection: "Geometry of Home" },
-  { id: 7, name: "Zardozi Evening Cape", designer: "Fatima Asad", price: 62000, category: "Outerwear", craft: "Zardozi", sizes: ["S","M"], color: "Noir", img: "/assets/images/ajrak-architect-coat-adorzia2.webp", collection: "Lahore Noir" },
-  { id: 8, name: "Indigo Linen Kurta", designer: "Bilal Raza", price: 22000, category: "Pret", craft: "Ajrak", sizes: ["S","M","L","XL"], color: "Indigo", img: "/assets/images/khaddar-modern-suit-adorzia.webp", collection: "Sindhi Indigo Edit" },
-  { id: 9, name: "Chikankari Cotton Shirt", designer: "Mehreen Aslam", price: 16500, category: "Pret", craft: "Chikankari", sizes: ["XS","S","M","L"], color: "White", img: "/assets/images/pashmina-wrap-dress-adorzia.webp", collection: "Thar Bloom" },
-  { id: 10, name: "Heritage Rilli Coat", designer: "Noor & Sons", price: 56000, category: "Outerwear", craft: "Ralli Quilting", sizes: ["S","M","L"], color: "Indigo", img: "/assets/images/phulkari-reborn-blazer-adorzia.webp", collection: "Heritage Rilli" },
-  { id: 11, name: "Block Print Scarf", designer: "Hamza Tariq", price: 8500, category: "Accessories", craft: "Block Printing", sizes: ["One Size"], color: "Terracotta", img: "/assets/images/rilli-sculpt-tote-adorzia.webp", collection: "Peshawari Revival" },
-  { id: 12, name: "Handloom Silk Dupatta", designer: "Aleeza Noor", price: 12000, category: "Accessories", craft: "Handloom", sizes: ["One Size"], color: "Saffron", img: "/assets/images/mirrorwork-bomber-jacket-adorzia.webp", collection: "Thar Bloom" },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPublicProducts } from "../store/productsSlice";
 
 /* ── Filter definitions ─────────────────────────────────────── */
 const filterConfig = {
@@ -33,43 +17,55 @@ const filterConfig = {
    COMPONENT
 ════════════════════════════════════════════════════════════════ */
 export default function Shop() {
+  const dispatch = useDispatch();
+  const { items: products, pagination, loading } = useSelector((s) => s.products.public);
   const [filters, setFilters] = useState({ designer: "All", price: "All", category: "All", craft: "All", size: "All", color: "All" });
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState("grid"); // "grid" | "editorial"
   const [sort, setSort] = useState("newest");
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [page, setPage] = useState(1);
+  const PER_PAGE = 24;
 
-  const updateFilter = (key, val) => setFilters((prev) => ({ ...prev, [key]: val }));
+  const updateFilter = (key, val) => {
+    setFilters((prev) => ({ ...prev, [key]: val }));
+    setPage(1);
+  };
   const hasActive = Object.values(filters).some((v) => v !== "All") || searchQuery;
 
   const resetFilters = () => {
     setFilters({ designer: "All", price: "All", category: "All", craft: "All", size: "All", color: "All" });
     setSearchQuery("");
+    setPage(1);
   };
 
-  const filtered = useMemo(() => {
-    let result = products.filter((p) => {
-      if (filters.designer !== "All" && p.designer !== filters.designer) return false;
-      if (filters.category !== "All" && p.category !== filters.category) return false;
-      if (filters.craft !== "All" && p.craft !== filters.craft) return false;
-      if (filters.size !== "All" && !p.sizes.includes(filters.size)) return false;
-      if (filters.color !== "All" && p.color !== filters.color) return false;
-      if (filters.price !== "All") {
-        if (filters.price === "Under PKR 15,000" && p.price >= 15000) return false;
-        if (filters.price === "PKR 15,000–30,000" && (p.price < 15000 || p.price > 30000)) return false;
-        if (filters.price === "PKR 30,000–50,000" && (p.price < 30000 || p.price > 50000)) return false;
-        if (filters.price === "Over PKR 50,000" && p.price <= 50000) return false;
-      }
-      if (searchQuery && !p.name.toLowerCase().includes(searchQuery.toLowerCase()) && !p.designer.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-      return true;
-    });
+  /* Build API params from filters */
+  const apiParams = useMemo(() => {
+    const params = { page, limit: PER_PAGE };
+    if (filters.designer !== "All") params.designer = filters.designer;
+    if (filters.category !== "All") params.category = filters.category;
+    if (filters.craft !== "All") params.craft = filters.craft;
+    if (searchQuery) params.search = searchQuery;
+    if (filters.price !== "All") {
+      if (filters.price === "Under PKR 15,000") { params.priceMin = 0; params.priceMax = 15000; }
+      else if (filters.price === "PKR 15,000–30,000") { params.priceMin = 15000; params.priceMax = 30000; }
+      else if (filters.price === "PKR 30,000–50,000") { params.priceMin = 30000; params.priceMax = 50000; }
+      else if (filters.price === "Over PKR 50,000") { params.priceMin = 50000; }
+    }
+    if (sort === "price-low") params.sort = "price-asc";
+    else if (sort === "price-high") params.sort = "price-desc";
+    else params.sort = sort;
+    return params;
+  }, [filters, searchQuery, sort, page]);
 
-    if (sort === "price-low") result.sort((a, b) => a.price - b.price);
-    if (sort === "price-high") result.sort((a, b) => b.price - a.price);
-    return result;
-  }, [filters, searchQuery, sort]);
+  /* Fetch from API */
+  useEffect(() => {
+    dispatch(fetchPublicProducts(apiParams));
+  }, [dispatch, apiParams]);
 
-  const fmtPrice = (n) => `PKR ${n.toLocaleString()}`;
+  const fmtPrice = (n) => n ? `PKR ${Number(n).toLocaleString()}` : "";
+  const totalItems = pagination?.total || 0;
+  const totalPages = pagination?.totalPages || 1;
 
   return (
     <div className="bg-white min-h-screen">
@@ -80,13 +76,13 @@ export default function Shop() {
       <section className="pt-28 pb-8 bg-white border-b border-bronze-200/40">
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">Shop</p>
-          <h1 className="font-serif text-4xl md:text-5xl font-medium text-charcoal-900 tracking-tight">All Products</h1>
-          <p className="mt-3 text-charcoal-400 max-w-xl">Every piece on the marketplace — curated from Pakistan's emerging design talent.</p>
+          <h1 className="font-display text-4xl md:text-5xl text-charcoal-900 tracking-tight">All Products</h1>
+          <p className="mt-3 text-charcoal-400 max-w-xl">Every piece on the marketplace , curated from Pakistan's emerging design talent.</p>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          2. TOOLBAR — Search, Sort, View Toggle
+          2. TOOLBAR , Search, Sort, View Toggle
       ═══════════════════════════════════════════════════════════ */}
       <div className="sticky top-16 z-40 bg-white/95 backdrop-blur-md border-b border-bronze-200/50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap items-center gap-4">
@@ -95,7 +91,7 @@ export default function Shop() {
             <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-charcoal-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <input type="text" placeholder="Search products…" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+            <input type="text" placeholder="Search products…" value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
               className="w-full pl-10 pr-4 py-2.5 bg-white border border-stone-200 text-charcoal-900 text-sm placeholder:text-charcoal-300 focus:outline-none focus:border-bronze-400 transition-colors" />
           </div>
 
@@ -123,7 +119,7 @@ export default function Shop() {
           </button>
 
           {/* Result count */}
-          <span className="text-xs text-charcoal-300 ml-auto">{filtered.length} product{filtered.length !== 1 && "s"}</span>
+          <span className="text-xs text-charcoal-300 ml-auto">{loading ? "Loading…" : `${totalItems} product${totalItems !== 1 ? "s" : ""}`}</span>
 
           {hasActive && (
             <button onClick={resetFilters} className="text-xs text-bronze-500 hover:text-bronze-400 tracking-wider uppercase">Clear</button>
@@ -166,7 +162,11 @@ export default function Shop() {
               4. PRODUCT GRID / EDITORIAL VIEW
           ═══════════════════════════════════════════════════════════ */}
           <div className="flex-1">
-            {filtered.length === 0 ? (
+            {loading ? (
+              <div className="py-24 text-center">
+                <p className="text-sm text-charcoal-400">Loading products…</p>
+              </div>
+            ) : products.length === 0 ? (
               <div className="py-24 text-center">
                 <p className="font-serif text-2xl text-charcoal-900 mb-3">No products found</p>
                 <p className="text-sm text-charcoal-400 mb-8">Try adjusting your filters or search terms.</p>
@@ -177,17 +177,17 @@ export default function Shop() {
             ) : viewMode === "grid" ? (
               /* ── GRID VIEW ── */
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
-                {filtered.map((p) => (
-                  <Link key={p.id} to={`/pieces/${p.id}`} className="group block">
+                {products.map((p) => (
+                  <Link key={p._id || p.id} to={`/pieces/${p.slug || p._id || p.id}`} className="group block">
                     <div className="relative aspect-[3/4] overflow-hidden bg-stone-50">
-                      <img src={p.img} alt={p.name}
+                      <img src={p.images?.[0] || p.img || "/assets/images/placeholder.webp"} alt={p.name}
                         className="absolute inset-0 w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]" />
                       <div className="absolute top-3 left-3">
                         <span className="text-[9px] uppercase tracking-[0.15em] bg-white/70 backdrop-blur-sm text-charcoal-500 px-2 py-0.5">{p.craft}</span>
                       </div>
                     </div>
                     <div className="mt-3">
-                      <p className="text-[10px] uppercase tracking-[0.15em] text-bronze-500/60 mb-1">{p.designer}</p>
+                      <p className="text-[10px] uppercase tracking-[0.15em] text-bronze-500/60 mb-1">{p.designer?.name || p.designer}</p>
                       <h3 className="font-serif text-sm text-charcoal-900 group-hover:text-bronze-500 transition-colors duration-300">{p.name}</h3>
                       <p className="text-xs text-charcoal-400 mt-1">{fmtPrice(p.price)}</p>
                     </div>
@@ -197,24 +197,24 @@ export default function Shop() {
             ) : (
               /* ── EDITORIAL VIEW ── */
               <div className="space-y-8">
-                {filtered.map((p) => (
-                  <Link key={p.id} to={`/pieces/${p.id}`} className="group block">
+                {products.map((p) => (
+                  <Link key={p._id || p.id} to={`/pieces/${p.slug || p._id || p.id}`} className="group block">
                     <div className="flex flex-col md:flex-row gap-6 border border-stone-100 bg-white p-5 hover:border-bronze-300/50 transition-colors duration-300">
                       <div className="shrink-0 w-full md:w-48 aspect-[3/4] overflow-hidden bg-stone-50">
-                        <img src={p.img} alt={p.name}
+                        <img src={p.images?.[0] || p.img || "/assets/images/placeholder.webp"} alt={p.name}
                           className="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]" />
                       </div>
                       <div className="flex-1 flex flex-col justify-between">
                         <div>
                           <p className="text-[10px] uppercase tracking-[0.2em] text-bronze-500 mb-2">{p.craft}</p>
                           <h3 className="font-serif text-xl text-charcoal-900 group-hover:text-bronze-500 transition-colors duration-300">{p.name}</h3>
-                          <p className="text-sm text-charcoal-400 mt-1">{p.designer} — {p.collection}</p>
+                          <p className="text-sm text-charcoal-400 mt-1">{p.designer?.name || p.designer}{p.collection ? ` , ${p.collection.name || p.collection}` : ""}</p>
                         </div>
                         <div className="flex flex-wrap items-center gap-4 mt-4">
                           <span className="font-serif text-lg text-charcoal-900">{fmtPrice(p.price)}</span>
                           <span className="text-xs text-charcoal-300">{p.category}</span>
                           <div className="flex gap-1">
-                            {p.sizes.map((s) => (
+                            {(p.sizes || []).map((s) => (
                               <span key={s} className="text-[10px] text-charcoal-300 border border-stone-200 px-2 py-0.5">{s}</span>
                             ))}
                           </div>
@@ -224,6 +224,26 @@ export default function Shop() {
                     </div>
                   </Link>
                 ))}
+              </div>
+            )}
+
+            {/* Pagination */}
+            {!loading && totalPages > 1 && (
+              <div className="mt-12 flex items-center justify-center gap-2">
+                <button disabled={page === 1} onClick={() => setPage(page - 1)}
+                  className="px-4 py-2 text-xs uppercase tracking-wider border border-stone-200 text-charcoal-500 disabled:opacity-30 hover:border-charcoal-900 transition-colors">
+                  Previous
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).slice(Math.max(0, page - 3), Math.min(totalPages, page + 2)).map((n) => (
+                  <button key={n} onClick={() => setPage(n)}
+                    className={`w-9 h-9 text-xs border transition-colors ${page === n ? "bg-charcoal-900 text-white border-charcoal-900" : "border-stone-200 text-charcoal-500 hover:border-charcoal-900"}`}>
+                    {n}
+                  </button>
+                ))}
+                <button disabled={page === totalPages} onClick={() => setPage(page + 1)}
+                  className="px-4 py-2 text-xs uppercase tracking-wider border border-stone-200 text-charcoal-500 disabled:opacity-30 hover:border-charcoal-900 transition-colors">
+                  Next
+                </button>
               </div>
             )}
           </div>

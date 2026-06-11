@@ -29,11 +29,11 @@ export default function TrendingNow() {
             <Link key={p.id} to={`/pieces/${p.id}`}
               className="reveal group block break-inside-avoid relative overflow-hidden bg-stone-50">
               <div className={`relative ${p.tall ? "aspect-[3/4.5]" : "aspect-[3/3.5]"} overflow-hidden`}>
-                <img src={p.image} alt={p.name}
-                  className="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]" />
+                <img src={p.image} alt={p.name} loading="lazy" decoding="async"
+                  className="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.04]" />
               </div>
-              {/* Hover tooltip */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-charcoal-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {/* Hover tooltip — slides up */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-charcoal-900/70 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
                 <h3 className="font-serif text-sm text-white">{p.name}</h3>
                 <p className="text-xs text-white/80 mt-1">{p.price}</p>
               </div>

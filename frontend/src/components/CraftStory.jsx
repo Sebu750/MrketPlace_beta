@@ -1,40 +1,27 @@
-import { useEffect, useRef } from "react";
+import useReveal from "../hooks/useReveal";
 
 export default function CraftStory() {
-  const imgRef = useRef(null);
-
-  /* Parallax — background scrolls slower */
-  useEffect(() => {
-    const onScroll = () => {
-      const el = imgRef.current;
-      if (!el) return;
-      const rect = el.parentElement.getBoundingClientRect();
-      const offset = (rect.top) * 0.15;
-      el.style.transform = `translateY(${offset}px) scale(1.1)`;
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const ref = useReveal();
 
   return (
     <section className="relative h-[70vh] min-h-[500px] overflow-hidden">
-      {/* Parallax background image */}
+      {/* Parallax background image with Ken Burns */}
       <div className="absolute inset-0">
-        <div ref={imgRef} className="absolute inset-[-80px]">
-          <img
-            src="/assets/images/home-hero-runway.webp"
-            alt="Heritage craft — Pakistan"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <img
+          src="/assets/images/home-hero-runway.webp"
+          alt="Heritage craft — Pakistan"
+          className="w-full h-full object-cover ken-burns"
+          loading="lazy"
+          decoding="async"
+        />
         {/* Light cream overlay — keeps it airy, not dark */}
         <div className="absolute inset-0 bg-ivory-50/75" />
       </div>
 
       {/* Centered quote */}
-      <div className="relative z-10 h-full flex items-center justify-center px-6">
+      <div ref={ref} className="reveal relative z-10 h-full flex items-center justify-center px-6">
         <blockquote className="max-w-3xl text-center">
-          <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-charcoal-800 leading-snug">
+          <p className="font-display italic text-3xl md:text-4xl lg:text-5xl text-charcoal-800 leading-snug">
             "Every thread carries the memory of a hand that spun it, a loom that held it,
             and a tradition that refused to be forgotten."
           </p>

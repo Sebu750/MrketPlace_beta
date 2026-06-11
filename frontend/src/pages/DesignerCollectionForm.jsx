@@ -118,7 +118,7 @@ export default function DesignerCollectionForm() {
             </Field>
           </div>
 
-          <Field label="Collection Story" required hint="Tell the story behind this collection — concept, inspiration, craft philosophy">
+          <Field label="Collection Story" required hint="Tell the story behind this collection , concept, inspiration, craft philosophy">
             <textarea className={`${inputCls} min-h-[140px] resize-y`} placeholder="This collection explores the intersection of geometric precision found in Mughal architecture and the organic fluidity of hand-woven textiles..."
               value={form.description} onChange={(e) => update("description", e.target.value)} />
           </Field>

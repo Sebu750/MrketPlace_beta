@@ -19,11 +19,11 @@ export default function Newsletter() {
           {!submitted ? (
             <>
               <p className="section-label mb-4">Stay Connected</p>
-              <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-medium">
+              <h2 className="font-display text-3xl md:text-4xl text-charcoal-900">
                 First to Know.
               </h2>
               <p className="mt-4 text-charcoal-400 text-sm leading-relaxed max-w-sm mx-auto">
-                New designer drops, heritage stories, and exclusive access —
+                New designer drops, heritage stories, and exclusive access ,
                 delivered to your inbox before anyone else.
               </p>
 
@@ -47,7 +47,7 @@ export default function Newsletter() {
           ) : (
             <div className="py-6">
               <p className="section-label mb-3">Welcome</p>
-              <h2 className="font-serif text-2xl md:text-3xl text-charcoal-900 font-medium">
+              <h2 className="font-display text-2xl md:text-3xl text-charcoal-900">
                 You're on the list.
               </h2>
               <p className="mt-3 text-charcoal-400 text-sm">

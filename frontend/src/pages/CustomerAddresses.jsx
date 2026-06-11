@@ -1,12 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addAddress, updateAddress, removeAddress, setDefaultAddress } from "../store/customerSlice";
+import {
+  fetchAddresses, addAddressAPI, updateAddressAPI, removeAddressAPI, setDefaultAddressAPI,
+  addAddress, updateAddress, removeAddress, setDefaultAddress,
+} from "../store/customerSlice";
 
 const emptyForm = { name: "", phone: "", address: "", city: "", postalCode: "", country: "Pakistan", isDefault: false };
 
 export default function CustomerAddresses() {
   const addresses = useSelector((s) => s.customer.addresses);
+  const loading = useSelector((s) => s.customer.addressesLoading);
   const dispatch = useDispatch();
+  const hasAuth = !!localStorage.getItem("token");
+
+  useEffect(() => {
+    if (hasAuth) dispatch(fetchAddresses());
+  }, [dispatch, hasAuth]);
 
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(null);
@@ -27,9 +36,17 @@ export default function CustomerAddresses() {
   const handleSave = () => {
     if (!form.name || !form.address) return;
     if (editing) {
-      dispatch(updateAddress({ ...form, id: editing }));
+      if (hasAuth) {
+        dispatch(updateAddressAPI({ id: editing, ...form }));
+      } else {
+        dispatch(updateAddress({ ...form, id: editing }));
+      }
     } else {
-      dispatch(addAddress(form));
+      if (hasAuth) {
+        dispatch(addAddressAPI({ ...form, id: `addr_${Date.now()}` }));
+      } else {
+        dispatch(addAddress(form));
+      }
     }
     setShowForm(false);
     setEditing(null);
@@ -114,13 +131,13 @@ export default function CustomerAddresses() {
                 {!addr.isDefault && (
                   <>
                     <span className="text-charcoal-200">·</span>
-                    <button onClick={() => dispatch(setDefaultAddress(addr.id))} className="text-[10px] uppercase tracking-[0.15em] text-charcoal-400 hover:text-charcoal-900 transition-colors">
+                    <button onClick={() => dispatch(hasAuth ? setDefaultAddressAPI(addr.id) : setDefaultAddress(addr.id))} className="text-[10px] uppercase tracking-[0.15em] text-charcoal-400 hover:text-charcoal-900 transition-colors">
                       Set Default
                     </button>
                   </>
                 )}
                 <span className="text-charcoal-200">·</span>
-                <button onClick={() => dispatch(removeAddress(addr.id))} className="text-[10px] uppercase tracking-[0.15em] text-red-400 hover:text-red-600 transition-colors">
+                <button onClick={() => dispatch(hasAuth ? removeAddressAPI(addr.id) : removeAddress(addr.id))} className="text-[10px] uppercase tracking-[0.15em] text-red-400 hover:text-red-600 transition-colors">
                   Delete
                 </button>
               </div>

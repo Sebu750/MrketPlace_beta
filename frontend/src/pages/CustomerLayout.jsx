@@ -63,7 +63,7 @@ export default function CustomerLayout() {
   return (
     <div className="min-h-screen bg-white flex">
       {/* ════════════════════════════════════════════════════════════
-          SIDEBAR — Cream/warm white, editorial luxury
+          SIDEBAR , Cream/warm white, editorial luxury
       ═════════════════════════════════════════════════════════════ */}
       <aside className={`fixed inset-y-0 left-0 z-50 w-[260px] bg-stone-50 border-r border-stone-200 flex flex-col transition-transform duration-300 lg:translate-x-0 ${
         mobileNav ? "translate-x-0" : "-translate-x-full"

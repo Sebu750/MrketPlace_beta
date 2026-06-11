@@ -12,7 +12,7 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle 401 globally — auto logout
+// Handle 401 globally , auto logout
 API.interceptors.response.use(
   (res) => res,
   (err) => {

@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 
 /* ════════════════════════════════════════════════════════════════
-   MOCK DATA — will come from API later
+   MOCK DATA , will come from API later
 ════════════════════════════════════════════════════════════════ */
 const designer = {
   name: "Ayesha Siddiqui",
@@ -25,12 +25,12 @@ const designer = {
 
   about: {
     biography:
-      "Ayesha Siddiqui's design practice began not in a studio, but in her grandmother's courtyard in Hyderabad — watching generations-old Ralli quilts being pieced together from fabric remnants. After graduating from the National College of Arts, Lahore, she spent two years apprenticing with master dyers in Bhit Shah before launching her eponymous label in 2023. Her work occupies the space between heritage craft and contemporary minimalism: deconstructed quilt patterns rendered in deadstock linen, organic cotton, and handwoven Khaddar. Each collection is produced in limited runs of 12–20 pieces, with every garment passing through the hands of at least three artisans. She operates from the Adorzia Studio in Lahore, where she mentors two junior designers and collaborates with a network of 14 rural women artisans across Sindh.",
+      "Ayesha Siddiqui's design practice began not in a studio, but in her grandmother's courtyard in Hyderabad , watching generations-old Ralli quilts being pieced together from fabric remnants. After graduating from the National College of Arts, Lahore, she spent two years apprenticing with master dyers in Bhit Shah before launching her eponymous label in 2023. Her work occupies the space between heritage craft and contemporary minimalism: deconstructed quilt patterns rendered in deadstock linen, organic cotton, and handwoven Khaddar. Each collection is produced in limited runs of 12–20 pieces, with every garment passing through the hands of at least three artisans. She operates from the Adorzia Studio in Lahore, where she mentors two junior designers and collaborates with a network of 14 rural women artisans across Sindh.",
     philosophy:
-      "I don't design clothes — I design continuity. Every pattern I use has existed for centuries. My role is to ensure those patterns survive the next century, not as museum pieces but as living garments worn by real people.",
+      "I don't design clothes , I design continuity. Every pattern I use has existed for centuries. My role is to ensure those patterns survive the next century, not as museum pieces but as living garments worn by real people.",
     inspiration:
-      "The geometry of Ralli quilts, the light in my grandmother's courtyard, the sound of the Indus at dusk. These are not references — they are the architecture of everything I make.",
-    education: "National College of Arts, Lahore — BFA Textile Design",
+      "The geometry of Ralli quilts, the light in my grandmother's courtyard, the sound of the Indus at dusk. These are not references , they are the architecture of everything I make.",
+    education: "National College of Arts, Lahore , BFA Textile Design",
     languages: "Urdu, English, Sindhi",
   },
 
@@ -48,15 +48,15 @@ const designer = {
   ],
 
   press: [
-    { title: "Dawn Images — 'Ones to Watch' 2024", source: "Dawn Images", year: 2024, excerpt: "Ayesha Siddiqui is redefining what Pakistani fashion can be — her Ralli deconstructions are among the most exciting work we've seen from an emerging designer in years." },
-    { title: "Libas International Feature", source: "Libas International", year: 2025, excerpt: "In a landscape crowded with surface-level nods to heritage, Siddiqui's work is structural — the craft is the design, not an embellishment applied after the fact." },
+    { title: "Dawn Images , 'Ones to Watch' 2024", source: "Dawn Images", year: 2024, excerpt: "Ayesha Siddiqui is redefining what Pakistani fashion can be , her Ralli deconstructions are among the most exciting work we've seen from an emerging designer in years." },
+    { title: "Libas International Feature", source: "Libas International", year: 2025, excerpt: "In a landscape crowded with surface-level nods to heritage, Siddiqui's work is structural , the craft is the design, not an embellishment applied after the fact." },
     { title: "NCA Emerging Designers Showcase", source: "National College of Arts", year: 2025, excerpt: "Selected as a standout graduate for her thesis collection exploring displacement through textile geometry." },
   ],
 
   crafts: [
-    { name: "Ralli Quilting", region: "Sindh & Southern Punjab", desc: "One of South Asia's oldest textile traditions — geometric quilting built layer by layer using techniques that predate written instruction." },
+    { name: "Ralli Quilting", region: "Sindh & Southern Punjab", desc: "One of South Asia's oldest textile traditions , geometric quilting built layer by layer using techniques that predate written instruction." },
     { name: "Block Printing", region: "Bhit Shah, Sindh", desc: "300-year-old hand-carved wooden block printing using natural indigo and madder root dyes." },
-    { name: "Natural Dyeing", region: "Multan & Punjab", desc: "Plant-based dyeing traditions — indigo, madder root, pomegranate — producing colours that deepen with age." },
+    { name: "Natural Dyeing", region: "Multan & Punjab", desc: "Plant-based dyeing traditions , indigo, madder root, pomegranate , producing colours that deepen with age." },
   ],
 
   awards: [
@@ -92,7 +92,7 @@ export default function DesignerProfile() {
     <div className="bg-white">
 
       {/* ═══════════════════════════════════════════════════════════
-          1. HERO — Cover + Portrait + Identity
+          1. HERO , Cover + Portrait + Identity
       ═══════════════════════════════════════════════════════════ */}
       <section className="relative">
         {/* Cover image */}
@@ -101,7 +101,7 @@ export default function DesignerProfile() {
           <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/50 to-white" />
         </div>
 
-        {/* Profile — overlaps cover */}
+        {/* Profile , overlaps cover */}
         <div className="relative max-w-7xl mx-auto px-6 -mt-28 md:-mt-32 z-10">
           <div className="flex flex-col md:flex-row md:items-end gap-6 md:gap-8">
             {/* Portrait */}
@@ -159,7 +159,7 @@ export default function DesignerProfile() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          2. STATS BAR — mission-aligned metrics
+          2. STATS BAR , mission-aligned metrics
       ═══════════════════════════════════════════════════════════ */}
       <section className="mt-12 border-y border-bronze-200/40 bg-ivory-50">
         <div className="max-w-7xl mx-auto px-6">
@@ -180,7 +180,7 @@ export default function DesignerProfile() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          3. ABOUT — Biography, Philosophy, Inspiration
+          3. ABOUT , Biography, Philosophy, Inspiration
       ═══════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6">
@@ -219,7 +219,7 @@ export default function DesignerProfile() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          4. COLLECTIONS — "The Archive"
+          4. COLLECTIONS , "The Archive"
       ═══════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-stone-50 border-t border-bronze-200/40">
         <div className="max-w-7xl mx-auto px-6">
@@ -234,7 +234,7 @@ export default function DesignerProfile() {
                     className="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]" />
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/80 via-charcoal-950/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-bronze-400/70 mb-1">{col.season} — {col.pieces} pieces</p>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-bronze-400/70 mb-1">{col.season} , {col.pieces} pieces</p>
                     <h3 className="font-serif text-lg text-white">{col.name}</h3>
                     <span className="text-xs text-bronze-400/0 group-hover:text-bronze-400 transition-all duration-300 tracking-wider uppercase mt-2 inline-block">
                       View →
@@ -248,7 +248,7 @@ export default function DesignerProfile() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          5. SELECTED WORKS — Bestsellers
+          5. SELECTED WORKS , Bestsellers
       ═══════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6">
@@ -275,7 +275,7 @@ export default function DesignerProfile() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          6. EDITORIAL — Stories & Press
+          6. EDITORIAL , Stories & Press
       ═══════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-stone-50 border-t border-bronze-200/40">
         <div className="max-w-7xl mx-auto px-6">
@@ -309,7 +309,7 @@ export default function DesignerProfile() {
           <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">Heritage</p>
           <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-medium mb-4">Craft Traditions</h2>
           <p className="text-sm text-charcoal-400 max-w-xl mb-14">
-            The traditional crafts this designer works with — each one a living heritage practice sustained through contemporary design.
+            The traditional crafts this designer works with , each one a living heritage practice sustained through contemporary design.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

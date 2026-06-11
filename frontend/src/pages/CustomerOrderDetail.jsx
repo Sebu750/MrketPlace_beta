@@ -100,7 +100,7 @@ export default function CustomerOrderDetail() {
 
       {/* ── Two column layout ──────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Items — 2/3 width */}
+        {/* Items , 2/3 width */}
         <div className="lg:col-span-2 space-y-4">
           <div className="border border-stone-200">
             <div className="px-5 py-3 border-b border-stone-200">
@@ -144,7 +144,7 @@ export default function CustomerOrderDetail() {
           )}
         </div>
 
-        {/* Summary — 1/3 width */}
+        {/* Summary , 1/3 width */}
         <div className="space-y-4">
           {/* Financial summary */}
           <div className="border border-stone-200 p-5">

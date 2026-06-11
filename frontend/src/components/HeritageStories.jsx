@@ -1,15 +1,15 @@
 const stories = [
   {
-    title: "Ajrak — The Sacred Geometry of Sindh",
+    title: "Ajrak , The Sacred Geometry of Sindh",
     era: "3,000+ years of tradition",
-    text: "Born in the Indus Valley, Ajrak is one of the oldest known block-printing traditions in human history. Each piece passes through up to 14 stages of printing and dyeing using natural indigo and madder root, a process unchanged for centuries. The geometric patterns carry symbolic weight — representing the universe in miniature. Today, a small community of master printers in Bhit Shah continues this living heritage, now reaching collectors worldwide through Adorzia.",
+    text: "Born in the Indus Valley, Ajrak is one of the oldest known block-printing traditions in human history. Each piece passes through up to 14 stages of printing and dyeing using natural indigo and madder root, a process unchanged for centuries. The geometric patterns carry symbolic weight , representing the universe in miniature. Today, a small community of master printers in Bhit Shah continues this living heritage, now reaching collectors worldwide through Adorzia.",
     img: "/assets/images/home-heritage-craft.webp",
     reverse: false,
   },
   {
-    title: "Rilli — Quilting as Resistance & Revival",
+    title: "Rilli , Quilting as Resistance & Revival",
     era: "Centuries of Sindh & Balochistan craft",
-    text: "Rilli quilts are among the most complex textile arts in South Asia — hand-pieced from dozens of fabric fragments using techniques passed between generations of rural women. Once dismissed as folk craft, Rilli is now recognized by textile scholars as one of the most sophisticated patchwork traditions in the world. Adorzia partners directly with women's cooperatives in Thar and interior Sindh, ensuring that the creators — not intermediaries — benefit from global demand.",
+    text: "Rilli quilts are among the most complex textile arts in South Asia , hand-pieced from dozens of fabric fragments using techniques passed between generations of rural women. Once dismissed as folk craft, Rilli is now recognized by textile scholars as one of the most sophisticated patchwork traditions in the world. Adorzia partners directly with women's cooperatives in Thar and interior Sindh, ensuring that the creators , not intermediaries , benefit from global demand.",
     img: "/assets/images/craft.webp",
     reverse: true,
   },

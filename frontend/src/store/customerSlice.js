@@ -16,7 +16,7 @@ const saveLS = (key, val) => {
 const hasToken = () => !!localStorage.getItem("token");
 
 /* ══════════════════════════════════════════════════════════════════════
-   THUNKS — Orders
+   THUNKS , Orders
 ══════════════════════════════════════════════════════════════════════ */
 export const fetchCustomerOrders = createAsyncThunk(
   "customer/fetchOrders",
@@ -48,7 +48,7 @@ export const fetchCustomerOrder = createAsyncThunk(
 );
 
 /* ══════════════════════════════════════════════════════════════════════
-   THUNKS — Stats
+   THUNKS , Stats
 ══════════════════════════════════════════════════════════════════════ */
 export const fetchCustomerStats = createAsyncThunk(
   "customer/fetchStats",
@@ -63,7 +63,7 @@ export const fetchCustomerStats = createAsyncThunk(
 );
 
 /* ══════════════════════════════════════════════════════════════════════
-   THUNKS — Wishlist
+   THUNKS , Wishlist
 ══════════════════════════════════════════════════════════════════════ */
 export const fetchWishlist = createAsyncThunk(
   "customer/fetchWishlist",
@@ -102,7 +102,7 @@ export const removeWishlistItem = createAsyncThunk(
 );
 
 /* ══════════════════════════════════════════════════════════════════════
-   THUNKS — Addresses
+   THUNKS , Addresses
 ══════════════════════════════════════════════════════════════════════ */
 export const fetchAddresses = createAsyncThunk(
   "customer/fetchAddresses",
@@ -165,7 +165,7 @@ export const setDefaultAddressAPI = createAsyncThunk(
 );
 
 /* ══════════════════════════════════════════════════════════════════════
-   THUNKS — Reviews
+   THUNKS , Reviews
 ══════════════════════════════════════════════════════════════════════ */
 export const fetchMyReviews = createAsyncThunk(
   "customer/fetchMyReviews",

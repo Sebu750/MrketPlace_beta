@@ -1,11 +1,29 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromWishlist } from "../store/customerSlice";
+import { fetchWishlist, removeWishlistItem, removeFromWishlist } from "../store/customerSlice";
 import { addToCart } from "../store/cartSlice";
 
 export default function CustomerWishlist() {
   const wishlist = useSelector((s) => s.customer.wishlist);
+  const loading = useSelector((s) => s.customer.wishlistLoading);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) dispatch(fetchWishlist());
+  }, [dispatch]);
+
+  const handleRemove = (productId) => {
+    if (localStorage.getItem("token")) {
+      dispatch(removeWishlistItem(productId));
+    } else {
+      dispatch(removeFromWishlist(productId));
+    }
+  };
+
+  if (loading) {
+    return <div className="py-16 text-center text-sm text-charcoal-400">Loading wishlist…</div>;
+  }
 
   if (wishlist.length === 0) {
     return (
@@ -63,7 +81,7 @@ export default function CustomerWishlist() {
                   Add to Bag
                 </button>
                 <button
-                  onClick={() => dispatch(removeFromWishlist(item.productId))}
+                  onClick={() => handleRemove(item.productId)}
                   className="px-3 py-2 text-[10px] uppercase tracking-[0.15em] border border-stone-300 text-charcoal-500 hover:text-red-500 hover:border-red-200 transition-colors"
                 >
                   Remove

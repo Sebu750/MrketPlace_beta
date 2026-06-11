@@ -15,7 +15,7 @@ const navItems = [
 
 const collections = [
   { name: "Geometry of Home", pieces: 6, status: "Published", sales: 12, revenue: "PKR 576,000" },
-  { name: "Threads of the Indus", pieces: 4, status: "In Review", sales: 0, revenue: "—" },
+  { name: "Threads of the Indus", pieces: 4, status: "In Review", sales: 0, revenue: "," },
 ];
 
 const recentOrders = [

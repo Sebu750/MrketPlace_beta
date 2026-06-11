@@ -69,7 +69,7 @@ export default function AdminReviews() {
                 <div className="flex flex-wrap items-center gap-4 text-[11px] text-charcoal-400">
                   <span>By: <span className="text-charcoal-600">{r.customer?.name || r.customer?.email || "Anonymous"}</span></span>
                   {r.product && (
-                    <span>Product: <span className="text-charcoal-600">{r.product.name || r.product._id || "—"}</span></span>
+                    <span>Product: <span className="text-charcoal-600">{r.product.name || r.product._id || ","}</span></span>
                   )}
                   {r.verifiedPurchase && (
                     <span className="text-emerald-600 flex items-center gap-1">

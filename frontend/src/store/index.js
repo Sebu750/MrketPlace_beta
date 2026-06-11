@@ -8,6 +8,8 @@ import designerReducer from "./designerSlice";
 import payoutsReducer from "./payoutsSlice";
 import adminReducer from "./adminSlice";
 import customerReducer from "./customerSlice";
+import craftsReducer from "./craftsSlice";
+import editorialReducer from "./editorialSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +22,7 @@ export const store = configureStore({
     payouts: payoutsReducer,
     admin: adminReducer,
     customer: customerReducer,
+    crafts: craftsReducer,
+    editorial: editorialReducer,
   },
 });

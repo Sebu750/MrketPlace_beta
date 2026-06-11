@@ -2,7 +2,7 @@ const collections = [
   {
     id: 1,
     designer: "Zara Hameed",
-    title: "Mughal Geometry — FW26",
+    title: "Mughal Geometry , FW26",
     price: "PKR 48,000",
     tag: "New Arrival",
     span: "md:col-span-2 md:row-span-2",
@@ -29,7 +29,7 @@ const collections = [
   {
     id: 4,
     designer: "Hira Khan",
-    title: "Pashmina Edit — Ivory",
+    title: "Pashmina Edit , Ivory",
     price: "PKR 72,000",
     tag: "Bestseller",
     span: "md:col-span-2",

@@ -140,8 +140,8 @@ export default function AdminOverview() {
               {recentOrders.map((order) => (
                 <tr key={order._id} className="hover:bg-stone-50/50 transition-colors">
                   <td className="px-6 py-3 text-sm text-charcoal-900 font-mono text-xs">{order.orderNumber}</td>
-                  <td className="px-6 py-3 text-sm text-charcoal-700">{order.customer?.name || "—"}</td>
-                  <td className="px-6 py-3 text-sm text-charcoal-700">{order.designer?.brandName || order.designer?.name || "—"}</td>
+                  <td className="px-6 py-3 text-sm text-charcoal-700">{order.customer?.name || ","}</td>
+                  <td className="px-6 py-3 text-sm text-charcoal-700">{order.designer?.brandName || order.designer?.name || ","}</td>
                   <td className="px-6 py-3 text-sm text-charcoal-900 font-medium">{fmt(order.financial?.subtotal || 0)}</td>
                   <td className="px-6 py-3">
                     <span className={`text-[10px] px-2 py-0.5 ${statusColor[order.status] || ""}`}>

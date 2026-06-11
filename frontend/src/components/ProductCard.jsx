@@ -1,17 +1,28 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function ProductCard({ product }) {
   const [wishlist, setWishlist] = useState(false);
+  const [heartAnim, setHeartAnim] = useState(false);
+  const heartRef = useRef(null);
+
+  const toggleWishlist = (e) => {
+    e.preventDefault();
+    setWishlist(!wishlist);
+    setHeartAnim(true);
+    setTimeout(() => setHeartAnim(false), 400);
+  };
 
   return (
-    <div className="group relative">
+    <div className="group relative hover-lift">
       {/* Image */}
       <Link to={`/pieces/${product.id}`} className="block">
         <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
           <img
             src={product.image}
             alt={product.name}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-105"
           />
 
@@ -24,17 +35,18 @@ export default function ProductCard({ product }) {
 
           {/* Wishlist heart */}
           <button
-            onClick={(e) => { e.preventDefault(); setWishlist(!wishlist); }}
-            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-white/80 backdrop-blur-sm border border-stone-200 hover:border-stone-400 transition-colors"
+            onClick={toggleWishlist}
+            className={`absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-white/80 backdrop-blur-sm border border-stone-200 hover:border-stone-400 transition-colors ${heartAnim ? "heart-burst" : ""}`}
+            ref={heartRef}
           >
-            <svg className={`w-4 h-4 ${wishlist ? "text-bronze-500" : "text-charcoal-300"}`} fill={wishlist ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <svg className={`w-4 h-4 transition-colors duration-300 ${wishlist ? "text-bronze-500" : "text-charcoal-300"}`} fill={wishlist ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
           </button>
 
-          {/* Quick add on hover */}
-          <div className="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <button className="w-full bg-bronze-300 text-charcoal-950 text-xs uppercase tracking-wider py-2.5 hover:bg-bronze-300 transition-colors">
+          {/* Quick add — slides up from bottom */}
+          <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
+            <button className="w-full bg-bronze-300 text-charcoal-950 text-xs uppercase tracking-wider py-2.5 hover:bg-bronze-400 transition-colors tap-scale">
               Quick Add
             </button>
           </div>
@@ -44,7 +56,7 @@ export default function ProductCard({ product }) {
       {/* Info */}
       <div className="pt-3 pb-1">
         <Link to={`/pieces/${product.id}`}>
-          <h3 className="font-serif text-sm text-charcoal-900 group-hover:text-bronze-500 transition-colors line-clamp-1">
+          <h3 className="font-serif text-sm text-charcoal-900 group-hover:text-bronze-500 transition-colors duration-500 line-clamp-1">
             {product.name}
           </h3>
         </Link>

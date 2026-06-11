@@ -89,10 +89,10 @@ export default function AdminProducts() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-5 py-3.5 text-charcoal-600 text-[13px]">{p.designer?.brandName || p.designer?.name || "—"}</td>
-                  <td className="px-5 py-3.5 text-charcoal-500 text-[12px]">{p.category || "—"}</td>
+                  <td className="px-5 py-3.5 text-charcoal-600 text-[13px]">{p.designer?.brandName || p.designer?.name || ","}</td>
+                  <td className="px-5 py-3.5 text-charcoal-500 text-[12px]">{p.category || ","}</td>
                   <td className="px-5 py-3.5 text-right text-charcoal-700 font-medium text-[13px]">{fmt(p.price)}</td>
-                  <td className="px-5 py-3.5 text-center text-[12px] text-charcoal-500">{p.stock ?? "—"}</td>
+                  <td className="px-5 py-3.5 text-center text-[12px] text-charcoal-500">{p.stock ?? ","}</td>
                   <td className="px-5 py-3.5 text-center">
                     <span className={`inline-block px-2.5 py-1 text-[10px] uppercase tracking-wider border ${statusColors[p.status] || statusColors.draft}`}>
                       {p.status || "draft"}

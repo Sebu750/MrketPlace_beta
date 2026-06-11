@@ -160,7 +160,7 @@ export default function DesignerOverview() {
               <div key={i} className="flex items-start gap-3">
                 <div className="shrink-0 w-2 h-2 mt-1.5 rounded-full bg-bronze-400" />
                 <div>
-                  <p className="text-sm text-charcoal-700 leading-snug">New order from {o.customer} — {o.item}</p>
+                  <p className="text-sm text-charcoal-700 leading-snug">New order from {o.customer} , {o.item}</p>
                   <p className="text-[10px] text-charcoal-300 mt-0.5">{o.date}</p>
                 </div>
               </div>
@@ -270,7 +270,7 @@ export default function DesignerOverview() {
         <div>
           <p className="text-[9px] uppercase tracking-[0.3em] text-bronze-400 mb-1">Adorzia Studio</p>
           <h3 className="font-serif text-xl text-white">Lahore Coworking Space</h3>
-          <p className="text-sm text-charcoal-400 mt-1">Your assigned studio — access to equipment, artisan network, and mentorship.</p>
+          <p className="text-sm text-charcoal-400 mt-1">Your assigned studio , access to equipment, artisan network, and mentorship.</p>
         </div>
         <Link
           to="#"

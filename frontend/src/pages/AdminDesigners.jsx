@@ -67,10 +67,10 @@ export default function AdminDesigners() {
               <tr key={d._id} className="hover:bg-stone-50/50 transition-colors">
                 <td className="px-5 py-3">
                   <p className="text-sm text-charcoal-900 font-medium">{d.brandName || d.name}</p>
-                  <p className="text-[10px] text-charcoal-400">{d.studioCity || "—"}</p>
+                  <p className="text-[10px] text-charcoal-400">{d.studioCity || ","}</p>
                 </td>
                 <td className="px-5 py-3 text-xs text-charcoal-500 font-mono">{d.email}</td>
-                <td className="px-5 py-3 text-xs text-charcoal-600">{d.category || "—"}</td>
+                <td className="px-5 py-3 text-xs text-charcoal-600">{d.category || ","}</td>
                 <td className="px-5 py-3">
                   <select value={d.plan || "free"} onChange={(e) => changePlan(d._id, e.target.value)}
                     className={`text-[10px] px-2 py-1 border-0 ${planColors[d.plan] || planColors.free}`}>

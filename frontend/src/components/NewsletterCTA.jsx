@@ -22,7 +22,7 @@ export default function NewsletterCTA() {
       </div>
 
       <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
-        <p className="section-label mb-4">Open Call — FW26</p>
+        <p className="section-label mb-4">Open Call , FW26</p>
 
         <h2 className="section-heading mb-6">
           Join the First Generation of
@@ -32,7 +32,7 @@ export default function NewsletterCTA() {
 
         <p className="text-charcoal-500 leading-relaxed max-w-xl mx-auto mb-12">
           We are currently accepting applications from emerging Pakistani designers
-          for our inaugural Spotlight cohort — and opening early access to collectors
+          for our inaugural Spotlight cohort , and opening early access to collectors
           worldwide. Register your interest below.
         </p>
 
@@ -56,7 +56,7 @@ export default function NewsletterCTA() {
         ) : (
           <div className="border border-bronze-500/30 bg-bronze-50 px-8 py-6 max-w-lg mx-auto">
             <p className="text-bronze-600 text-sm tracking-wide">
-              Application Received — Reference: AD-2026-{Math.floor(1000 + Math.random() * 9000)}
+              Application Received , Reference: AD-2026-{Math.floor(1000 + Math.random() * 9000)}
             </p>
             <p className="text-charcoal-300 text-xs mt-2">
               Confirmation email sent. Expected review: August 2026.

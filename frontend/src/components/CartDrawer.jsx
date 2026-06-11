@@ -183,11 +183,11 @@ export default function CartDrawer() {
                     {/* Size + Color */}
                     <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
                       <span className="text-[10px] uppercase tracking-[0.2em] text-charcoal-400">
-                        Size: <span className="text-charcoal-600">{item.size || "—"}</span>
+                        Size: <span className="text-charcoal-600">{item.size || ","}</span>
                       </span>
                       <span className="text-stone-300">|</span>
                       <span className="text-[10px] uppercase tracking-[0.2em] text-charcoal-400">
-                        Colour: <span className="text-charcoal-600">{item.color || "—"}</span>
+                        Colour: <span className="text-charcoal-600">{item.color || ","}</span>
                       </span>
                     </div>
 

@@ -1,5 +1,5 @@
 /**
- * Adorzia — Asset Registry
+ * Adorzia , Asset Registry
  *
  * All images now point to local files in public/assets/images/.
  * Files served from public/ are accessible at root path.

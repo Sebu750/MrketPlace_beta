@@ -124,7 +124,7 @@ export default function CustomerOrders() {
                     </div>
                     <div className="text-right shrink-0">
                       <p className="text-sm text-charcoal-900">
-                        {order.financial?.subtotal ? `PKR ${order.financial.subtotal.toLocaleString("en-PK")}` : "—"}
+                        {order.financial?.subtotal ? `PKR ${order.financial.subtotal.toLocaleString("en-PK")}` : ","}
                       </p>
                       {order.tracking?.number && (
                         <p className="text-[10px] text-charcoal-400 mt-0.5">Tracking: {order.tracking.number}</p>

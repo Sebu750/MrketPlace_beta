@@ -1,7 +1,29 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../services/api";
 
-/* ── Thunks ─────────────────────────────────────────────── */
+/* ── Public Thunks ─────────────────────────────────────────── */
+export const fetchPublicCollections = createAsyncThunk(
+  "collections/fetchPublic",
+  async ({ designer, season, category, year, featured, search, page = 1, limit = 20 } = {}, { rejectWithValue }) => {
+    try {
+      const p = new URLSearchParams();
+      if (designer) p.append("designer", designer);
+      if (season) p.append("season", season);
+      if (category) p.append("category", category);
+      if (year) p.append("year", year);
+      if (featured !== undefined) p.append("featured", featured);
+      if (search) p.append("search", search);
+      p.append("page", page);
+      p.append("limit", limit);
+      const { data } = await API.get(`/collections?${p}`);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Failed to fetch collections");
+    }
+  }
+);
+
+/* ── Designer Thunks ─────────────────────────────────────────── */
 export const fetchMyCollections = createAsyncThunk(
   "collections/fetchMyCollections",
   async (_, { rejectWithValue }) => {
@@ -70,6 +92,13 @@ const collectionsSlice = createSlice({
     current: null,
     loading: false,
     error: null,
+    public: {
+      items: [],
+      current: null,
+      loading: false,
+      error: null,
+      pagination: null,
+    },
   },
   reducers: {
     clearCollectionError: (s) => { s.error = null; },
@@ -88,7 +117,16 @@ const collectionsSlice = createSlice({
      .addCase(updateCollectionStatus.fulfilled, (s, a) => {
        const i = s.items.findIndex((c) => c._id === a.payload._id);
        if (i >= 0) s.items[i] = a.payload;
-     });
+     })
+     /* ── Public collections ── */
+     .addCase(fetchPublicCollections.pending, (s) => { s.public.loading = true; s.public.error = null; })
+     .addCase(fetchPublicCollections.fulfilled, (s, a) => {
+       s.public.loading = false;
+       s.public.items = a.payload.data || a.payload.collections || [];
+       const pg = a.payload.pagination;
+       s.public.pagination = pg ? { ...pg, totalPages: pg.pages || pg.totalPages || 1 } : null;
+     })
+     .addCase(fetchPublicCollections.rejected, (s, a) => { s.public.loading = false; s.public.error = a.payload; });
   },
 });
 

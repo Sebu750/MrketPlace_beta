@@ -53,7 +53,7 @@ export default function CustomerReviews() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-charcoal-400">
-        Share your experience — leave reviews for delivered orders
+        Share your experience , leave reviews for delivered orders
       </p>
 
       {orders.loading ? (

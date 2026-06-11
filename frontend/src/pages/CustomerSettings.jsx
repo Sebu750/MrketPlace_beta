@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../services/api";
 
 export default function CustomerSettings() {
   const { data: user } = useSelector((s) => s.user);
@@ -25,9 +25,7 @@ export default function CustomerSettings() {
     setSaving(true);
     setMessage("");
     try {
-      await axios.put("/api/users/me", { name: profile.name, phone: profile.phone }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.put("/customer/profile", { name: profile.name, phone: profile.phone });
       const stored = JSON.parse(localStorage.getItem("user") || "{}");
       stored.name = profile.name;
       stored.phone = profile.phone;
@@ -52,11 +50,9 @@ export default function CustomerSettings() {
     }
     setSaving(true);
     try {
-      await axios.put("/api/users/me/password", {
+      await API.put("/customer/password", {
         currentPassword: passwords.current,
         newPassword: passwords.newPass,
-      }, {
-        headers: { Authorization: `Bearer ${token}` },
       });
       setPasswords({ current: "", newPass: "", confirm: "" });
       setMessage("Password changed successfully");
@@ -221,12 +217,12 @@ export default function CustomerSettings() {
               <div className="px-5 py-3 flex items-center justify-between">
                 <span className="text-[12px] text-charcoal-400">Member Since</span>
                 <span className="text-[12px] text-charcoal-900">
-                  {user?.createdAt ? new Date(user.createdAt).toLocaleDateString("en-PK", { month: "long", year: "numeric" }) : "—"}
+                  {user?.createdAt ? new Date(user.createdAt).toLocaleDateString("en-PK", { month: "long", year: "numeric" }) : ","}
                 </span>
               </div>
               <div className="px-5 py-3 flex items-center justify-between">
                 <span className="text-[12px] text-charcoal-400">Account ID</span>
-                <span className="text-[11px] text-charcoal-400 font-mono">{user?._id?.slice(-8) || "—"}</span>
+                <span className="text-[11px] text-charcoal-400 font-mono">{user?._id?.slice(-8) || ","}</span>
               </div>
             </div>
           </div>

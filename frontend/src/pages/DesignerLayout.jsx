@@ -69,7 +69,7 @@ export default function DesignerLayout() {
   return (
     <div className="min-h-screen bg-stone-50 flex">
       {/* ════════════════════════════════════════════════════════════
-          SIDEBAR — Dark charcoal, luxury editorial
+          SIDEBAR , Dark charcoal, luxury editorial
       ═════════════════════════════════════════════════════════════ */}
       <aside className={`fixed inset-y-0 left-0 z-50 w-[260px] bg-charcoal-950 flex flex-col transition-transform duration-500 lg:translate-x-0 ${
         mobileNav ? "translate-x-0" : "-translate-x-full"

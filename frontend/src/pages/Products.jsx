@@ -1,48 +1,13 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPublicProducts } from "../store/productsSlice";
 import ProductCard from "../components/ProductCard";
 
-/* ── Mock data ──────────────────────────────────────────────────── */
-const allProducts = [
-  { id: 1, name: "Ajrak Architect Coat", designer: "Ayesha Siddiqui", price: 48000, tag: "New Arrival", category: "Outerwear", craft: "Ajrak", size: ["S", "M", "L"], image: "/assets/images/ajrak-architect-coat-adorzia1.webp" },
-  { id: 2, name: "Phulkari Reborn Blazer", designer: "Zara Hameed", price: 42000, tag: "Limited", category: "Outerwear", craft: "Phulkari", size: ["XS", "S", "M", "L"], image: "/assets/images/phulkari-reborn-blazer-adorzia.webp" },
-  { id: 3, name: "Khaddar Modern Suit", designer: "Hira Khan", price: 36500, tag: null, category: "Unstitched", craft: "Khaddar", size: ["S", "M", "L", "XL"], image: "/assets/images/khaddar-modern-suit-adorzia.webp" },
-  { id: 4, name: "Pashmina Wrap Dress", designer: "Fatima Qureshi", price: 52000, tag: "Exclusive", category: "Ready to Wear", craft: "Pashmina", size: ["XS", "S", "M"], image: "/assets/images/pashmina-wrap-dress-adorzia.webp" },
-  { id: 5, name: "Mirrorwork Bomber Jacket", designer: "Noor & Sons", price: 44500, tag: "Bestseller", category: "Outerwear", craft: "Mirror Work", size: ["S", "M", "L", "XL"], image: "/assets/images/mirrorwork-bomber-jacket-adorzia.webp" },
-  { id: 6, name: "Mirror Rebel Tee", designer: "Sana Javed", price: 18500, tag: null, category: "Ready to Wear", craft: "Mirror Work", size: ["XS", "S", "M", "L"], image: "/assets/images/mirror-rebel-tee-adorzia.webp" },
-  { id: 7, name: "Rilli Sculpt Tote", designer: "Bilal Raza", price: 28000, tag: "Handcrafted", category: "Accessories", craft: "Rilli", size: ["One Size"], image: "/assets/images/rilli-sculpt-tote-adorzia.webp" },
-  { id: 8, name: "Indigo Quilt Cape", designer: "Ayesha Siddiqui", price: 36500, tag: null, category: "Outerwear", craft: "Rilli", size: ["S/M", "L/XL"], image: "/assets/images/phulkari-reborn-blazer-adorzia.webp" },
-  { id: 9, name: "Block Print Maxi Dress", designer: "Zara Hameed", price: 39000, tag: "New Arrival", category: "Ready to Wear", craft: "Block Print", size: ["XS", "S", "M", "L"], image: "/assets/images/ajrak-architect-coat-adorzia1.webp" },
-  { id: 10, name: "Chikankari Silk Blouse", designer: "Hira Khan", price: 32000, tag: null, category: "Ready to Wear", craft: "Chikankari", size: ["XS", "S", "M"], image: "/assets/images/pashmina-wrap-dress-adorzia.webp" },
-  { id: 11, name: "Ajrak Wide-Leg Trousers", designer: "Fatima Qureshi", price: 24000, tag: null, category: "Ready to Wear", craft: "Ajrak", size: ["S", "M", "L"], image: "/assets/images/khaddar-modern-suit-adorzia.webp" },
-  { id: 12, name: "Heritage Clutch Box", designer: "Bilal Raza", price: 22000, tag: "Handcrafted", category: "Accessories", craft: "Block Print", size: ["One Size"], image: "/assets/images/rilli-sculpt-tote-adorzia.webp" },
-  { id: 13, name: "Phulkari Cape Shawl", designer: "Noor & Sons", price: 58000, tag: "Exclusive", category: "Accessories", craft: "Phulkari", size: ["One Size"], image: "/assets/images/mirrorwork-bomber-jacket-adorzia.webp" },
-  { id: 14, name: "Khaddar Oversized Shirt", designer: "Sana Javed", price: 21000, tag: null, category: "Ready to Wear", craft: "Khaddar", size: ["S", "M", "L", "XL"], image: "/assets/images/mirror-rebel-tee-adorzia.webp" },
-  { id: 15, name: "Bridal Pashmina Dupatta", designer: "Ayesha Siddiqui", price: 85000, tag: "Bridal", category: "Bridal", craft: "Pashmina", size: ["One Size"], image: "/assets/images/ajrak-architect-coat-adorzia1.webp" },
-  { id: 16, name: "Rilli Patchwork Jacket", designer: "Hira Khan", price: 41000, tag: "Limited", category: "Outerwear", craft: "Rilli", size: ["S", "M", "L"], image: "/assets/images/phulkari-reborn-blazer-adorzia.webp" },
-];
-
-const categories = ["All", "Ready to Wear", "Outerwear", "Accessories", "Unstitched", "Bridal"];
-const crafts = ["All", "Ajrak", "Phulkari", "Pashmina", "Khaddar", "Block Print", "Mirror Work", "Rilli", "Chikankari"];
-const designers = ["All Designers", "Ayesha Siddiqui", "Zara Hameed", "Hira Khan", "Fatima Qureshi", "Noor & Sons", "Sana Javed", "Bilal Raza"];
-const priceRanges = [
-  { label: "All Prices", min: 0, max: Infinity },
-  { label: "Under PKR 25,000", min: 0, max: 25000 },
-  { label: "PKR 25,000 – 40,000", min: 25000, max: 40000 },
-  { label: "PKR 40,000 – 60,000", min: 40000, max: 60000 },
-  { label: "Over PKR 60,000", min: 60000, max: Infinity },
-];
-const sortOptions = [
-  { label: "Featured", value: "featured" },
-  { label: "Newest", value: "newest" },
-  { label: "Price: Low → High", value: "price-asc" },
-  { label: "Price: High → Low", value: "price-desc" },
-  { label: "Name: A → Z", value: "name" },
-];
-const PER_PAGE = 12;
+const PER_PAGE = 24;
 
 /* ── Helpers ─────────────────────────────────────────────────────── */
 function formatPKR(n) {
-  return `PKR ${n.toLocaleString("en-PK")}`;
+  return n ? `PKR ${Number(n).toLocaleString("en-PK")}` : "";
 }
 
 /* ── Icons (inline SVG) ──────────────────────────────────────────── */
@@ -73,53 +38,50 @@ function FilterSection({ title, children, defaultOpen = true }) {
 
 /* ── Main Component ──────────────────────────────────────────────── */
 export default function Products() {
+  const dispatch = useDispatch();
+  const { items: products, pagination, loading } = useSelector((s) => s.products.public);
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All");
-  const [craft, setCraft] = useState("All");
-  const [designer, setDesigner] = useState("All Designers");
-  const [priceIdx, setPriceIdx] = useState(0);
-  const [sort, setSort] = useState("featured");
+  const [category, setCategory] = useState("");
+  const [craft, setCraft] = useState("");
+  const [designer, setDesigner] = useState("");
+  const [priceMin, setPriceMin] = useState("");
+  const [priceMax, setPriceMax] = useState("");
+  const [sort, setSort] = useState("");
   const [cols, setCols] = useState(4);
   const [page, setPage] = useState(1);
   const [mobileFilters, setMobileFilters] = useState(false);
 
-  /* Filter + sort */
-  const filtered = useMemo(() => {
-    let list = [...allProducts];
-
-    if (search) {
-      const q = search.toLowerCase();
-      list = list.filter((p) => p.name.toLowerCase().includes(q) || p.designer.toLowerCase().includes(q) || p.craft.toLowerCase().includes(q));
-    }
-    if (category !== "All") list = list.filter((p) => p.category === category);
-    if (craft !== "All") list = list.filter((p) => p.craft === craft);
-    if (designer !== "All Designers") list = list.filter((p) => p.designer === designer);
-
-    const range = priceRanges[priceIdx];
-    list = list.filter((p) => p.price >= range.min && p.price < range.max);
-
-    switch (sort) {
-      case "price-asc": list.sort((a, b) => a.price - b.price); break;
-      case "price-desc": list.sort((a, b) => b.price - a.price); break;
-      case "name": list.sort((a, b) => a.name.localeCompare(b.name)); break;
-      default: break;
-    }
-    return list;
-  }, [search, category, craft, designer, priceIdx, sort]);
-
-  /* Pagination */
-  const totalPages = Math.ceil(filtered.length / PER_PAGE);
-  const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+  /* Fetch from API on mount and when filters change */
+  useEffect(() => {
+    dispatch(fetchPublicProducts({
+      category: category || undefined,
+      craft: craft || undefined,
+      designer: designer || undefined,
+      search: search || undefined,
+      priceMin: priceMin || undefined,
+      priceMax: priceMax || undefined,
+      sort: sort || undefined,
+      page,
+      limit: PER_PAGE,
+    }));
+  }, [dispatch, search, category, craft, designer, priceMin, priceMax, sort, page]);
 
   /* Active filters for tags */
   const activeFilters = [
-    category !== "All" ? { label: category, clear: () => { setCategory("All"); setPage(1); } } : null,
-    craft !== "All" ? { label: craft, clear: () => { setCraft("All"); setPage(1); } } : null,
-    designer !== "All Designers" ? { label: designer, clear: () => { setDesigner("All Designers"); setPage(1); } } : null,
-    priceIdx !== 0 ? { label: priceRanges[priceIdx].label, clear: () => { setPriceIdx(0); setPage(1); } } : null,
+    category ? { label: category, clear: () => { setCategory(""); setPage(1); } } : null,
+    craft ? { label: craft, clear: () => { setCraft(""); setPage(1); } } : null,
+    designer ? { label: designer, clear: () => { setDesigner(""); setPage(1); } } : null,
+    priceMin || priceMax ? { label: `PKR ${priceMin || "0"} – ${priceMax || "∞"}`, clear: () => { setPriceMin(""); setPriceMax(""); setPage(1); } } : null,
   ].filter(Boolean);
 
-  const clearAll = () => { setSearch(""); setCategory("All"); setCraft("All"); setDesigner("All Designers"); setPriceIdx(0); setSort("featured"); setPage(1); };
+  const clearAll = () => { setSearch(""); setCategory(""); setCraft(""); setDesigner(""); setPriceMin(""); setPriceMax(""); setSort(""); setPage(1); };
+
+  const sortOptions = [
+    { label: "Featured", value: "" },
+    { label: "Newest", value: "newest" },
+    { label: "Price: Low → High", value: "price-asc" },
+    { label: "Price: High → Low", value: "price-desc" },
+  ];
 
   const gridCols = { 2: "grid-cols-2", 3: "grid-cols-2 md:grid-cols-3", 4: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4" };
 
@@ -127,42 +89,43 @@ export default function Products() {
   const FilterContent = (
     <>
       <FilterSection title="Category">
-        {categories.map((c) => (
-          <button key={c} onClick={() => { setCategory(c); setPage(1); }}
-            className={`block w-full text-left text-sm px-2 py-1.5 transition-colors ${category === c ? "text-charcoal-900 font-medium bg-stone-100" : "text-charcoal-400 hover:text-charcoal-900"}`}>
-            {c}
+        {(["", "Ready to Wear", "Outerwear", "Accessories", "Unstitched", "Bridal"]).map((c) => (
+          <button key={c || "all"} onClick={() => { setCategory(c); setPage(1); }}
+            className={`block w-full text-left text-sm px-2 py-1.5 transition-colors ${category === c ? "text-charcoal-900 font-medium bg-stone-100" : "text-charcoal-300 hover:text-charcoal-900"}`}>
+            {c || "All"}
           </button>
         ))}
       </FilterSection>
 
       <FilterSection title="Craft">
-        {crafts.map((c) => (
-          <button key={c} onClick={() => { setCraft(c); setPage(1); }}
-            className={`block w-full text-left text-sm px-2 py-1.5 transition-colors ${craft === c ? "text-charcoal-900 font-medium bg-stone-100" : "text-charcoal-400 hover:text-charcoal-900"}`}>
-            {c}
+        {(["", "Ajrak", "Phulkari", "Pashmina", "Khaddar", "Block Print", "Mirror Work", "Rilli", "Chikankari"]).map((c) => (
+          <button key={c || "all"} onClick={() => { setCraft(c); setPage(1); }}
+            className={`block w-full text-left text-sm px-2 py-1.5 transition-colors ${craft === c ? "text-charcoal-900 font-medium bg-stone-100" : "text-charcoal-300 hover:text-charcoal-900"}`}>
+            {c || "All"}
           </button>
         ))}
       </FilterSection>
 
       <FilterSection title="Designer">
-        {designers.map((d) => (
-          <button key={d} onClick={() => { setDesigner(d); setPage(1); }}
-            className={`block w-full text-left text-sm px-2 py-1.5 transition-colors ${designer === d ? "text-charcoal-900 font-medium bg-stone-100" : "text-charcoal-400 hover:text-charcoal-900"}`}>
-            {d}
+        {(["", "Ayesha Siddiqui", "Zara Hameed", "Hira Khan", "Fatima Qureshi", "Noor & Sons", "Sana Javed", "Bilal Raza"]).map((d) => (
+          <button key={d || "all"} onClick={() => { setDesigner(d); setPage(1); }}
+            className={`block w-full text-left text-sm px-2 py-1.5 transition-colors ${designer === d ? "text-charcoal-900 font-medium bg-stone-100" : "text-charcoal-300 hover:text-charcoal-900"}`}>
+            {d || "All Designers"}
           </button>
         ))}
       </FilterSection>
 
       <FilterSection title="Price Range">
-        {priceRanges.map((r, i) => (
-          <button key={r.label} onClick={() => { setPriceIdx(i); setPage(1); }}
-            className={`block w-full text-left text-sm px-2 py-1.5 transition-colors ${priceIdx === i ? "text-charcoal-900 font-medium bg-stone-100" : "text-charcoal-400 hover:text-charcoal-900"}`}>
-            {r.label}
-          </button>
-        ))}
+        <input type="number" placeholder="Min" value={priceMin} onChange={(e) => { setPriceMin(e.target.value); setPage(1); }}
+          className="w-full mb-2 px-3 py-2 text-sm border border-stone-200 bg-white focus:border-charcoal-900 focus:outline-none" />
+        <input type="number" placeholder="Max" value={priceMax} onChange={(e) => { setPriceMax(e.target.value); setPage(1); }}
+          className="w-full px-3 py-2 text-sm border border-stone-200 bg-white focus:border-charcoal-900 focus:outline-none" />
       </FilterSection>
     </>
   );
+
+  const totalItems = pagination?.total || 0;
+  const totalPages = pagination?.totalPages || 1;
 
   return (
     <div className="bg-white min-h-screen">
@@ -174,7 +137,7 @@ export default function Products() {
             <div>
               <h1 className="font-serif text-3xl md:text-5xl text-charcoal-900 font-medium">All Pieces</h1>
               <p className="mt-3 text-charcoal-300 text-sm max-w-lg">
-                Heritage craft reimagined for the contemporary wardrobe — every piece tells a story of Pakistan's artisan legacy.
+                Heritage craft reimagined for the contemporary wardrobe , every piece tells a story of Pakistan's artisan legacy.
               </p>
             </div>
 
@@ -207,12 +170,12 @@ export default function Products() {
               <Icon.Filter className="w-3.5 h-3.5" /> Filters
               {activeFilters.length > 0 && <span className="bg-charcoal-900 text-white text-[10px] w-4 h-4 flex items-center justify-center">{activeFilters.length}</span>}
             </button>
-            <span className="text-xs text-charcoal-400">{filtered.length} {filtered.length === 1 ? "piece" : "pieces"}</span>
+            <span className="text-xs text-charcoal-400">{loading ? "Loading…" : `${totalItems} ${totalItems === 1 ? "piece" : "pieces"}`}</span>
           </div>
 
           <div className="flex items-center gap-4">
             {/* Sort */}
-            <select value={sort} onChange={(e) => setSort(e.target.value)}
+            <select value={sort} onChange={(e) => { setSort(e.target.value); setPage(1); }}
               className="text-xs uppercase tracking-wider text-charcoal-500 bg-transparent border border-stone-200 px-3 py-2 focus:border-charcoal-900 focus:outline-none cursor-pointer">
               {sortOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
             </select>
@@ -286,7 +249,11 @@ export default function Products() {
 
           {/* Product grid */}
           <div className="flex-1 min-w-0">
-            {paginated.length === 0 ? (
+            {loading ? (
+              <div className="text-center py-24">
+                <p className="text-charcoal-300 text-sm">Loading pieces…</p>
+              </div>
+            ) : products.length === 0 ? (
               <div className="text-center py-24">
                 <p className="text-charcoal-300 text-sm">No pieces match your filters.</p>
                 <button onClick={clearAll} className="mt-4 text-xs uppercase tracking-wider text-charcoal-900 underline">Reset Filters</button>
@@ -294,8 +261,8 @@ export default function Products() {
             ) : (
               <>
                 <div className={`grid ${gridCols[cols]} gap-5 md:gap-6`}>
-                  {paginated.map((p) => (
-                    <ProductCard key={p.id} product={{ ...p, price: formatPKR(p.price) }} />
+                  {products.map((p) => (
+                    <ProductCard key={p._id || p.id} product={{ ...p, price: formatPKR(p.price) }} />
                   ))}
                 </div>
 
@@ -306,7 +273,7 @@ export default function Products() {
                       className="px-4 py-2 text-xs uppercase tracking-wider border border-stone-200 text-charcoal-500 disabled:opacity-30 hover:border-charcoal-900 transition-colors">
                       Previous
                     </button>
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).slice(Math.max(0, page - 3), Math.min(totalPages, page + 2)).map((n) => (
                       <button key={n} onClick={() => setPage(n)}
                         className={`w-9 h-9 text-xs border transition-colors ${page === n ? "bg-charcoal-900 text-white border-charcoal-900" : "border-stone-200 text-charcoal-500 hover:border-charcoal-900"}`}>
                         {n}

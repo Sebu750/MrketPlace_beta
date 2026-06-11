@@ -19,10 +19,10 @@ export default function ShopByCraft() {
         {/* Header */}
         <div className="mb-14 max-w-lg">
           <p className="section-label mb-4">Heritage Traditions</p>
-          <h2 className="font-serif text-display-sm md:text-display text-charcoal-900 font-light">
+          <h2 className="font-display text-display-sm md:text-display text-charcoal-900">
             Craft as
             <br />
-            <span className="italic">Identity</span>
+            <span className="italic font-serif font-light">Identity</span>
           </h2>
           <p className="mt-6 text-charcoal-500 text-sm leading-[1.85] font-light">
             Each craft tradition carries centuries of knowledge, community, and cultural identity.

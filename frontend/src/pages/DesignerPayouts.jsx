@@ -71,7 +71,7 @@ export default function DesignerPayouts() {
         {[
           { label: "Total Earnings", value: `PKR ${totalEarnings.toLocaleString("en-PK")}` },
           { label: "Pending Payout", value: `PKR ${pendingAmount.toLocaleString("en-PK")}`, note: "Next payout: 1st / 15th" },
-          { label: "Last Payout", value: lastPayout ? `PKR ${(lastPayout.amount || 0).toLocaleString("en-PK")}` : "—", note: lastPayout ? new Date(lastPayout.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "" },
+          { label: "Last Payout", value: lastPayout ? `PKR ${(lastPayout.amount || 0).toLocaleString("en-PK")}` : ",", note: lastPayout ? new Date(lastPayout.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "" },
           { label: "Commission Rate", value: `${summaryData.commissionRate || 10}%`, note: "Pro Plan" },
         ].map((card) => (
           <div key={card.label} className="bg-white border border-stone-200 p-5">

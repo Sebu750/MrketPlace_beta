@@ -56,10 +56,10 @@ export default function AdminCollections() {
               <tr key={c._id} className="hover:bg-stone-50/50 transition-colors">
                 <td className="px-5 py-3">
                   <p className="text-sm text-charcoal-900 font-medium">{c.name}</p>
-                  <p className="text-[10px] text-charcoal-400">{c.category || "—"}</p>
+                  <p className="text-[10px] text-charcoal-400">{c.category || ","}</p>
                 </td>
-                <td className="px-5 py-3 text-sm text-charcoal-700">{c.designer?.brandName || c.designer?.name || "—"}</td>
-                <td className="px-5 py-3 text-xs text-charcoal-600">{c.season || "—"}</td>
+                <td className="px-5 py-3 text-sm text-charcoal-700">{c.designer?.brandName || c.designer?.name || ","}</td>
+                <td className="px-5 py-3 text-xs text-charcoal-600">{c.season || ","}</td>
                 <td className="px-5 py-3 text-sm text-charcoal-700">{c.productCount || 0}</td>
                 <td className="px-5 py-3">
                   <span className={`text-[10px] px-2 py-0.5 ${statusColor[c.status] || ""}`}>{c.status}</span>

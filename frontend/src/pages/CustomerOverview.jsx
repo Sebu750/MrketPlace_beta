@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCustomerOrders } from "../store/customerSlice";
+import { fetchCustomerOrders, fetchCustomerStats, fetchWishlist, fetchAddresses } from "../store/customerSlice";
 
 /* ── Status badge helper ───────────────────────────────────────────── */
 const statusColors = {
@@ -23,25 +23,30 @@ const statusLabels = {
 
 export default function CustomerOverview() {
   const { data: user } = useSelector((s) => s.user);
-  const { orders, wishlist, addresses } = useSelector((s) => s.customer);
+  const { orders, wishlist, addresses, stats: apiStats } = useSelector((s) => s.customer);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchCustomerOrders({ limit: 5 }));
+    if (localStorage.getItem("token")) {
+      dispatch(fetchCustomerStats());
+      dispatch(fetchWishlist());
+      dispatch(fetchAddresses());
+    }
   }, [dispatch]);
 
   const allOrders = orders.items || [];
   const activeOrders = allOrders.filter((o) => !["delivered", "cancelled"].includes(o.status));
-  const totalSpent = allOrders.reduce((sum, o) => {
+  const totalSpent = apiStats?.data?.lifetimeSpend || allOrders.reduce((sum, o) => {
     const raw = o.financial?.subtotal || 0;
     return sum + (typeof raw === "number" ? raw : 0);
   }, 0);
 
   const stats = [
-    { label: "Total Orders", value: orders.pagination?.total || allOrders.length },
-    { label: "In Progress", value: activeOrders.length },
-    { label: "Wishlist", value: wishlist.length, sub: "pieces saved" },
-    { label: "Addresses", value: addresses.length, sub: "saved" },
+    { label: "Total Orders", value: apiStats?.data?.totalOrders ?? (orders.pagination?.total || allOrders.length) },
+    { label: "In Progress", value: apiStats?.data?.activeOrders ?? activeOrders.length },
+    { label: "Wishlist", value: apiStats?.data?.wishlistCount ?? wishlist.length, sub: "pieces saved" },
+    { label: "Addresses", value: apiStats?.data?.addressCount ?? addresses.length, sub: "saved" },
   ];
 
   const recentOrders = allOrders.slice(0, 4);
@@ -111,7 +116,7 @@ export default function CustomerOverview() {
                   </div>
                   <div className="text-right shrink-0 ml-4">
                     <p className="text-sm text-charcoal-900">
-                      {order.financial?.subtotal ? `PKR ${order.financial.subtotal.toLocaleString("en-PK")}` : "—"}
+                      {order.financial?.subtotal ? `PKR ${order.financial.subtotal.toLocaleString("en-PK")}` : ","}
                     </p>
                     <span className={`inline-block text-[10px] px-2 py-0.5 mt-0.5 ${statusColors[order.status] || "bg-stone-100 text-charcoal-500"}`}>
                       {statusLabels[order.status] || order.status}

@@ -25,7 +25,7 @@ export default function BestSellers() {
         <div className="flex items-end justify-between mb-14">
           <div>
             <p className="section-label mb-4">Most Loved</p>
-            <h2 className="font-serif text-display-sm md:text-display text-charcoal-900 font-light">Best Sellers</h2>
+            <h2 className="font-display text-display-sm md:text-display text-charcoal-900">Best Sellers</h2>
           </div>
           <Link to="/shop" className="btn-text">
             View All
@@ -36,11 +36,11 @@ export default function BestSellers() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 stagger-children">
           {products.map((p) => (
             <Link key={p.id} to={`/pieces/${p.id}`}
-              className="reveal group bg-ivory-50 transition-all duration-500 hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+              className="reveal group bg-ivory-50 hover-lift">
               {/* Image */}
               <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
-                <img src={p.image} alt={p.name}
-                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.03]" />
+                <img src={p.image} alt={p.name} loading="lazy" decoding="async"
+                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.04]" />
               </div>
               {/* Info */}
               <div className="p-5">

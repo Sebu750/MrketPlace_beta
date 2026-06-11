@@ -362,7 +362,7 @@ export default function DesignerProductForm() {
 
             {/* Preview card */}
             <div className="bg-stone-50 border border-stone-200 p-6">
-              <p className="text-[9px] uppercase tracking-[0.3em] text-charcoal-400 mb-3">Preview — How it appears on the marketplace</p>
+              <p className="text-[9px] uppercase tracking-[0.3em] text-charcoal-400 mb-3">Preview , How it appears on the marketplace</p>
               <div className="grid grid-cols-2 gap-6">
                 {/* Image area */}
                 <div className="aspect-[3/4] bg-stone-200 flex items-center justify-center">
@@ -375,7 +375,7 @@ export default function DesignerProductForm() {
                     <h4 className="font-serif text-xl text-charcoal-900 mt-0.5">{form.name || "Product Name"}</h4>
                     {form.oneLiner && <p className="text-xs text-charcoal-500 mt-1 italic">{form.oneLiner}</p>}
                   </div>
-                  <p className="text-sm text-charcoal-900 font-medium">{form.price ? `PKR ${form.price}` : "PKR —"}</p>
+                  <p className="text-sm text-charcoal-900 font-medium">{form.price ? `PKR ${form.price}` : "PKR ,"}</p>
                   {form.sizes.length > 0 && (
                     <div className="flex flex-wrap gap-1">
                       {form.sizes.map((s) => <span key={s} className="text-[9px] uppercase tracking-wider px-2 py-0.5 border border-stone-300 text-charcoal-500">{s}</span>)}

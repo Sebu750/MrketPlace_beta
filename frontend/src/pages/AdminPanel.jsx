@@ -29,7 +29,7 @@ const pendingApprovals = [
 
 const recentActivity = [
   { action: "New order placed", detail: "Sarah K. ordered Ajrak Architect Coat", time: "2 min ago" },
-  { action: "Designer approved", detail: "Zara Hameed — Geometry of Home collection", time: "1 hour ago" },
+  { action: "Designer approved", detail: "Zara Hameed , Geometry of Home collection", time: "1 hour ago" },
   { action: "Payout processed", detail: "PKR 576,000 to Ayesha Siddiqui", time: "3 hours ago" },
   { action: "User registered", detail: "New customer: Amir Raza (Islamabad)", time: "5 hours ago" },
 ];

@@ -32,7 +32,7 @@ const cartSlice = createSlice({
   initialState,
 
   reducers: {
-    /* Add item — if same product+size+color exists, bump quantity */
+    /* Add item , if same product+size+color exists, bump quantity */
     addToCart(state, { payload }) {
       const { product, size, color, quantity = 1 } = payload;
 

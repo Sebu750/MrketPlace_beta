@@ -77,7 +77,7 @@ const plans = [
     price: "Rs. 28,000",
     period: "/ year",
     subprice: "Rs. 2,333/month",
-    savings: "2 months free — save Rs. 5,600",
+    savings: "2 months free , save Rs. 5,600",
     tagline: "Best value for serious designers",
     highlight: false,
     goldAccent: true,
@@ -135,7 +135,7 @@ export default function DesignerPlans() {
           <span className="text-bronze-400">on your terms</span>
         </h1>
         <p className="mt-5 text-sm text-stone-400 max-w-xl mx-auto leading-relaxed">
-          Choose the plan that fits where you are. Upgrade, downgrade, or cancel anytime — no lock-in contracts, no hidden fees.
+          Choose the plan that fits where you are. Upgrade, downgrade, or cancel anytime , no lock-in contracts, no hidden fees.
         </p>
       </section>
 
@@ -319,7 +319,7 @@ export default function DesignerPlans() {
               Available on all plans. Earned through product quality verification by the Adorzia team, or by building your collection with Adorzia at a coworking studio.
             </p>
             <p className="text-sm text-stone-400 leading-relaxed max-w-lg mx-auto mt-3">
-              Appears on your profile and every verified product listing — a signal of craft quality that customers trust.
+              Appears on your profile and every verified product listing , a signal of craft quality that customers trust.
             </p>
 
             {/* Visual badge examples */}

@@ -5,7 +5,7 @@ import { fetchPlatformAnalytics, fetchPlatformStats } from "../store/adminSlice"
 const fmt = (n) => "₨ " + Number(n || 0).toLocaleString("en-PK");
 const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const parseMonthLabel = (id) => {
-  if (!id) return "—";
+  if (!id) return ",";
   // Backend returns "YYYY-MM" string
   if (typeof id === "string" && id.includes("-")) {
     const m = parseInt(id.split("-")[1], 10);
