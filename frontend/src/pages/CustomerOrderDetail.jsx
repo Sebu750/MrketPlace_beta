@@ -68,32 +68,34 @@ export default function CustomerOrderDetail() {
       {!isCancelled && (
         <div className="border border-stone-200 p-6">
           <p className="text-[10px] uppercase tracking-[0.2em] text-charcoal-400 mb-5">Order Progress</p>
-          <div className="flex items-center justify-between relative">
-            {/* Progress line */}
-            <div className="absolute top-[10px] left-0 right-0 h-[2px] bg-stone-200" />
-            <div
-              className="absolute top-[10px] left-0 h-[2px] bg-emerald-500 transition-all duration-700"
-              style={{ width: `${currentStatusIdx >= 0 ? (currentStatusIdx / (statusFlow.length - 1)) * 100 : 0}%` }}
-            />
+          <div className="overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar -mx-2 px-2">
+            <div className="flex items-center justify-between relative min-w-[400px]">
+              {/* Progress line */}
+              <div className="absolute top-[10px] left-0 right-0 h-[2px] bg-stone-200" />
+              <div
+                className="absolute top-[10px] left-0 h-[2px] bg-emerald-500 transition-all duration-700"
+                style={{ width: `${currentStatusIdx >= 0 ? (currentStatusIdx / (statusFlow.length - 1)) * 100 : 0}%` }}
+              />
 
-            {statusFlow.map((step, idx) => {
-              const isComplete = idx <= currentStatusIdx;
-              const isCurrent = idx === currentStatusIdx;
-              return (
-                <div key={step} className="relative flex flex-col items-center z-10">
-                  <div className={`w-5 h-5 flex items-center justify-center text-[10px] transition-colors ${
-                    isComplete ? "bg-emerald-500 text-white" : "bg-stone-200 text-charcoal-400"
-                  } ${isCurrent ? "ring-2 ring-emerald-200 ring-offset-2" : ""}`}>
-                    {isComplete ? "✓" : idx + 1}
+              {statusFlow.map((step, idx) => {
+                const isComplete = idx <= currentStatusIdx;
+                const isCurrent = idx === currentStatusIdx;
+                return (
+                  <div key={step} className="relative flex flex-col items-center z-10 snap-start">
+                    <div className={`w-5 h-5 flex items-center justify-center text-[10px] transition-colors ${
+                      isComplete ? "bg-emerald-500 text-white" : "bg-stone-200 text-charcoal-400"
+                    } ${isCurrent ? "ring-2 ring-emerald-200 ring-offset-2" : ""}`}>
+                      {isComplete ? "✓" : idx + 1}
+                    </div>
+                    <p className={`mt-2 text-[9px] uppercase tracking-[0.15em] text-center max-w-[70px] ${
+                      isComplete ? "text-charcoal-700" : "text-charcoal-300"
+                    }`}>
+                      {statusLabels[step]}
+                    </p>
                   </div>
-                  <p className={`mt-2 text-[9px] uppercase tracking-[0.15em] text-center max-w-[70px] ${
-                    isComplete ? "text-charcoal-700" : "text-charcoal-300"
-                  }`}>
-                    {statusLabels[step]}
-                  </p>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
@@ -108,7 +110,7 @@ export default function CustomerOrderDetail() {
             </div>
             <div className="divide-y divide-stone-100">
               {(order.items || []).map((item, i) => (
-                <div key={i} className="px-5 py-4 flex items-center gap-4">
+                <div key={i} className="px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                   {item.image && (
                     <img src={item.image} alt="" className="w-16 h-16 object-cover bg-stone-100 shrink-0" />
                   )}

@@ -79,7 +79,7 @@ export default function CartDrawer() {
 
       {/* ── Drawer ─────────────────────────────────────────────────── */}
       <aside
-        className={`fixed top-0 right-0 bottom-0 z-[999] w-full max-w-[460px] bg-white flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        className={`fixed top-0 right-0 bottom-0 z-[999] w-full max-w-[92vw] sm:max-w-[460px] bg-white flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         aria-hidden={!isOpen}
@@ -94,7 +94,7 @@ export default function CartDrawer() {
           </div>
           <button
             onClick={() => dispatch(closeCart())}
-            className="p-1 text-charcoal-400 hover:text-charcoal-900 transition-colors duration-300"
+            className="p-2.5 sm:p-1 text-charcoal-400 hover:text-charcoal-900 transition-colors duration-300"
             aria-label="Close cart"
           >
             <IconX className="w-5 h-5" />
@@ -199,7 +199,7 @@ export default function CartDrawer() {
                           onClick={() =>
                             dispatch(updateQuantity({ itemId: item.id, quantity: item.quantity - 1 }))
                           }
-                          className="p-1.5 text-charcoal-400 hover:text-charcoal-900 transition-colors"
+                          className="p-2.5 sm:p-1.5 text-charcoal-400 hover:text-charcoal-900 transition-colors"
                           aria-label="Decrease quantity"
                         >
                           <IconMinus className="w-3.5 h-3.5" />
@@ -211,7 +211,7 @@ export default function CartDrawer() {
                           onClick={() =>
                             dispatch(updateQuantity({ itemId: item.id, quantity: item.quantity + 1 }))
                           }
-                          className="p-1.5 text-charcoal-400 hover:text-charcoal-900 transition-colors"
+                          className="p-2.5 sm:p-1.5 text-charcoal-400 hover:text-charcoal-900 transition-colors"
                           aria-label="Increase quantity"
                         >
                           <IconPlus className="w-3.5 h-3.5" />
@@ -228,7 +228,7 @@ export default function CartDrawer() {
                   {/* Remove */}
                   <button
                     onClick={() => dispatch(removeFromCart(item.id))}
-                    className="self-start opacity-0 group-hover:opacity-100 p-1 text-stone-300 hover:text-charcoal-500 transition-all duration-300"
+                    className="self-start p-1.5 sm:p-1 text-stone-400 sm:opacity-0 group-hover:opacity-100 hover:text-charcoal-500 transition-all duration-300"
                     aria-label={`Remove ${item.name} from bag`}
                   >
                     <IconTrash className="w-4 h-4" />
@@ -256,11 +256,11 @@ export default function CartDrawer() {
             </div>
 
             {/* CTAs */}
-            <div className="px-7 pb-7 space-y-2.5">
+            <div className="px-7 pb-7 space-y-2.5 safe-bottom">
               <Link
                 to="/checkout"
                 onClick={() => dispatch(closeCart())}
-                className="w-full flex items-center justify-center gap-2 bg-charcoal-900 text-white py-3.5 text-xs uppercase tracking-[0.18em] hover:bg-charcoal-800 transition-colors duration-500"
+                className="relative overflow-hidden w-full flex items-center justify-center gap-2 bg-charcoal-900 text-white py-3.5 text-xs uppercase tracking-[0.18em] hover:bg-charcoal-800 transition-colors duration-500 btn-shimmer"
               >
                 Proceed to Checkout
                 <IconArrowRight className="w-4 h-4" />
@@ -275,7 +275,7 @@ export default function CartDrawer() {
             </div>
 
             {/* Trust strip */}
-            <div className="px-7 pb-5 flex items-center justify-center gap-5">
+            <div className="px-7 pb-5 safe-bottom flex flex-wrap items-center justify-center gap-3 sm:gap-5">
               {["Secure Checkout", "Free Returns", "Worldwide Delivery"].map((t) => (
                 <span key={t} className="text-[9px] uppercase tracking-[0.2em] text-charcoal-300">{t}</span>
               ))}

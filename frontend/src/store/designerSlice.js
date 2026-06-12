@@ -36,7 +36,7 @@ export const fetchDashboardKPIs = createAsyncThunk(
   "designer/fetchDashboardKPIs",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await API.get("/designer/dashboard");
+      const { data } = await API.get("/designers/dashboard");
       return data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch dashboard");
@@ -48,7 +48,7 @@ export const fetchAnalytics = createAsyncThunk(
   "designer/fetchAnalytics",
   async ({ period = "12m" } = {}, { rejectWithValue }) => {
     try {
-      const { data } = await API.get(`/designer/analytics?period=${period}`);
+      const { data } = await API.get(`/designers/analytics?period=${period}`);
       return data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch analytics");
@@ -60,7 +60,7 @@ export const fetchDesignerProfile = createAsyncThunk(
   "designer/fetchDesignerProfile",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await API.get("/designer/me");
+      const { data } = await API.get("/designers/me");
       return data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch profile");
@@ -72,7 +72,7 @@ export const updateDesignerProfile = createAsyncThunk(
   "designer/updateDesignerProfile",
   async (payload, { rejectWithValue }) => {
     try {
-      const { data } = await API.put("/designer/me", payload);
+      const { data } = await API.put("/designers/profile", payload);
       return data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to update profile");
@@ -103,11 +103,11 @@ const designerSlice = createSlice({
   },
   extraReducers: (b) => {
     b.addCase(fetchDashboardKPIs.pending, (s) => { s.loading = true; })
-     .addCase(fetchDashboardKPIs.fulfilled, (s, a) => { s.loading = false; s.dashboard = a.payload; })
+     .addCase(fetchDashboardKPIs.fulfilled, (s, a) => { s.loading = false; s.dashboard = a.payload.data || a.payload; })
      .addCase(fetchDashboardKPIs.rejected, (s, a) => { s.loading = false; s.error = a.payload; })
-     .addCase(fetchAnalytics.fulfilled, (s, a) => { s.analytics = a.payload; })
-     .addCase(fetchDesignerProfile.fulfilled, (s, a) => { s.profile = a.payload; })
-     .addCase(updateDesignerProfile.fulfilled, (s, a) => { s.profile = a.payload; })
+     .addCase(fetchAnalytics.fulfilled, (s, a) => { s.analytics = a.payload.data || a.payload; })
+     .addCase(fetchDesignerProfile.fulfilled, (s, a) => { s.profile = a.payload.data || a.payload; })
+     .addCase(updateDesignerProfile.fulfilled, (s, a) => { s.profile = a.payload.data || a.payload; })
      /* ── Public designers ── */
      .addCase(fetchPublicDesigners.pending, (s) => { s.public.loading = true; s.public.error = null; })
      .addCase(fetchPublicDesigners.fulfilled, (s, a) => {

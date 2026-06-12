@@ -11,7 +11,7 @@ export const fetchDesignerOrders = createAsyncThunk(
       if (search) params.append("search", search);
       params.append("page", page);
       params.append("limit", limit);
-      const { data } = await API.get(`/orders/designer?${params}`);
+      const { data } = await API.get(`/orders/designer/orders?${params}`);
       return data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch orders");
@@ -35,7 +35,7 @@ export const advanceOrderStatus = createAsyncThunk(
   "orders/advanceOrderStatus",
   async ({ id, status, notes }, { rejectWithValue }) => {
     try {
-      const { data } = await API.post(`/orders/${id}/status`, { status, notes });
+      const { data } = await API.patch(`/orders/${id}/status`, { status, notes });
       return data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to update order");
@@ -47,7 +47,7 @@ export const addTracking = createAsyncThunk(
   "orders/addTracking",
   async ({ id, trackingNumber, carrier, url }, { rejectWithValue }) => {
     try {
-      const { data } = await API.post(`/orders/${id}/tracking`, { trackingNumber, carrier, url });
+      const { data } = await API.patch(`/orders/${id}/tracking`, { trackingNumber, carrier, url });
       return data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to add tracking");
@@ -75,10 +75,11 @@ const ordersSlice = createSlice({
     b.addCase(fetchDesignerOrders.pending, (s) => { s.loading = true; s.error = null; })
      .addCase(fetchDesignerOrders.fulfilled, (s, a) => {
        s.loading = false;
-       s.items = a.payload.orders;
-       s.page = a.payload.page;
-       s.pages = a.payload.pages;
-       s.total = a.payload.total;
+       s.items = a.payload.data || a.payload.orders || [];
+       const pg = a.payload.pagination;
+       s.page = pg?.page || 1;
+       s.pages = pg?.pages || pg?.totalPages || 1;
+       s.total = pg?.total || 0;
      })
      .addCase(fetchDesignerOrders.rejected, (s, a) => { s.loading = false; s.error = a.payload; })
      .addCase(fetchOrder.fulfilled, (s, a) => { s.current = a.payload; })

@@ -54,8 +54,42 @@ export default function AdminProducts() {
           className="px-3 py-1.5 text-sm border border-stone-200 bg-white focus:outline-none focus:border-charcoal-400 w-52" />
       </div>
 
-      {/* ── Table ───────────────────────────────────────── */}
-      <div className="bg-white border border-stone-200 overflow-hidden">
+      {/* ── Mobile card view ────────────────────────────── */}
+      <div className="sm:hidden space-y-3">
+        {loading && items.length === 0 ? (
+          <div className="bg-white border border-stone-200 p-8 text-center text-charcoal-400">Loading products…</div>
+        ) : items.length === 0 ? (
+          <div className="bg-white border border-stone-200 p-8 text-center text-charcoal-400">No products found</div>
+        ) : items.map((p) => (
+          <div key={p._id} className="border border-stone-200 bg-white p-4 space-y-2">
+            <div className="flex items-start gap-3">
+              {p.images?.[0] ? (
+                <img src={p.images[0]} alt="" className="w-12 h-14 object-cover border border-stone-100 shrink-0" />
+              ) : (
+                <div className="w-12 h-14 bg-stone-100 flex items-center justify-center text-stone-400 text-[10px] shrink-0">IMG</div>
+              )}
+              <div className="flex-1 min-w-0">
+                <p className="text-[13px] text-charcoal-800 font-medium truncate">{p.name}</p>
+                <p className="text-[11px] text-charcoal-400">{p.designer?.brandName || p.designer?.name || ","}</p>
+              </div>
+              <span className={`shrink-0 px-2 py-0.5 text-[10px] uppercase tracking-wider border ${statusColors[p.status] || statusColors.draft}`}>
+                {p.status || "draft"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-charcoal-500">{p.category || ","}</span>
+              <span className="text-charcoal-900 font-medium">{fmt(p.price)}</span>
+            </div>
+            <div className="flex items-center justify-between text-xs pt-2 border-t border-stone-100">
+              <span className="text-charcoal-400">Stock: {p.stock ?? ","}</span>
+              <span className={p.featured ? "text-amber-600" : "text-stone-300"}>{p.featured ? "★ Featured" : "☆ Not featured"}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Desktop table ───────────────────────────────── */}
+      <div className="hidden sm:block bg-white border border-stone-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>

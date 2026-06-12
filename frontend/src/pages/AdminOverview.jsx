@@ -124,7 +124,35 @@ export default function AdminOverview() {
           <h2 className="text-sm font-medium text-charcoal-900">Recent Orders</h2>
           <span className="text-[10px] uppercase tracking-[0.2em] text-charcoal-400">Latest 8</span>
         </div>
-        <div className="overflow-x-auto">
+
+        {/* Mobile card view */}
+        <div className="sm:hidden divide-y divide-stone-100">
+          {recentOrders.length === 0 ? (
+            <div className="px-6 py-8 text-center text-sm text-charcoal-400">No orders yet</div>
+          ) : (
+            recentOrders.map((order) => (
+              <div key={order._id} className="px-5 py-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono text-charcoal-900">{order.orderNumber}</span>
+                  <span className={`text-[10px] px-2 py-0.5 ${statusColor[order.status] || ""}`}>
+                    {statusLabel[order.status] || order.status}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-xs text-charcoal-500">
+                  <span>{order.customer?.name || "Customer"}</span>
+                  <span className="font-medium text-charcoal-900">{fmt(order.financial?.subtotal || 0)}</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-charcoal-400">
+                  <span>{order.designer?.brandName || order.designer?.name || "Designer"}</span>
+                  <span>{new Date(order.createdAt).toLocaleDateString()}</span>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Desktop table */}
+        <div className="hidden sm:block overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-stone-100">

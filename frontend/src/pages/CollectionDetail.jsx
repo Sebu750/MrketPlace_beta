@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCollectionBySlug } from "../store/collectionsSlice";
+import { Spinner } from "../components/Skeleton";
 
 /* ════════════════════════════════════════════════════════════════
    COMPONENT
@@ -36,7 +37,7 @@ export default function CollectionDetail() {
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center bg-white">
-        <p className="font-serif text-xl text-charcoal-400 font-light">Loading collection…</p>
+        <Spinner />
       </div>
     );
   }
@@ -138,8 +139,9 @@ export default function CollectionDetail() {
                     <div className={`${i === 0 ? "aspect-[3/4] md:col-span-2 md:row-span-2" : "aspect-[3/4]"}`}>
                       <img
                         src={src}
-                        alt={`${c.name} , Look ${i + 1}`}
-                        className="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.02]"
+                        alt={`${c.name} - Look ${i + 1}`}
+                        className="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.04]"
+                        loading="lazy" decoding="async"
                       />
                     </div>
                     <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-charcoal-950/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -201,7 +203,8 @@ export default function CollectionDetail() {
                           <img
                             src={img}
                             alt={p.name}
-                            className="absolute inset-0 w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]"
+                            className="absolute inset-0 w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.05]"
+                            loading="lazy" decoding="async"
                           />
                         ) : (
                           <div className="absolute inset-0 bg-gradient-to-br from-ivory-50 to-stone-100 flex items-center justify-center">

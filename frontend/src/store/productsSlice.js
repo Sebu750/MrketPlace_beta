@@ -48,7 +48,7 @@ export const fetchMyProducts = createAsyncThunk(
       if (collection) params.append("collection", collection);
       params.append("page", page);
       params.append("limit", limit);
-      const { data } = await API.get(`/products/my?${params}`);
+      const { data } = await API.get(`/products/designer/products?${params}`);
       return data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch products");
@@ -108,7 +108,7 @@ export const toggleProductStatus = createAsyncThunk(
   "products/toggleProductStatus",
   async (id, { rejectWithValue }) => {
     try {
-      const { data } = await API.post(`/products/${id}/toggle`);
+      const { data } = await API.patch(`/products/${id}/status`);
       return data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to toggle status");
@@ -144,10 +144,11 @@ const productsSlice = createSlice({
     b.addCase(fetchMyProducts.pending, (s) => { s.loading = true; s.error = null; })
      .addCase(fetchMyProducts.fulfilled, (s, a) => {
        s.loading = false;
-       s.items = a.payload.products;
-       s.page = a.payload.page;
-       s.pages = a.payload.pages;
-       s.total = a.payload.total;
+       s.items = a.payload.data || a.payload.products || [];
+       const pg = a.payload.pagination;
+       s.page = pg?.page || 1;
+       s.pages = pg?.pages || pg?.totalPages || 1;
+       s.total = pg?.total || 0;
      })
      .addCase(fetchMyProducts.rejected, (s, a) => { s.loading = false; s.error = a.payload; })
      .addCase(fetchMyProductBySlug.fulfilled, (s, a) => { s.current = a.payload; })

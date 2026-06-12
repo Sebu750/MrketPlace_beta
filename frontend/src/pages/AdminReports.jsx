@@ -38,7 +38,8 @@ export default function AdminReports() {
         <h2 className="font-serif text-lg text-charcoal-800 mb-1">Monthly Revenue</h2>
         <p className="text-[11px] text-charcoal-400 mb-5">Last 12 months platform performance</p>
         <div className="bg-white border border-stone-200 p-6">
-          <div className="flex items-end gap-2 h-48">
+          <div className="overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar -mx-2 px-2">
+            <div className="flex items-end gap-2 h-48 min-w-[500px]">
             {monthly.length > 0 ? monthly.map((m, i) => {
               const pct = ((m.revenue || 0) / maxRev) * 100;
               return (
@@ -59,6 +60,7 @@ export default function AdminReports() {
                 No revenue data available
               </div>
             )}
+          </div>
           </div>
         </div>
       </section>

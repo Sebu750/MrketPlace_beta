@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCraftDetail, clearCraftDetail } from "../store/craftsSlice";
+import { Spinner } from "../components/Skeleton";
 
 /* ════════════════════════════════════════════════════════════════
    CRAFT DETAIL — real data from API
@@ -20,10 +21,7 @@ export default function CraftDetail() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center pt-28">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-bronze-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-xs text-charcoal-300 mt-4 uppercase tracking-wider">Loading craft heritage...</p>
-        </div>
+        <Spinner />
       </div>
     );
   }
@@ -142,13 +140,14 @@ export default function CraftDetail() {
               {products.map((p) => {
                 const img = p.images?.[0]?.url;
                 return (
-                  <Link key={p._id} to={`/pieces/${p._id}`} className="group cursor-pointer block">
+                  <Link key={p._id} to={`/pieces/${p._id}`} className="group cursor-pointer block hover-lift">
                     <div className="relative aspect-[3/4] overflow-hidden bg-white">
                       {img ? (
                         <img
                           src={img}
                           alt={p.name}
-                          className="absolute inset-0 w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]"
+                          loading="lazy" decoding="async"
+                          className="absolute inset-0 w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.05]"
                         />
                       ) : (
                         <div className="absolute inset-0 bg-gradient-to-br from-stone-100 to-stone-50 flex items-center justify-center">
@@ -191,13 +190,14 @@ export default function CraftDetail() {
             <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-medium mb-12">Collections</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {collections.map((c) => (
-                <Link key={c._id} to={`/collections/${c.slug}`} className="group block">
+                <Link key={c._id} to={`/collections/${c.slug}`} className="group block hover-lift">
                   <div className="relative aspect-[4/5] overflow-hidden">
                     {c.coverImage ? (
                       <img
                         src={c.coverImage}
                         alt={c.name}
-                        className="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]"
+                        loading="lazy" decoding="async"
+                        className="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.05]"
                       />
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-br from-charcoal-200 to-charcoal-100 flex items-center justify-center">

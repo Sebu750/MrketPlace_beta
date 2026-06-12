@@ -58,8 +58,37 @@ export default function AdminUsers() {
       {/* Count */}
       <p className="text-xs text-charcoal-400">{pagination.total || items.length} users found</p>
 
-      {/* Table */}
-      <div className="border border-stone-200 bg-white overflow-x-auto">
+      {/* Mobile card view */}
+      <div className="sm:hidden space-y-3">
+        {items.length === 0 ? (
+          <div className="bg-white border border-stone-200 p-8 text-center text-sm text-charcoal-400">
+            {loading ? "Loading..." : "No users found"}
+          </div>
+        ) : items.map((u) => (
+          <div key={u._id} className="border border-stone-200 bg-white p-4 space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-charcoal-900">{u.name}</p>
+              <span className={`text-[10px] px-2 py-0.5 uppercase tracking-wider ${roleColors[u.role] || ""}`}>{u.role}</span>
+            </div>
+            <p className="text-xs text-charcoal-400 font-mono">{u.email}</p>
+            <p className="text-xs text-charcoal-400">Joined {new Date(u.createdAt).toLocaleDateString()}</p>
+            {u.role !== "admin" && (
+              <div className="flex items-center gap-2 pt-2 border-t border-stone-100">
+                <select value={u.role} onChange={(e) => handleRoleChange(u._id, e.target.value)}
+                  className="text-xs border border-stone-200 px-2 py-1.5 focus:outline-none flex-1">
+                  <option value="buyer">Buyer</option>
+                  <option value="seller">Seller</option>
+                </select>
+                <button onClick={() => handleDelete(u._id)}
+                  className="text-xs text-red-500 hover:text-red-700 transition-colors px-3 py-1.5 border border-red-200">Delete</button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden sm:block border border-stone-200 bg-white overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-stone-100">

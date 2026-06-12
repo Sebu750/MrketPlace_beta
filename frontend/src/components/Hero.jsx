@@ -99,7 +99,7 @@ export default function Hero() {
 
           {/* CTAs */}
           <div
-            className="mt-10 flex items-center gap-8 opacity-0 animate-drift-up"
+            className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 opacity-0 animate-drift-up"
             style={{ animationDelay: "1.8s" }}
           >
             <Link to="/shop" className="btn-primary btn-shimmer">
@@ -112,7 +112,7 @@ export default function Hero() {
 
           {/* Quick stats */}
           <div
-            className="mt-16 flex items-center gap-10 opacity-0 animate-fade-in"
+            className="mt-12 sm:mt-16 flex flex-wrap items-center gap-6 sm:gap-10 opacity-0 animate-fade-in"
             style={{ animationDelay: "2.1s" }}
           >
             {[

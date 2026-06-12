@@ -42,7 +42,43 @@ export default function AdminCollections() {
         ))}
       </div>
 
-      <div className="border border-stone-200 bg-white overflow-x-auto">
+      {/* Mobile card view */}
+      <div className="sm:hidden space-y-3">
+        {items.length === 0 ? (
+          <div className="bg-white border border-stone-200 p-8 text-center text-sm text-charcoal-400">{loading ? "Loading..." : "No collections found"}</div>
+        ) : items.map((c) => (
+          <div key={c._id} className="border border-stone-200 bg-white p-4 space-y-2">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-sm text-charcoal-900 font-medium">{c.name}</p>
+                <p className="text-[10px] text-charcoal-400">{c.category || ","}</p>
+              </div>
+              <span className={`text-[10px] px-2 py-0.5 ${statusColor[c.status] || ""}`}>{c.status}</span>
+            </div>
+            <div className="flex items-center gap-3 text-xs text-charcoal-500">
+              <span>{c.designer?.brandName || c.designer?.name || ","}</span>
+              <span>{c.season || ","}</span>
+              <span>{c.productCount || 0} products</span>
+            </div>
+            <div className="flex items-center gap-2 pt-2 border-t border-stone-100">
+              <button onClick={() => toggleFeatured(c._id, c.featured)}
+                className={`text-[10px] px-2.5 py-1.5 transition-colors flex-1 ${c.featured ? "bg-amber-50 text-amber-700" : "bg-stone-100 text-charcoal-400"}`}>
+                {c.featured ? "Featured" : "Not Featured"}
+              </button>
+              <select value={c.status} onChange={(e) => updateStatus(c._id, e.target.value)}
+                className="text-xs border border-stone-200 px-2 py-1.5 focus:outline-none flex-1">
+                <option value="draft">Draft</option>
+                <option value="in_review">In Review</option>
+                <option value="published">Published</option>
+                <option value="archived">Archived</option>
+              </select>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden sm:block border border-stone-200 bg-white overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-stone-100">

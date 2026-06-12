@@ -36,10 +36,10 @@ export default function AdminOrders() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <div className="flex flex-wrap gap-1 border border-stone-200 bg-white">
+        <div className="flex gap-1 overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar border border-stone-200 bg-white">
           {tabs.map((t) => (
             <button key={t} onClick={() => setTab(t)}
-              className={`px-3 py-2 text-[11px] uppercase tracking-wider transition-colors ${
+              className={`shrink-0 snap-start px-3 py-2 text-[11px] uppercase tracking-wider transition-colors ${
                 tab === t ? "bg-charcoal-900 text-white" : "text-charcoal-500 hover:bg-stone-50"
               }`}>{t}</button>
           ))}
@@ -51,7 +51,64 @@ export default function AdminOrders() {
         </div>
       </div>
 
-      <div className="border border-stone-200 bg-white overflow-x-auto">
+      {/* Mobile card view */}
+      <div className="sm:hidden space-y-3">
+        {items.length === 0 ? (
+          <div className="bg-white border border-stone-200 p-8 text-center text-sm text-charcoal-400">{loading ? "Loading..." : "No orders found"}</div>
+        ) : items.map((o) => (
+          <div key={o._id} className="border border-stone-200 bg-white">
+            <div className="p-4 space-y-2 cursor-pointer" onClick={() => setExpandedId(expandedId === o._id ? null : o._id)}>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-charcoal-900 font-mono">{o.orderNumber}</span>
+                <span className={`text-[10px] px-2 py-0.5 ${statusColor[o.status] || ""}`}>{statusLabel[o.status] || o.status}</span>
+              </div>
+              <div className="flex items-center justify-between text-xs text-charcoal-500">
+                <span>{o.customer?.name || ","}</span>
+                <span>{new Date(o.createdAt).toLocaleDateString()}</span>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-charcoal-500">{o.items?.length || 0} items</span>
+                <span className="text-charcoal-900 font-medium">{fmt(o.financial?.subtotal)}</span>
+              </div>
+              <div className="flex items-center justify-between text-[10px] text-charcoal-400">
+                <span>{o.designer?.brandName || o.designer?.name || ","}</span>
+                <span>{expandedId === o._id ? "▲" : "▼"}</span>
+              </div>
+            </div>
+            {expandedId === o._id && (
+              <div className="px-4 pb-4 pt-2 border-t border-stone-100 space-y-3">
+                <div>
+                  <p className="text-[10px] uppercase tracking-wider text-charcoal-400 mb-1">Shipping</p>
+                  <p className="text-xs text-charcoal-700">{o.shipping?.address}, {o.shipping?.city}</p>
+                  <p className="text-xs text-charcoal-500">{o.shipping?.method || "Standard"}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-wider text-charcoal-400 mb-1">Items</p>
+                  {o.items?.map((item, i) => (
+                    <p key={i} className="text-xs text-charcoal-700">{item.name} x {item.quantity} - {item.price}</p>
+                  ))}
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-wider text-charcoal-400 mb-1">Commission</p>
+                  <p className="text-xs text-charcoal-500">{fmt(o.financial?.commission)}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-wider text-charcoal-400 mb-1">Update Status</p>
+                  <select value={o.status} onChange={(e) => handleStatusChange(o._id, e.target.value)}
+                    className="text-xs border border-stone-200 px-3 py-1.5 focus:outline-none w-full">
+                    {Object.entries(statusLabel).map(([k, v]) => (
+                      <option key={k} value={k}>{v}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden sm:block border border-stone-200 bg-white overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-stone-100">

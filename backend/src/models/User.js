@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema(
       enum: ["buyer", "seller", "admin"],
       default: "buyer",
     },
+    phone: { type: String, trim: true },
   },
   { timestamps: true }
 );

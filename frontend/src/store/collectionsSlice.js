@@ -28,8 +28,8 @@ export const fetchMyCollections = createAsyncThunk(
   "collections/fetchMyCollections",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await API.get("/collections/my");
-      return data;
+      const { data } = await API.get("/collections/designer/collections");
+      return data.data || data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch collections");
     }

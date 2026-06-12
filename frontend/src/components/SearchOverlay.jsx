@@ -103,10 +103,10 @@ export default function SearchOverlay({ open, onClose }) {
   const showEmpty = debounced.length >= 2 && !loading && !hasResults;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-white/97 backdrop-blur-xl flex flex-col">
+    <div className="fixed inset-0 z-[100] bg-white/97 backdrop-blur-xl flex flex-col pt-[var(--sat)]">
       {/* ── Top bar ──────────────────────────────────────────────────── */}
       <div className="w-full border-b border-stone-200">
-        <div className="max-w-5xl mx-auto px-6 py-5 flex items-center gap-5">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 sm:py-5 flex items-center gap-3 sm:gap-5">
           <IconSearch className="w-5 h-5 text-charcoal-400 shrink-0" />
           <input
             ref={inputRef}
@@ -122,7 +122,7 @@ export default function SearchOverlay({ open, onClose }) {
           )}
           <button
             onClick={onClose}
-            className="p-2 text-charcoal-400 hover:text-charcoal-900 transition-colors duration-300"
+            className="p-2.5 sm:p-2 text-charcoal-400 hover:text-charcoal-900 transition-colors duration-300"
             aria-label="Close search"
           >
             <IconX className="w-5 h-5" />
@@ -133,7 +133,8 @@ export default function SearchOverlay({ open, onClose }) {
       {/* ── Tabs ────────────────────────────────────────────────────── */}
       {debounced.length >= 2 && (
         <div className="w-full border-b border-stone-100">
-          <div className="max-w-5xl mx-auto px-6 flex gap-6">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6">
+            <div className="flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar">
             {TABS.map((tab) => {
               const count = tab === "Products" ? products.length : tab === "Collections" ? collections.length : tab === "Designers" ? designers.length : products.length + collections.length + designers.length;
               return (
@@ -150,13 +151,14 @@ export default function SearchOverlay({ open, onClose }) {
                 </button>
               );
             })}
+            </div>
           </div>
         </div>
       )}
 
       {/* ── Content ──────────────────────────────────────────────────── */}
       <div className="flex-1 overflow-y-auto">
-        <div className="max-w-5xl mx-auto px-6 py-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
           {/* Before search — suggestions */}
           {debounced.length < 2 && (

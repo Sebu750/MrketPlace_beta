@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCrafts } from "../store/craftsSlice";
+import { Spinner } from "../components/Skeleton";
 
 /* ════════════════════════════════════════════════════════════════
    CRAFTS ARCHIVE — Pakistan's living craft heritage, real data
@@ -65,10 +66,7 @@ export default function CraftsArchive() {
 
           {/* Loading state */}
           {loading && (
-            <div className="text-center py-20">
-              <div className="w-8 h-8 border-2 border-bronze-400 border-t-transparent rounded-full animate-spin mx-auto" />
-              <p className="text-xs text-charcoal-300 mt-4 uppercase tracking-wider">Loading craft archive...</p>
-            </div>
+            <Spinner />
           )}
 
           {/* Empty state */}
@@ -94,13 +92,14 @@ export default function CraftsArchive() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {crafts.map((craft) => (
-                  <Link key={craft.slug || craft._id} to={`/crafts/${craft.slug}`} className="group block">
+                  <Link key={craft.slug || craft._id} to={`/crafts/${craft.slug}`} className="group block hover-lift">
                     <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
                       {craft.coverImage ? (
                         <img
                           src={craft.coverImage}
                           alt={craft.name}
-                          className="absolute inset-0 w-full h-full object-cover opacity-70 transition-all duration-700 group-hover:opacity-90 group-hover:scale-[1.03]"
+                          loading="lazy" decoding="async"
+                          className="absolute inset-0 w-full h-full object-cover opacity-70 transition-all duration-700 group-hover:opacity-90 group-hover:scale-[1.06]"
                         />
                       ) : (
                         <div className="absolute inset-0 bg-gradient-to-br from-stone-200 to-stone-100 flex items-center justify-center">

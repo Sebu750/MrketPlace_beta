@@ -57,8 +57,41 @@ export default function AdminPayouts() {
         ))}
       </div>
 
-      {/* Table */}
-      <div className="border border-stone-200 bg-white overflow-x-auto">
+      {/* Mobile card view */}
+      <div className="sm:hidden space-y-3">
+        {items.length === 0 ? (
+          <div className="bg-white border border-stone-200 p-8 text-center text-sm text-charcoal-400">{loading ? "Loading..." : "No payouts found"}</div>
+        ) : items.map((p) => (
+          <div key={p._id} className="border border-stone-200 bg-white p-4 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-charcoal-900 font-mono">{p.reference}</span>
+              <span className={`text-[10px] px-2 py-0.5 ${statusColor[p.status] || ""}`}>{p.status}</span>
+            </div>
+            <p className="text-sm text-charcoal-700">{p.designer?.brandName || p.designer?.name || ","}</p>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-charcoal-900 font-medium">{fmt(p.amount)}</span>
+              <span className="text-charcoal-500">Commission: {fmt(p.commission)}</span>
+            </div>
+            <p className="text-[10px] text-charcoal-400">
+              {new Date(p.periodStart).toLocaleDateString()} – {new Date(p.periodEnd).toLocaleDateString()}
+            </p>
+            {p.processedAt && (
+              <p className="text-[10px] text-charcoal-400">Processed: {new Date(p.processedAt).toLocaleDateString()}</p>
+            )}
+            {p.status === "pending" && (
+              <div className="pt-2 border-t border-stone-100">
+                <button onClick={() => handleProcess(p._id)}
+                  className="w-full text-xs bg-emerald-600 text-white px-3 py-2 hover:bg-emerald-700 transition-colors">
+                  Process Payout
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden sm:block border border-stone-200 bg-white overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-stone-100">

@@ -45,12 +45,12 @@ export default function CustomerOrders() {
   return (
     <div className="space-y-6">
       {/* ── Status tabs ─────────────────────────────────────── */}
-      <div className="flex flex-wrap items-center gap-1 border-b border-stone-200 pb-4">
+      <div className="flex items-center gap-1 overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar -mx-2 px-2 border-b border-stone-200 pb-4">
         {statusTabs.map((tab) => (
           <button
             key={tab.value}
             onClick={() => { setStatus(tab.value); setPage(1); }}
-            className={`px-4 py-2 text-[12px] tracking-wide transition-colors ${
+            className={`shrink-0 snap-start px-4 py-2 text-[12px] tracking-wide transition-colors ${
               status === tab.value
                 ? "bg-charcoal-900 text-white"
                 : "text-charcoal-500 hover:text-charcoal-900 hover:bg-stone-100"

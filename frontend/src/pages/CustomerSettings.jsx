@@ -83,12 +83,12 @@ export default function CustomerSettings() {
   return (
     <div className="space-y-6 max-w-2xl">
       {/* ── Tabs ────────────────────────────────────────────── */}
-      <div className="flex items-center gap-1 border-b border-stone-200 pb-4">
+      <div className="flex items-center gap-1 border-b border-stone-200 pb-4 overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar">
         {tabs.map((t) => (
           <button
             key={t.id}
             onClick={() => { setTab(t.id); setMessage(""); }}
-            className={`px-4 py-2 text-[12px] tracking-wide transition-colors ${
+            className={`shrink-0 snap-start px-4 py-2.5 text-[12px] tracking-wide transition-colors ${
               tab === t.id
                 ? "bg-charcoal-900 text-white"
                 : "text-charcoal-500 hover:text-charcoal-900 hover:bg-stone-100"
@@ -147,7 +147,7 @@ export default function CustomerSettings() {
           <button
             onClick={handleSaveProfile}
             disabled={saving}
-            className="px-6 py-2.5 text-[11px] uppercase tracking-[0.2em] bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors disabled:opacity-50"
+            className="w-full sm:w-auto px-6 py-2.5 text-[11px] uppercase tracking-[0.2em] bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors disabled:opacity-50"
           >
             {saving ? "Saving…" : "Save Changes"}
           </button>
@@ -194,7 +194,7 @@ export default function CustomerSettings() {
           <button
             onClick={handleChangePassword}
             disabled={saving || !passwords.current || !passwords.newPass || !passwords.confirm}
-            className="px-6 py-2.5 text-[11px] uppercase tracking-[0.2em] bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors disabled:opacity-50"
+            className="w-full sm:w-auto px-6 py-2.5 text-[11px] uppercase tracking-[0.2em] bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors disabled:opacity-50"
           >
             {saving ? "Changing…" : "Change Password"}
           </button>
@@ -232,7 +232,7 @@ export default function CustomerSettings() {
             <p className="text-[10px] uppercase tracking-[0.2em] text-charcoal-400 mb-3">Session</p>
             <button
               onClick={handleLogout}
-              className="px-5 py-2.5 text-[11px] uppercase tracking-[0.2em] border border-stone-300 text-charcoal-600 hover:text-charcoal-900 hover:border-charcoal-400 transition-colors"
+              className="w-full sm:w-auto px-5 py-2.5 text-[11px] uppercase tracking-[0.2em] border border-stone-300 text-charcoal-600 hover:text-charcoal-900 hover:border-charcoal-400 transition-colors"
             >
               Sign Out
             </button>
@@ -248,7 +248,7 @@ export default function CustomerSettings() {
               </p>
               <button
                 onClick={handleDeleteAccount}
-                className="px-5 py-2 text-[11px] uppercase tracking-[0.2em] border border-red-300 text-red-600 hover:bg-red-50 transition-colors"
+                className="w-full sm:w-auto px-5 py-2.5 text-[11px] uppercase tracking-[0.2em] border border-red-300 text-red-600 hover:bg-red-50 transition-colors"
               >
                 Delete My Account
               </button>

@@ -167,7 +167,7 @@ export default function Layout() {
             >
               <IconBag className="w-[18px] h-[18px]" />
               {cartCount > 0 && (
-                <span className="absolute -top-1.5 -right-2 min-w-[16px] h-4 flex items-center justify-center bg-charcoal-900 text-white text-[9px] font-medium px-1 tabular-nums">
+                <span key={cartCount} className="absolute -top-1.5 -right-2 min-w-[16px] h-4 flex items-center justify-center bg-charcoal-900 text-white text-[9px] font-medium px-1 tabular-nums badge-bounce">
                   {cartCount}
                 </span>
               )}

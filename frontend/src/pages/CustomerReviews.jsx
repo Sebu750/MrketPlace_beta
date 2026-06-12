@@ -68,7 +68,7 @@ export default function CustomerReviews() {
 
               return (
                 <div key={key} className="border border-stone-200">
-                  <div className="px-5 py-4 flex items-center gap-4">
+                  <div className="px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                     {item.image && (
                       <img src={item.image} alt="" className="w-14 h-14 object-cover bg-stone-100 shrink-0" />
                     )}
@@ -78,13 +78,13 @@ export default function CustomerReviews() {
                         {order.orderNumber} · Delivered {new Date(order.updatedAt || order.createdAt).toLocaleDateString("en-PK", { month: "short", day: "numeric" })}
                       </p>
                     </div>
-                    <div className="shrink-0">
+                    <div className="shrink-0 w-full sm:w-auto">
                       {isSubmitted ? (
-                        <span className="text-[10px] uppercase tracking-[0.15em] bg-emerald-50 text-emerald-700 px-2.5 py-1">Review Submitted</span>
+                        <span className="block text-center text-[10px] uppercase tracking-[0.15em] bg-emerald-50 text-emerald-700 px-2.5 py-1">Review Submitted</span>
                       ) : (
                         <button
                           onClick={() => isReviewing ? setReviewing(null) : setReviewing(key)}
-                          className="px-4 py-2 text-[10px] uppercase tracking-[0.15em] border border-stone-300 text-charcoal-500 hover:text-charcoal-900 hover:border-charcoal-400 transition-colors"
+                          className="w-full sm:w-auto px-4 py-2.5 text-[10px] uppercase tracking-[0.15em] border border-stone-300 text-charcoal-500 hover:text-charcoal-900 hover:border-charcoal-400 transition-colors"
                         >
                           {isReviewing ? "Cancel" : "Write Review"}
                         </button>

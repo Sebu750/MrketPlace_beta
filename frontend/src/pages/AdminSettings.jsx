@@ -26,7 +26,7 @@ export default function AdminSettings() {
             { label: "Environment", value: import.meta.env.MODE || "development" },
             { label: "API Base", value: import.meta.env.VITE_API_URL || "/api" },
           ].map((row) => (
-            <div key={row.label} className="flex items-center justify-between px-5 py-4 border-b border-stone-50 last:border-0">
+            <div key={row.label} className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-5 py-4 border-b border-stone-50 last:border-0 gap-1">
               <span className="text-[12px] text-charcoal-500">{row.label}</span>
               <span className="text-[13px] text-charcoal-800 font-medium">{row.value}</span>
             </div>
@@ -45,7 +45,7 @@ export default function AdminSettings() {
             { label: "Payout Currency", value: "PKR (₨)", desc: "Pakistani Rupee" },
             { label: "Payout Cycle", value: "Monthly", desc: "Payouts processed end of month" },
           ].map((row) => (
-            <div key={row.label} className="flex items-center justify-between px-5 py-4 border-b border-stone-50 last:border-0">
+            <div key={row.label} className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-5 py-4 border-b border-stone-50 last:border-0 gap-2">
               <div>
                 <span className="text-[12px] text-charcoal-700 block">{row.label}</span>
                 <span className="text-[10px] text-charcoal-400">{row.desc}</span>
@@ -132,11 +132,11 @@ export default function AdminSettings() {
       <section>
         <h2 className="font-serif text-lg text-red-600 mb-1">Danger Zone</h2>
         <p className="text-[11px] text-charcoal-400 mb-5">Irreversible actions</p>
-        <div className="bg-white border border-red-200 p-5 flex flex-wrap gap-3">
-          <button className="px-4 py-2 text-[11px] uppercase tracking-wider text-red-600 border border-red-200 hover:bg-red-50 transition-colors">
+        <div className="bg-white border border-red-200 p-5 flex flex-col sm:flex-row flex-wrap gap-3">
+          <button className="w-full sm:w-auto px-4 py-2.5 text-[11px] uppercase tracking-wider text-red-600 border border-red-200 hover:bg-red-50 transition-colors">
             Clear Cache
           </button>
-          <button className="px-4 py-2 text-[11px] uppercase tracking-wider text-red-600 border border-red-200 hover:bg-red-50 transition-colors">
+          <button className="w-full sm:w-auto px-4 py-2.5 text-[11px] uppercase tracking-wider text-red-600 border border-red-200 hover:bg-red-50 transition-colors">
             Rebuild Search Index
           </button>
         </div>

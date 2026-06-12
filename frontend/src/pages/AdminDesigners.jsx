@@ -53,7 +53,43 @@ export default function AdminDesigners() {
         </div>
       </div>
 
-      <div className="border border-stone-200 bg-white overflow-x-auto">
+      {/* Mobile card view */}
+      <div className="sm:hidden space-y-3">
+        {items.length === 0 ? (
+          <div className="bg-white border border-stone-200 p-8 text-center text-sm text-charcoal-400">{loading ? "Loading..." : "No designers found"}</div>
+        ) : items.map((d) => (
+          <div key={d._id} className="border border-stone-200 bg-white p-4 space-y-2">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-sm text-charcoal-900 font-medium">{d.brandName || d.name}</p>
+                <p className="text-[10px] text-charcoal-400">{d.studioCity || ","}</p>
+              </div>
+              <button onClick={() => toggleVerified(d._id, d.verified)}
+                className={`text-[10px] px-2.5 py-1 transition-colors ${d.verified ? "bg-emerald-50 text-emerald-700" : "bg-stone-100 text-charcoal-400"}`}>
+                {d.verified ? "Verified" : "Unverified"}
+              </button>
+            </div>
+            <p className="text-xs text-charcoal-500 font-mono">{d.email}</p>
+            <div className="flex items-center gap-3 text-xs text-charcoal-500">
+              <span>{d.category || ","}</span>
+              <span>{d.productCount || 0} products</span>
+              <span>{d.orderCount || 0} orders</span>
+            </div>
+            <div className="flex items-center gap-2 pt-2 border-t border-stone-100">
+              <select value={d.plan || "free"} onChange={(e) => changePlan(d._id, e.target.value)}
+                className={`text-[10px] px-2 py-1.5 border-0 flex-1 ${planColors[d.plan] || planColors.free}`}>
+                <option value="free">Free</option>
+                <option value="pro">Pro</option>
+                <option value="enterprise">Enterprise</option>
+              </select>
+              <button onClick={() => handleDelete(d._id)} className="text-xs text-red-500 hover:text-red-700 transition-colors px-3 py-1.5 border border-red-200">Delete</button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden sm:block border border-stone-200 bg-white overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-stone-100">

@@ -102,21 +102,21 @@ export default function Login() {
           <div className="space-y-2 text-sm">
             <button
               onClick={() => { setEmail("customer@demo.com"); setPassword("password123"); }}
-              className="w-full text-left px-4 py-2 border border-stone-100 hover:border-stone-300 transition-colors"
+              className="w-full text-left px-4 py-3 border border-stone-100 hover:border-stone-300 transition-colors"
             >
               <span className="text-charcoal-900">Customer</span>
               <span className="text-charcoal-300 ml-2">customer@demo.com</span>
             </button>
             <button
               onClick={() => { setEmail("designer@demo.com"); setPassword("password123"); }}
-              className="w-full text-left px-4 py-2 border border-stone-100 hover:border-stone-300 transition-colors"
+              className="w-full text-left px-4 py-3 border border-stone-100 hover:border-stone-300 transition-colors"
             >
               <span className="text-charcoal-900">Designer</span>
               <span className="text-charcoal-300 ml-2">designer@demo.com</span>
             </button>
             <button
               onClick={() => { setEmail("admin@adorzia.com"); setPassword("password123"); }}
-              className="w-full text-left px-4 py-2 border border-stone-100 hover:border-stone-300 transition-colors"
+              className="w-full text-left px-4 py-3 border border-stone-100 hover:border-stone-300 transition-colors"
             >
               <span className="text-charcoal-900">Admin</span>
               <span className="text-charcoal-300 ml-2">admin@adorzia.com</span>

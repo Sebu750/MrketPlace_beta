@@ -87,11 +87,11 @@ export default function DesignerOrderDetail() {
             </div>
             <p className="text-sm text-charcoal-400 mt-1">Placed on {orderDate} at {orderTime}</p>
           </div>
-          <div className="flex items-center gap-2">
-            <button className="flex items-center gap-1.5 px-4 py-2 text-[10px] uppercase tracking-[0.15em] text-charcoal-600 border border-stone-200 hover:border-charcoal-300 transition-colors">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+            <button className="flex items-center gap-1.5 px-4 py-2.5 text-[10px] uppercase tracking-[0.15em] text-charcoal-600 border border-stone-200 hover:border-charcoal-300 transition-colors w-full sm:w-auto justify-center">
               <IconPrinter className="w-3.5 h-3.5" /> Packing Slip
             </button>
-            <button className="flex items-center gap-1.5 px-4 py-2 text-[10px] uppercase tracking-[0.15em] text-charcoal-600 border border-stone-200 hover:border-charcoal-300 transition-colors">
+            <button className="flex items-center gap-1.5 px-4 py-2.5 text-[10px] uppercase tracking-[0.15em] text-charcoal-600 border border-stone-200 hover:border-charcoal-300 transition-colors w-full sm:w-auto justify-center">
               <IconDownload className="w-3.5 h-3.5" /> Invoice
             </button>
           </div>
@@ -101,9 +101,10 @@ export default function DesignerOrderDetail() {
       {/* ── Status Workflow Stepper ─────────────────────────────── */}
       <div className="bg-white border border-stone-200 p-6">
         <p className="text-[10px] uppercase tracking-[0.25em] text-charcoal-400 mb-4">Order Progress</p>
-        <div className="flex items-center">
+        <div className="overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar -mx-2 px-2">
+        <div className="flex items-center min-w-[500px]">
           {WORKFLOW.map((s, i) => (
-            <div key={s} className="flex items-center flex-1 last:flex-initial">
+            <div key={s} className="flex items-center flex-1 last:flex-initial snap-start">
               <div className="flex flex-col items-center text-center">
                 <div className={`w-8 h-8 flex items-center justify-center text-[10px] font-medium border transition-all duration-500 ${
                   i < currentIdx ? "bg-bronze-500 text-white border-bronze-500" :
@@ -124,22 +125,25 @@ export default function DesignerOrderDetail() {
             </div>
           ))}
         </div>
+        </div>
 
         {/* Advance button */}
         {currentIdx < WORKFLOW.length - 1 && (
-          <div className="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between">
+          <div className="mt-5 pt-4 border-t border-stone-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <p className="text-xs text-charcoal-400">Next: <span className="text-charcoal-700 font-medium">{WORKFLOW[currentIdx + 1]}</span></p>
             {WORKFLOW[currentIdx + 1] === "Ready to Ship" ? (
-              <div className="flex items-center gap-2">
-                <IconTruck className="w-4 h-4 text-charcoal-400" />
-                <input type="text" placeholder="Tracking number" value={trackingNum} onChange={(e) => setTrackingNum(e.target.value)}
-                  className="border border-stone-200 px-3 py-2 text-xs text-charcoal-900 placeholder:text-charcoal-300 focus:outline-none focus:border-bronze-300 w-48" />
-                <button onClick={advanceStatus} className="px-4 py-2 text-[10px] uppercase tracking-[0.15em] bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+                <div className="flex items-center gap-2">
+                  <IconTruck className="w-4 h-4 text-charcoal-400 shrink-0" />
+                  <input type="text" placeholder="Tracking number" value={trackingNum} onChange={(e) => setTrackingNum(e.target.value)}
+                    className="border border-stone-200 px-3 py-2 text-xs text-charcoal-900 placeholder:text-charcoal-300 focus:outline-none focus:border-bronze-300 w-full sm:w-48" />
+                </div>
+                <button onClick={advanceStatus} className="px-4 py-2.5 text-[10px] uppercase tracking-[0.15em] bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors text-center">
                   Mark Ready to Ship
                 </button>
               </div>
             ) : (
-              <button onClick={advanceStatus} className="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors">
+              <button onClick={advanceStatus} className="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors w-full sm:w-auto text-center">
                 Advance to {WORKFLOW[currentIdx + 1]}
               </button>
             )}

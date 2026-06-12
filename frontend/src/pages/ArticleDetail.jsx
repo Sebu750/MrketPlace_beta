@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchArticleDetail, clearArticleDetail } from "../store/editorialSlice";
+import { Spinner } from "../components/Skeleton";
 
 /* ════════════════════════════════════════════════════════════════
    ARTICLE DETAIL — full article reading page
@@ -10,11 +11,23 @@ export default function ArticleDetail() {
   const { slug } = useParams();
   const dispatch = useDispatch();
   const { item: article, loading, error } = useSelector((s) => s.editorial.detail);
+  const [readProgress, setReadProgress] = useState(0);
 
   useEffect(() => {
     dispatch(fetchArticleDetail(slug));
     return () => dispatch(clearArticleDetail());
   }, [dispatch, slug]);
+
+  /* Reading progress bar */
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (docHeight > 0) setReadProgress(Math.min(100, (scrollTop / docHeight) * 100));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const formatDate = (d) => {
     if (!d) return "";
@@ -25,10 +38,7 @@ export default function ArticleDetail() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center pt-28">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-bronze-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-xs text-charcoal-300 mt-4 uppercase tracking-wider">Loading article...</p>
-        </div>
+        <Spinner />
       </div>
     );
   }
@@ -49,6 +59,11 @@ export default function ArticleDetail() {
 
   return (
     <div className="bg-white">
+
+      {/* Reading progress bar */}
+      <div className="fixed top-0 left-0 right-0 z-[60] h-[2px] bg-transparent">
+        <div className="h-full bg-bronze-400 transition-[width] duration-150 ease-out" style={{ width: `${readProgress}%` }} />
+      </div>
 
       {/* ═══════════════════════════════════════════════════════════
           1. HERO
@@ -115,7 +130,7 @@ export default function ArticleDetail() {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {article.gallery.map((img, i) => (
                 <div key={i} className="aspect-[4/3] overflow-hidden">
-                  <img src={img} alt="" className="w-full h-full object-cover opacity-85" />
+                  <img src={img} alt="" className="w-full h-full object-cover opacity-85" loading="lazy" decoding="async" />
                 </div>
               ))}
             </div>
@@ -139,6 +154,7 @@ export default function ArticleDetail() {
                         src={r.coverImage}
                         alt={r.title}
                         className="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]"
+                        loading="lazy" decoding="async"
                       />
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-br from-stone-200 to-stone-100 flex items-center justify-center">

@@ -58,11 +58,11 @@ export default function CustomerAddresses() {
   return (
     <div className="space-y-6">
       {/* ── Header ──────────────────────────────────────────── */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <p className="text-sm text-charcoal-400">{addresses.length} {addresses.length === 1 ? "address" : "addresses"} saved</p>
         <button
           onClick={openAdd}
-          className="px-4 py-2 text-[11px] uppercase tracking-[0.15em] bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors"
+          className="w-full sm:w-auto px-4 py-2.5 text-[11px] uppercase tracking-[0.15em] bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors"
         >
           Add Address
         </button>
@@ -124,20 +124,20 @@ export default function CustomerAddresses() {
                 {addr.postalCode && ` ${addr.postalCode}`}
                 {addr.country && `, ${addr.country}`}
               </p>
-              <div className="flex items-center gap-3 mt-4 pt-3 border-t border-stone-100">
-                <button onClick={() => openEdit(addr)} className="text-[10px] uppercase tracking-[0.15em] text-charcoal-400 hover:text-charcoal-900 transition-colors">
+              <div className="flex items-center flex-wrap gap-x-3 gap-y-2 mt-4 pt-3 border-t border-stone-100">
+                <button onClick={() => openEdit(addr)} className="text-[10px] uppercase tracking-[0.15em] text-charcoal-400 hover:text-charcoal-900 transition-colors py-1">
                   Edit
                 </button>
                 {!addr.isDefault && (
                   <>
                     <span className="text-charcoal-200">·</span>
-                    <button onClick={() => dispatch(hasAuth ? setDefaultAddressAPI(addr.id) : setDefaultAddress(addr.id))} className="text-[10px] uppercase tracking-[0.15em] text-charcoal-400 hover:text-charcoal-900 transition-colors">
+                    <button onClick={() => dispatch(hasAuth ? setDefaultAddressAPI(addr.id) : setDefaultAddress(addr.id))} className="text-[10px] uppercase tracking-[0.15em] text-charcoal-400 hover:text-charcoal-900 transition-colors py-1">
                       Set Default
                     </button>
                   </>
                 )}
                 <span className="text-charcoal-200">·</span>
-                <button onClick={() => dispatch(hasAuth ? removeAddressAPI(addr.id) : removeAddress(addr.id))} className="text-[10px] uppercase tracking-[0.15em] text-red-400 hover:text-red-600 transition-colors">
+                <button onClick={() => dispatch(hasAuth ? removeAddressAPI(addr.id) : removeAddress(addr.id))} className="text-[10px] uppercase tracking-[0.15em] text-red-400 hover:text-red-600 transition-colors py-1">
                   Delete
                 </button>
               </div>

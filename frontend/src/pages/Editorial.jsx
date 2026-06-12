@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchArticles } from "../store/editorialSlice";
+import { Spinner } from "../components/Skeleton";
 
 /* ════════════════════════════════════════════════════════════════
    EDITORIAL — Long-form journalism, real API data
@@ -91,10 +92,7 @@ export default function Editorial() {
 
       {/* Loading */}
       {loading && (
-        <div className="text-center py-20">
-          <div className="w-8 h-8 border-2 border-bronze-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-xs text-charcoal-300 mt-4 uppercase tracking-wider">Loading articles...</p>
-        </div>
+        <Spinner />
       )}
 
       {!loading && (
@@ -108,13 +106,14 @@ export default function Editorial() {
                 <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-8">Editor's Picks</p>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   {featured.map((article) => (
-                    <Link key={article._id} to={`/editorial/${article.slug}`} className="group block">
+                    <Link key={article._id} to={`/editorial/${article.slug}`} className="group block hover-lift">
                       <div className="relative aspect-[3/2] overflow-hidden bg-stone-100">
                         {article.coverImage ? (
                           <img
                             src={article.coverImage}
                             alt={article.title}
-                            className="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]"
+                            loading="lazy" decoding="async"
+                            className="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.05]"
                           />
                         ) : (
                           <div className="absolute inset-0 bg-gradient-to-br from-charcoal-200 to-charcoal-100 flex items-center justify-center">
@@ -163,13 +162,14 @@ export default function Editorial() {
               <div className="space-y-6">
                 {articles.map((article) => (
                   <Link key={article._id} to={`/editorial/${article.slug}`} className="group block">
-                    <div className="flex flex-col md:flex-row gap-6 border border-stone-200 bg-white p-5 hover:border-bronze-300/50 transition-colors duration-300">
+                    <div className="flex flex-col md:flex-row gap-6 border border-stone-200 bg-white p-5 hover:border-bronze-300/50 hover-lift transition-all duration-300">
                       <div className="shrink-0 w-full md:w-56 aspect-[3/2] overflow-hidden bg-stone-100">
                         {article.coverImage ? (
                           <img
                             src={article.coverImage}
                             alt={article.title}
-                            className="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]"
+                            loading="lazy" decoding="async"
+                            className="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.05]"
                           />
                         ) : (
                           <div className="w-full h-full bg-gradient-to-br from-stone-100 to-stone-50 flex items-center justify-center">
@@ -217,7 +217,7 @@ export default function Editorial() {
             We publish long-form journalism on Pakistani fashion, craft, and design. If you have a story worth telling,
             a designer profile, a craft documentation, an industry analysis, we want to read it.
           </p>
-          <button className="mt-10 px-8 py-3 bg-charcoal-900 text-white text-xs uppercase tracking-[0.18em] hover:bg-charcoal-800 transition-colors">
+          <button className="mt-10 px-8 py-3 bg-charcoal-900 text-white text-xs uppercase tracking-[0.18em] hover:bg-charcoal-800 transition-colors btn-shimmer relative overflow-hidden">
             Submit a Pitch
           </button>
         </div>

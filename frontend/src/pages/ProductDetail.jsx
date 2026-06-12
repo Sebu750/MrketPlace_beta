@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPublicProduct } from "../store/productsSlice";
 import { addToCart } from "../store/cartSlice";
+import { Spinner } from "../components/Skeleton";
 
 /* ════════════════════════════════════════════════════════════════
    COMPONENT
@@ -35,7 +36,7 @@ export default function ProductDetail() {
   if (loading) {
     return (
       <div className="bg-white min-h-screen flex items-center justify-center">
-        <p className="text-charcoal-400 text-sm">Loading piece…</p>
+        <Spinner />
       </div>
     );
   }
@@ -119,9 +120,10 @@ export default function ProductDetail() {
                 {!showVideo ? (
                   <img
                     src={gallery[activeImg]}
-                    alt={`${p.name} , ${galleryLabels[activeImg]}`}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300"
+                    alt={`${p.name} - ${galleryLabels[activeImg]}`}
+                    className="absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-out"
                     style={zoomed ? { transform: "scale(1.8)", transformOrigin: `${zoomPos.x}% ${zoomPos.y}%` } : {}}
+                    loading="lazy"
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center bg-charcoal-950">
@@ -155,7 +157,7 @@ export default function ProductDetail() {
                       activeImg === i && !showVideo ? "border-bronze-400" : "border-stone-200 hover:border-stone-300"
                     }`}
                   >
-                    <img src={img} alt={galleryLabels[i]} className="w-full h-full object-cover opacity-80" />
+                    <img src={img} alt={galleryLabels[i]} className="w-full h-full object-cover opacity-80" loading="lazy" />
                   </button>
                 ))}
               </div>
@@ -244,7 +246,7 @@ export default function ProductDetail() {
                   <button
                     onClick={handleAddToBag}
                     disabled={addedToBag}
-                    className={`w-full py-3 text-xs uppercase tracking-[0.18em] transition-all inline-flex items-center justify-center gap-2 ${
+                    className={`relative overflow-hidden w-full py-3 text-xs uppercase tracking-[0.18em] transition-all inline-flex items-center justify-center gap-2 btn-shimmer ${
                       addedToBag
                         ? "bg-bronze-400 text-white"
                         : "bg-charcoal-900 text-white hover:bg-charcoal-800"
@@ -272,7 +274,7 @@ export default function ProductDetail() {
                       wishlist ? "border-bronze-400 text-bronze-500 bg-bronze-300/5" : "border-stone-200 text-charcoal-400 bg-white hover:border-bronze-400/40"
                     }`}
                   >
-                    <svg className="w-4 h-4" fill={wishlist ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                    <svg className={`w-4 h-4 transition-transform duration-300 ${wishlist ? 'scale-110' : ''}`} fill={wishlist ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
                     {wishlist ? "Added to Wishlist" : "Add to Wishlist"}
                   </button>
                 </div>
@@ -350,7 +352,7 @@ export default function ProductDetail() {
           <Link to={`/${p.designer.slug || p.designer._id}`} className="group block">
             <div className="border border-stone-100 bg-ivory-50 p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 hover:border-bronze-300/50 transition-colors duration-300">
               <div className="shrink-0 w-20 h-20 rounded-full overflow-hidden border-2 border-bronze-400/20">
-                <img src={p.designer.avatar || p.designer.image || "/assets/images/home-designer-portrait-1.webp"} alt={p.designer.name} className="w-full h-full object-cover" />
+                <img src={p.designer.avatar || p.designer.image || "/assets/images/home-designer-portrait-1.webp"} alt={p.designer.name} className="w-full h-full object-cover" loading="lazy" />
               </div>
               <div className="text-center sm:text-left">
                 <h3 className="font-serif text-xl text-charcoal-900 group-hover:text-bronze-500 transition-colors duration-300">{p.designer.name}</h3>
@@ -379,7 +381,7 @@ export default function ProductDetail() {
             {(p.completeTheLook || []).map((item, i) => (
               <article key={i} className="group cursor-pointer">
                 <div className="relative aspect-[3/4] overflow-hidden">
-                  <img src={item.image || item.img || "/assets/images/placeholder.webp"} alt={item.name}
+                  <img src={item.image || item.img || "/assets/images/placeholder.webp"} alt={item.name} loading="lazy" decoding="async"
                     className="absolute inset-0 w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]" />
                 </div>
                 <div className="mt-4">
@@ -404,7 +406,7 @@ export default function ProductDetail() {
             {(p.relatedProducts || []).map((item, i) => (
               <article key={i} className="shrink-0 w-64 snap-start group cursor-pointer">
                 <div className="relative aspect-[3/4] overflow-hidden">
-                  <img src={item.image || item.img || "/assets/images/placeholder.webp"} alt={item.name}
+                  <img src={item.image || item.img || "/assets/images/placeholder.webp"} alt={item.name} loading="lazy" decoding="async"
                     className="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]" />
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/50 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4">

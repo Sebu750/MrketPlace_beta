@@ -1,6 +1,6 @@
 import { Outlet, NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { logout } from "../store/userSlice";
 
 /* ── SVG Icons (Tabler outline style) ──────────────────────────────── */
@@ -50,6 +50,9 @@ export default function DesignerLayout() {
   const location = useLocation();
   const [mobileNav, setMobileNav] = useState(false);
 
+  /* Auto-close sidebar on route change */
+  useEffect(() => { setMobileNav(false); }, [location.pathname]);
+
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
@@ -60,7 +63,7 @@ export default function DesignerLayout() {
   const pageTitle = pageTitles[pathSegments] || "Dashboard";
 
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-3 px-4 py-2.5 text-[13px] tracking-wide transition-all duration-300 ${
+    `flex items-center gap-3 px-4 py-3 md:py-2.5 text-[13px] tracking-wide transition-all duration-300 ${
       isActive
         ? "bg-white/10 text-white border-l-2 border-bronze-400"
         : "text-charcoal-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent"
@@ -71,7 +74,7 @@ export default function DesignerLayout() {
       {/* ════════════════════════════════════════════════════════════
           SIDEBAR , Dark charcoal, luxury editorial
       ═════════════════════════════════════════════════════════════ */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-[260px] bg-charcoal-950 flex flex-col transition-transform duration-500 lg:translate-x-0 ${
+      <aside className={`fixed inset-y-0 left-0 z-50 w-[260px] bg-charcoal-950 flex flex-col transition-transform duration-500 lg:translate-x-0 pt-[var(--sat)] pb-[var(--sab)] ${
         mobileNav ? "translate-x-0" : "-translate-x-full"
       }`}>
         {/* Brand */}
@@ -146,7 +149,7 @@ export default function DesignerLayout() {
 
       {/* ── Mobile nav overlay ─────────────────────────────────── */}
       {mobileNav && (
-        <div className="fixed inset-0 bg-charcoal-950/60 z-40 lg:hidden" onClick={() => setMobileNav(false)} />
+        <div className="fixed inset-0 bg-charcoal-950/60 z-40 lg:hidden animate-fade-in" onClick={() => setMobileNav(false)} />
       )}
 
       {/* ════════════════════════════════════════════════════════════
@@ -160,7 +163,7 @@ export default function DesignerLayout() {
               {/* Mobile menu button */}
               <button
                 onClick={() => setMobileNav(!mobileNav)}
-                className="lg:hidden p-1.5 text-charcoal-500 hover:text-charcoal-900 transition-colors"
+                className="lg:hidden p-2.5 text-charcoal-500 hover:text-charcoal-900 transition-colors"
               >
                 {mobileNav ? <IconX className="w-5 h-5" /> : <IconMenu className="w-5 h-5" />}
               </button>

@@ -1,6 +1,6 @@
 import { Outlet, NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { logout } from "../store/userSlice";
 
 /* ── SVG Icons (Tabler outline style) ──────────────────────────────── */
@@ -45,6 +45,9 @@ export default function CustomerLayout() {
   const location = useLocation();
   const [mobileNav, setMobileNav] = useState(false);
 
+  /* Auto-close sidebar on route change */
+  useEffect(() => { setMobileNav(false); }, [location.pathname]);
+
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
@@ -54,7 +57,7 @@ export default function CustomerLayout() {
   const pageTitle = pageTitles[pathSegments] || "My Account";
 
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-3 px-5 py-2.5 text-[13px] tracking-wide transition-all duration-200 ${
+    `flex items-center gap-3 px-5 py-3 md:py-2.5 text-[13px] tracking-wide transition-all duration-200 ${
       isActive
         ? "bg-charcoal-900 text-white"
         : "text-charcoal-500 hover:text-charcoal-900 hover:bg-stone-100"
@@ -65,7 +68,7 @@ export default function CustomerLayout() {
       {/* ════════════════════════════════════════════════════════════
           SIDEBAR , Cream/warm white, editorial luxury
       ═════════════════════════════════════════════════════════════ */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-[260px] bg-stone-50 border-r border-stone-200 flex flex-col transition-transform duration-300 lg:translate-x-0 ${
+      <aside className={`fixed inset-y-0 left-0 z-50 w-[260px] bg-stone-50 border-r border-stone-200 flex flex-col transition-transform duration-300 lg:translate-x-0 pt-[var(--sat)] pb-[var(--sab)] ${
         mobileNav ? "translate-x-0" : "-translate-x-full"
       }`}>
         {/* Brand */}
@@ -140,7 +143,7 @@ export default function CustomerLayout() {
 
       {/* ── Mobile overlay ──────────────────────────────────────── */}
       {mobileNav && (
-        <div className="fixed inset-0 bg-charcoal-950/30 z-40 lg:hidden" onClick={() => setMobileNav(false)} />
+        <div className="fixed inset-0 bg-charcoal-950/30 z-40 lg:hidden animate-fade-in" onClick={() => setMobileNav(false)} />
       )}
 
       {/* ════════════════════════════════════════════════════════════
@@ -153,7 +156,7 @@ export default function CustomerLayout() {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setMobileNav(!mobileNav)}
-                className="lg:hidden p-1.5 text-charcoal-500 hover:text-charcoal-900 transition-colors"
+                className="lg:hidden p-2.5 text-charcoal-500 hover:text-charcoal-900 transition-colors"
               >
                 {mobileNav ? <IconX className="w-5 h-5" /> : <IconMenu className="w-5 h-5" />}
               </button>

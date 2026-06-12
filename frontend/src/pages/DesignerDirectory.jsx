@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPublicDesigners } from "../store/designerSlice";
+import { Spinner } from "../components/Skeleton";
 
 /* ── Filter categories ──────────────────────────────────────────── */
 const categories = [
@@ -19,12 +20,12 @@ function DesignerCard({ d, featured = false, emerging = false }) {
   const collections = d.collectionCount || d.collections || 0;
 
   return (
-    <Link to={`/${slug}`} className="group block">
+    <Link to={`/${slug}`} className="group block hover-lift">
       {featured ? (
         /* Featured Card — editorial, large */
         <div className="relative aspect-[4/5] overflow-hidden bg-stone-100">
           {avatar ? (
-            <img src={avatar} alt={name} className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.03]" />
+            <img src={avatar} alt={name} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.05]" />
           ) : (
             <div className="absolute inset-0 bg-gradient-to-br from-ivory-50 via-stone-100 to-stone-200 flex items-center justify-center">
               <span className="font-display text-6xl text-charcoal-200">{name.charAt(0)}</span>
@@ -46,7 +47,7 @@ function DesignerCard({ d, featured = false, emerging = false }) {
           <div className="absolute bottom-0 left-0 right-0 p-5">
             <div className="flex items-end gap-3">
               {avatar && (
-                <img src={avatar} alt={name} className="w-11 h-11 rounded-full object-cover border-2 border-charcoal-950/50 shrink-0" />
+                <img src={avatar} alt={name} className="w-11 h-11 rounded-full object-cover border-2 border-charcoal-950/50 shrink-0" loading="lazy" />
               )}
               <div>
                 <h3 className="font-serif text-lg text-white group-hover:text-bronze-400 transition-colors duration-300">{name}</h3>
@@ -61,7 +62,7 @@ function DesignerCard({ d, featured = false, emerging = false }) {
         <div className="bg-white border border-stone-100 hover:border-bronze-300/50 transition-all duration-300">
           <div className="relative aspect-[3/2] overflow-hidden bg-stone-100">
             {avatar ? (
-              <img src={avatar} alt={name} className="absolute inset-0 w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]" />
+              <img src={avatar} alt={name} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.05]" />
             ) : (
               <div className="absolute inset-0 bg-gradient-to-br from-ivory-50 via-stone-100 to-stone-200 flex items-center justify-center">
                 <span className="font-display text-5xl text-charcoal-200">{name.charAt(0)}</span>
@@ -218,8 +219,8 @@ export default function DesignerDirectory() {
       ═══════════════════════════════════════════════════════════ */}
       {loading && (
         <section className="py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-6 text-center">
-            <p className="font-serif text-xl text-charcoal-400 font-light">Loading designers…</p>
+          <div className="max-w-7xl mx-auto px-6">
+            <Spinner />
           </div>
         </section>
       )}

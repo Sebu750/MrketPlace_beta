@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPublicCollections } from "../store/collectionsSlice";
+import { Spinner } from "../components/Skeleton";
 
 /* ── Collection card ────────────────────────────────────────── */
 function CollectionCard({ c }) {
@@ -12,13 +13,14 @@ function CollectionCard({ c }) {
   const link = `/collections/${c.slug || c._id}`;
 
   return (
-    <Link to={link} className="group block">
+    <Link to={link} className="group block hover-lift">
       <div className="relative aspect-[4/5] overflow-hidden bg-stone-100">
         {img ? (
           <img
             src={img}
             alt={c.name}
-            className="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.03]"
+            loading="lazy" decoding="async"
+            className="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.05]"
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-ivory-50 via-stone-100 to-stone-200 flex items-center justify-center">
@@ -195,8 +197,8 @@ export default function CollectionsDirectory() {
       {/* ═══ LOADING ═════════════════════════════════════════════ */}
       {loading && (
         <section className="py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-6 text-center">
-            <p className="font-serif text-xl text-charcoal-400 font-light">Loading collections…</p>
+          <div className="max-w-7xl mx-auto px-6">
+            <Spinner />
           </div>
         </section>
       )}

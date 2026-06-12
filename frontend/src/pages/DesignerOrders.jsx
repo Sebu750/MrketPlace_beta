@@ -97,10 +97,10 @@ export default function DesignerOrders() {
       </div>
 
       {/* ── Status Tabs ─────────────────────────────────────────── */}
-      <div className="flex items-center gap-1 flex-wrap">
+      <div className="flex items-center gap-1 overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar -mx-2 px-2">
         {statusTabs.map((tab) => (
           <button key={tab} onClick={() => setActiveTab(tab)}
-            className={`px-3 py-2 text-[10px] uppercase tracking-[0.15em] border transition-all duration-300 ${
+            className={`shrink-0 snap-start px-3 py-2 text-[10px] uppercase tracking-[0.15em] border transition-all duration-300 ${
               activeTab === tab ? "bg-charcoal-900 text-white border-charcoal-900" : "bg-white text-charcoal-500 border-stone-200 hover:border-charcoal-300"
             }`}>
             {tab} <span className="ml-1 opacity-60 tabular-nums">{statusCounts[tab]}</span>
@@ -142,7 +142,7 @@ export default function DesignerOrders() {
               </div>
 
               {/* Arrow */}
-              <IconChevron className="w-4 h-4 text-charcoal-300 group-hover:text-charcoal-500 transition-colors shrink-0 hidden md:block" />
+              <IconChevron className="w-4 h-4 text-charcoal-300 group-hover:text-charcoal-500 transition-colors shrink-0 rotate-90 md:rotate-0" />
             </div>
           </Link>
         ))}

@@ -150,12 +150,12 @@ export default function CustomerOverview() {
 
       {/* ── Total spent banner ───────────────────────────────── */}
       {totalSpent > 0 && (
-        <div className="bg-stone-50 border border-stone-200 px-6 py-5 flex items-center justify-between">
+        <div className="bg-stone-50 border border-stone-200 px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <p className="text-[10px] uppercase tracking-[0.2em] text-charcoal-400">Lifetime Spend</p>
             <p className="font-serif text-xl text-charcoal-900 mt-1">PKR {totalSpent.toLocaleString("en-PK")}</p>
           </div>
-          <p className="text-[11px] text-charcoal-400 text-right">
+          <p className="text-[11px] text-charcoal-400 sm:text-right">
             Thank you for supporting<br />Pakistan's design community
           </p>
         </div>

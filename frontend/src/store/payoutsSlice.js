@@ -7,7 +7,7 @@ export const fetchPayouts = createAsyncThunk(
   async ({ page = 1, limit = 20 } = {}, { rejectWithValue }) => {
     try {
       const params = new URLSearchParams({ page, limit });
-      const { data } = await API.get(`/payouts?${params}`);
+      const { data } = await API.get(`/payouts/designer/payouts?${params}`);
       return data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch payouts");
@@ -19,7 +19,7 @@ export const fetchPayoutSummary = createAsyncThunk(
   "payouts/fetchPayoutSummary",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await API.get("/payouts/summary");
+      const { data } = await API.get("/payouts/designer/payouts/summary");
       return data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch summary");
@@ -43,12 +43,13 @@ const payoutsSlice = createSlice({
     b.addCase(fetchPayouts.pending, (s) => { s.loading = true; })
      .addCase(fetchPayouts.fulfilled, (s, a) => {
        s.loading = false;
-       s.items = a.payload.payouts;
-       s.page = a.payload.page;
-       s.pages = a.payload.pages;
+       s.items = a.payload.data || a.payload.payouts || [];
+       const pg = a.payload.pagination;
+       s.page = pg?.page || 1;
+       s.pages = pg?.pages || pg?.totalPages || 1;
      })
      .addCase(fetchPayouts.rejected, (s, a) => { s.loading = false; s.error = a.payload; })
-     .addCase(fetchPayoutSummary.fulfilled, (s, a) => { s.summary = a.payload; });
+     .addCase(fetchPayoutSummary.fulfilled, (s, a) => { s.summary = a.payload.data || a.payload; });
   },
 });
 

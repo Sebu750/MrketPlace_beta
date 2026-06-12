@@ -124,10 +124,10 @@ export default function DesignerProducts() {
         </div>
 
         {/* Status */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar">
           {statusFilters.map((s) => (
             <button key={s} onClick={() => setStatusFilter(s)}
-              className={`px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] transition-all duration-300 border ${
+              className={`shrink-0 snap-start px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] transition-all duration-300 border ${
                 statusFilter === s ? "bg-charcoal-900 text-white border-charcoal-900" : "bg-white text-charcoal-400 border-stone-200 hover:border-charcoal-300"
               }`}>{s}</button>
           ))}

@@ -5,6 +5,13 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+  }
+
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -377,6 +384,19 @@
   }
 }
 
+/* ── Mobile: minimum touch targets + prevent iOS zoom on inputs ─── */
+@media (max-width: 768px) {
+  button, a[role="button"], a.btn-primary, a.btn-outline {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
 /* ── Focus-visible ring for accessibility ─────────────────────── */
 :focus-visible {
   outline: 2px solid #8f7a60;
@@ -433,4 +453,12 @@
 }
 .img-progressive.loaded {
   filter: blur(0);
+}
+
+/* ── Safe-area bottom padding for fixed bars ─────────────────── */
+.safe-bottom {
+  padding-bottom: var(--sab);
+}
+.safe-top {
+  padding-top: var(--sat);
 }

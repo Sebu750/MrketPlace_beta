@@ -2,6 +2,7 @@ const express = require("express");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Designer = require("../models/Designer");
 
 const router = express.Router();
 
@@ -39,7 +40,7 @@ const roleLogin = (expectedRole) =>
       throw new Error("Invalid credentials");
     }
 
-    // Enforce role — customer can't login through designer portal, etc.
+    // Enforce role , customer can't login through designer portal, etc.
     if (user.role !== expectedRole) {
       res.status(403);
       throw new Error(
@@ -79,25 +80,38 @@ const roleRegister = (forcedRole) =>
     }
 
     const user = await User.create({ name, email, password, role: forcedRole });
+
+    // Auto-create Designer profile for sellers
+    if (forcedRole === "seller") {
+      await Designer.create({
+        userId: user._id,
+        name,
+        email,
+        password,
+        role: "seller",
+        slug: name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, ""),
+      });
+    }
+
     const token = generateToken(user._id);
     respondWithUser(user, token, res, 201);
   });
 
 /* ══════════════════════════════════════════════════════════════════════════
-   CUSTOMER ROUTES  —  /api/auth/customer/*
+   CUSTOMER ROUTES  ,  /api/auth/customer/*
 ══════════════════════════════════════════════════════════════════════════ */
 router.post("/customer/login", roleLogin("buyer"));
 router.post("/customer/register", roleRegister("buyer"));
 
 /* ══════════════════════════════════════════════════════════════════════════
-   DESIGNER ROUTES  —  /api/auth/designer/*
+   DESIGNER ROUTES  ,  /api/auth/designer/*
 ══════════════════════════════════════════════════════════════════════════ */
 router.post("/designer/login", roleLogin("seller"));
 router.post("/designer/register", roleRegister("seller"));
 
 /* ══════════════════════════════════════════════════════════════════════════
-   ADMIN ROUTES  —  /api/auth/admin/*
-   (login only — admins are created internally, never self-register)
+   ADMIN ROUTES  ,  /api/auth/admin/*
+   (login only , admins are created internally, never self-register)
 ══════════════════════════════════════════════════════════════════════════ */
 router.post("/admin/login", roleLogin("admin"));
 
