@@ -50,6 +50,7 @@ const designerSchema = new mongoose.Schema(
     },
     verified: { type: Boolean, default: false },
     plan: { type: String, enum: ["free", "pro", "enterprise"], default: "free" },
+    onboardingComplete: { type: Boolean, default: false },
 
     // ── Meta ───────────────────────────────────────────────────────────────────
     slug: { type: String, unique: true, sparse: true },

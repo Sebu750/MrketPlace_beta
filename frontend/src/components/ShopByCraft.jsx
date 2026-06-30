@@ -1,17 +1,30 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCrafts } from "../store/craftsSlice";
 import useReveal from "../hooks/useReveal";
-
-const crafts = [
-  { name: "Ajrak", region: "Sindh", image: "/assets/images/ajrak-architect-coat-adorzia1.webp" },
-  { name: "Phulkari", region: "Punjab", image: "/assets/images/phulkari-reborn-blazer-adorzia.webp" },
-  { name: "Khaddar", region: "Punjab & KPK", image: "/assets/images/khaddar-modern-suit-adorzia.webp" },
-  { name: "Pashmina", region: "Kashmir", image: "/assets/images/pashmina-wrap-dress-adorzia.webp" },
-  { name: "Block Print", region: "Sindh & Punjab", image: "/assets/images/mirrorwork-bomber-jacket-adorzia.webp" },
-  { name: "Mirror Work", region: "Balochistan & Sindh", image: "/assets/images/mirror-rebel-tee-adorzia.webp" },
-];
+import { Spinner } from "./Skeleton";
 
 export default function ShopByCraft() {
+  const dispatch = useDispatch();
+  const { items: crafts, loading } = useSelector((s) => s.crafts.list);
   const ref = useReveal();
+
+  useEffect(() => {
+    dispatch(fetchCrafts({ limit: 6 }));
+  }, [dispatch]);
+
+  if (loading) {
+    return (
+      <section className="bg-white py-24 md:py-32 flex items-center justify-center min-h-[500px]">
+        <Spinner />
+      </section>
+    );
+  }
+
+  if (!crafts || crafts.length === 0) {
+    return null;
+  }
 
   return (
     <section className="bg-white py-24 md:py-32">
@@ -31,19 +44,19 @@ export default function ShopByCraft() {
         </div>
 
         {/* 6-tile grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 stagger-children">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
           {crafts.map((c) => (
-            <Link key={c.name} to={`/crafts/${c.name.toLowerCase().replace(/\s+/g, "-")}`}
-              className="reveal group relative aspect-[4/5] overflow-hidden bg-stone-100">
+            <Link key={c._id} to={`/crafts/${c.slug}`}
+              className="group relative aspect-[4/5] overflow-hidden bg-stone-100">
               {/* Image */}
-              <img src={c.image} alt={c.name}
+              <img src={c.coverImage || "/assets/images/craft.webp"} alt={c.name}
                 className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.03]" />
               {/* Subtle overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/70 via-charcoal-900/10 to-transparent" />
               {/* Text overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                 <h3 className="font-serif text-xl md:text-2xl text-white font-light">{c.name}</h3>
-                <p className="text-[9px] uppercase tracking-[0.3em] text-white/60 mt-1.5 font-light">{c.region}</p>
+                <p className="text-[9px] uppercase tracking-[0.3em] text-white/60 mt-1.5 font-light">{c.region || "Pakistan"}</p>
               </div>
             </Link>
           ))}

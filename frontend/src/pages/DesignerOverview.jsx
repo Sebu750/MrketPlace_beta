@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { fetchDashboardKPIs } from "../store/designerSlice";
+import { fetchDashboardKPIs, fetchOnboardingStatus } from "../store/designerSlice";
+import OnboardingBanner from "../components/OnboardingBanner";
 
 /* ── SVG Icons ─────────────────────────────────────────────────────── */
 const IconArrowUp = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M12 19V5M5 12l7-7 7 7"/></svg>;
@@ -33,11 +34,12 @@ const statusLabel = (s) => ({ new: "New", in_production: "In Production", ready_
 export default function DesignerOverview() {
   const dispatch = useDispatch();
   const { data: user } = useSelector((state) => state.user);
-  const { dashboard, loading } = useSelector((state) => state.designer);
+  const { dashboard, loading, onboarding, profile } = useSelector((state) => state.designer);
   const firstName = user?.name?.split(" ")[0] || "Designer";
 
   useEffect(() => {
     dispatch(fetchDashboardKPIs());
+    dispatch(fetchOnboardingStatus());
   }, [dispatch]);
 
   const kpi = dashboard?.kpis || {};
@@ -73,6 +75,9 @@ export default function DesignerOverview() {
 
   return (
     <div className="space-y-8">
+      {/* ── Onboarding Banner ─────────────────────────────────── */}
+      <OnboardingBanner onboarding={onboarding} designerName={profile?.name || user?.name} />
+
       {/* ── Welcome ────────────────────────────────────────────── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
@@ -263,21 +268,6 @@ export default function DesignerOverview() {
             </Link>
           ))}
         </div>
-      </div>
-
-      {/* ── Studio Card ────────────────────────────────────────── */}
-      <div className="bg-charcoal-950 border border-charcoal-800 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <p className="text-[9px] uppercase tracking-[0.3em] text-bronze-400 mb-1">Adorzia Studio</p>
-          <h3 className="font-serif text-xl text-white">Lahore Coworking Space</h3>
-          <p className="text-sm text-charcoal-400 mt-1">Your assigned studio , access to equipment, artisan network, and mentorship.</p>
-        </div>
-        <Link
-          to="#"
-          className="shrink-0 text-[10px] uppercase tracking-[0.2em] text-bronze-400 border border-bronze-600/40 px-5 py-2.5 hover:bg-bronze-600/10 transition-colors duration-300"
-        >
-          Manage Studio
-        </Link>
       </div>
     </div>
   );

@@ -65,18 +65,32 @@ const seed = async () => {
           bio: "Contemporary Pakistani womenswear blending traditional craft with modern silhouettes.",
           category: "Womenswear", craftTraditions: ["Chikankari", "Handloom", "Block Printing"],
           studioCity: "Lahore", verified: true,
+          socialLinks: {
+            instagram: "https://instagram.com/zarastudio",
+            website: "https://zarastudio.com",
+            facebook: "https://facebook.com/zarastudio"
+          }
         },
         {
           name: "Bilal Hussain", brandName: "BH Atelier",
           bio: "Luxury menswear reinterpreting heritage textiles through a contemporary lens.",
           category: "Menswear", craftTraditions: ["Zardozi", "Ajrak", "Handloom"],
           studioCity: "Karachi", verified: true,
+          socialLinks: {
+            instagram: "https://instagram.com/bhatelier",
+            website: "https://bhatelier.com",
+            facebook: "https://facebook.com/bhatelier"
+          }
         },
         {
           name: "Fatima Noor", brandName: "Noor Couture",
           bio: "Bridal and formal wear celebrating Pakistani craftsmanship with modern elegance.",
           category: "Bridal", craftTraditions: ["Zardozi", "Mirror Work", "Handloom"],
           studioCity: "Islamabad", verified: false,
+          socialLinks: {
+            instagram: "https://instagram.com/noorcouture",
+            website: "https://noorcouture.com"
+          }
         },
       ][i];
 
@@ -92,12 +106,82 @@ const seed = async () => {
 
   // ── Create Collections ────────────────────────────────────────────────────
   const collectionData = [
-    { designer: 0, name: "Geometry of Home", season: "Fall/Winter", category: "Womenswear", craftTraditions: ["Chikankari", "Handloom"], status: "published", featured: true },
-    { designer: 0, name: "Urban Heritage", season: "Spring/Summer", category: "Womenswear", craftTraditions: ["Block Printing"], status: "published" },
-    { designer: 1, name: "Desert Bloom", season: "Fall/Winter", category: "Menswear", craftTraditions: ["Ajrak", "Zardozi"], status: "published", featured: true },
-    { designer: 1, name: "Night Weave", season: "Couture", category: "Menswear", craftTraditions: ["Handloom"], status: "published" },
-    { designer: 2, name: "Eternal Vows", season: "Bridal", category: "Bridal", craftTraditions: ["Zardozi", "Mirror Work"], status: "published", featured: true },
-    { designer: 2, name: "Summer Luxe", season: "Spring/Summer", category: "Womenswear", craftTraditions: ["Handloom"], status: "draft" },
+    { 
+      designer: 0, name: "Geometry of Home", season: "Fall/Winter", category: "Womenswear", 
+      craftTraditions: ["Chikankari", "Handloom"], status: "published", featured: true,
+      description: "The 2024 FW collection by Zara Ahmad explores the intimate geometry of domestic spaces, where traditional Pakistani craftsmanship meets contemporary architectural forms. Each piece is a meditation on the concept of home—its structures, its memories, and the hands that shape it. Through meticulous Chikankari embroidery and handloom weaving, this collection transforms everyday garments into heirlooms that carry the weight of generations.",
+      coverImage: "/assets/images/ajrak-architect-coat-adorzia1.webp",
+      lookbookImages: [
+        "/assets/images/ajrak-architect-coat-adorzia2.webp",
+        "/assets/images/phulkari-reborn-blazer-adorzia.webp",
+        "/assets/images/khaddar-modern-suit-adorzia.webp",
+        "/assets/images/pashmina-wrap-dress-adorzia.webp",
+        "/assets/images/mirrorwork-bomber-jacket-adorzia.webp",
+        "/assets/images/mirror-rebel-tee-adorzia.webp",
+        "/assets/images/rilli-sculpt-tote-adorzia.webp",
+        "/assets/images/ajrak-architect-coat-adorzia1.webp",
+        "/assets/images/phulkari-reborn-blazer-adorzia.webp",
+        "/assets/images/khaddar-modern-suit-adorzia.webp",
+        "/assets/images/pashmina-wrap-dress-adorzia.webp",
+        "/assets/images/mirrorwork-bomber-jacket-adorzia.webp",
+        "/assets/images/mirror-rebel-tee-adorzia.webp",
+        "/assets/images/rilli-sculpt-tote-adorzia.webp",
+        "/assets/images/ajrak-architect-coat-adorzia2.webp"
+      ]
+    },
+    { 
+      designer: 0, name: "Urban Heritage", season: "Spring/Summer", category: "Womenswear", 
+      craftTraditions: ["Block Printing"], status: "published",
+      description: "Urban Heritage is a celebration of Pakistan's living craft traditions, reimagined for the modern woman. Hand-block printed patterns tell stories of ancestral techniques passed down through generations, while contemporary silhouettes speak to the dynamism of today's fashion landscape. This collection bridges past and present, proving that heritage is not static—it evolves, adapts, and thrives.",
+      coverImage: "/assets/images/mirrorwork-bomber-jacket-adorzia.webp",
+      lookbookImages: [
+        "/assets/images/mirror-rebel-tee-adorzia.webp",
+        "/assets/images/rilli-sculpt-tote-adorzia.webp"
+      ]
+    },
+    { 
+      designer: 1, name: "Desert Bloom", season: "Fall/Winter", category: "Menswear", 
+      craftTraditions: ["Ajrak", "Zardozi"], status: "published", featured: true,
+      description: "Desert Bloom draws from the stark beauty of Pakistan's Thar landscape, where life persists against all odds. The collection reinterprets Ajrak's ancient geometric patterns through a contemporary menswear lens, while Zardozi embroidery adds layers of luxury to structured silhouettes. Each piece is a testament to resilience—how beauty can flourish in the harshest conditions, rooted in tradition yet reaching toward the future.",
+      coverImage: "/assets/images/ajrak-architect-coat-adorzia2.webp",
+      lookbookImages: [
+        "/assets/images/ajrak-architect-coat-adorzia1.webp",
+        "/assets/images/phulkari-reborn-blazer-adorzia.webp",
+        "/assets/images/khaddar-modern-suit-adorzia.webp",
+        "/assets/images/pashmina-wrap-dress-adorzia.webp",
+        "/assets/images/mirrorwork-bomber-jacket-adorzia.webp"
+      ]
+    },
+    { 
+      designer: 1, name: "Night Weave", season: "Couture", category: "Menswear", 
+      craftTraditions: ["Handloom"], status: "published",
+      description: "Night Weave is an exploration of texture, time, and the meditative quality of handloom weaving. Created during the quiet hours of dawn and dusk, this couture collection captures the essence of patience—each thread deliberately placed, each pattern emerging slowly from the weaver's loom. The result is a collection that honors the slow craft movement, offering garments that are as much about the journey of making as they are about the final form.",
+      coverImage: "/assets/images/pashmina-wrap-dress-adorzia.webp",
+      lookbookImages: [
+        "/assets/images/mirrorwork-bomber-jacket-adorzia.webp"
+      ]
+    },
+    { 
+      designer: 2, name: "Eternal Vows", season: "Bridal", category: "Bridal", 
+      craftTraditions: ["Zardozi", "Mirror Work"], status: "published", featured: true,
+      description: "Eternal Vows is a love letter to Pakistani bridal traditions, reimagined for the modern bride. This collection celebrates the sacred rituals of marriage—the haldi, the mehndi, the baraat—through garments that honor centuries-old craftsmanship. Zardozi embroidery catches the light like promises made, while mirror work reflects the infinite reflections of love. Each piece is designed not just for a wedding day, but for the generations of memories that follow.",
+      coverImage: "/assets/images/phulkari-reborn-blazer-adorzia.webp",
+      lookbookImages: [
+        "/assets/images/mirrorwork-bomber-jacket-adorzia.webp",
+        "/assets/images/mirror-rebel-tee-adorzia.webp",
+        "/assets/images/rilli-sculpt-tote-adorzia.webp",
+        "/assets/images/pashmina-wrap-dress-adorzia.webp",
+        "/assets/images/ajrak-architect-coat-adorzia1.webp",
+        "/assets/images/ajrak-architect-coat-adorzia2.webp",
+        "/assets/images/khaddar-modern-suit-adorzia.webp"
+      ]
+    },
+    { 
+      designer: 2, name: "Summer Luxe", season: "Spring/Summer", category: "Womenswear", 
+      craftTraditions: ["Handloom"], status: "draft",
+      description: "Summer Luxe is an ode to effortless elegance, where handloom breathes new life into warm-weather dressing. Lightweight fabrics and relaxed silhouettes celebrate the art of doing less—both in design and in life. This collection invites you to slow down, to appreciate the subtle textures that emerge when craft meets comfort, and to find luxury in simplicity.",
+      coverImage: "/assets/images/khaddar-modern-suit-adorzia.webp"
+    },
   ];
 
   const collections = [];

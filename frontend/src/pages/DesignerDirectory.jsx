@@ -12,11 +12,11 @@ const categories = [
 /* ── Designer Card ─────────────────────────────────────────────── */
 function DesignerCard({ d, featured = false, emerging = false }) {
   const name = d.name || "";
-  const city = d.city || "";
-  const cats = Array.isArray(d.category) ? d.category : [];
+  const city = d.studioCity || d.city || "";
+  const cats = Array.isArray(d.category) ? d.category : (d.category ? [d.category] : []);
   const bio = d.bio || "";
   const slug = d.slug || d._id || "";
-  const avatar = d.avatar || d.profileImage || "";
+  const avatar = d.logo || d.avatar || d.profileImage || "";
   const collections = d.collectionCount || d.collections || 0;
 
   return (

@@ -64,13 +64,18 @@ exports.createCollection = asyncHandler(async (req, res) => {
   const { name, season, category, description, coverImage, lookbookImages, craftTraditions, featured, year } = req.body;
   if (!name) { res.status(400); throw new Error("Collection name is required"); }
 
+  // Auto-publish first collection
+  const existingCount = await Collection.countDocuments({ designer: req.designer._id });
+  const isFirstCollection = existingCount === 0;
+
   const collection = await Collection.create({
     name, season, category, description, coverImage, lookbookImages, craftTraditions,
     featured: featured || false, year: year || new Date().getFullYear(),
     designer: req.designer._id,
+    status: isFirstCollection ? "published" : (req.body.status || "draft"),
   });
 
-  res.status(201).json({ success: true, data: collection });
+  res.status(201).json({ success: true, data: collection, isFirstCollection });
 });
 
 exports.updateCollection = asyncHandler(async (req, res) => {

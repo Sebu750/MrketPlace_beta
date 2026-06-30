@@ -1,27 +1,31 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPublicProducts } from "../store/productsSlice";
 import useReveal from "../hooks/useReveal";
-
-const products = [
-  { id: 1, name: "Ajrak Architect Coat", designer: "Ayesha Siddiqui", price: "PKR 48,000", image: "/assets/images/ajrak-architect-coat-adorzia1.webp" },
-  { id: 2, name: "Phulkari Reborn Blazer", designer: "Zara Hameed", price: "PKR 42,000", image: "/assets/images/phulkari-reborn-blazer-adorzia.webp" },
-  { id: 3, name: "Pashmina Wrap Dress", designer: "Fatima Qureshi", price: "PKR 52,000", image: "/assets/images/pashmina-wrap-dress-adorzia.webp" },
-  { id: 5, name: "Mirrorwork Bomber Jacket", designer: "Noor & Sons", price: "PKR 44,500", image: "/assets/images/mirrorwork-bomber-jacket-adorzia.webp" },
-  { id: 6, name: "Mirror Rebel Tee", designer: "Sana Javed", price: "PKR 18,500", image: "/assets/images/mirror-rebel-tee-adorzia.webp" },
-  { id: 7, name: "Rilli Sculpt Tote", designer: "Bilal Raza", price: "PKR 28,000", image: "/assets/images/rilli-sculpt-tote-adorzia.webp" },
-  { id: 4, name: "Khaddar Modern Suit", designer: "Hira Khan", price: "PKR 36,500", image: "/assets/images/khaddar-modern-suit-adorzia.webp" },
-];
+import { Spinner } from "./Skeleton";
 
 const IconChevronLeft = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" {...p}><path d="m15 6-6 6 6 6"/></svg>;
 const IconChevronRight = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" {...p}><path d="m9 6 6 6-6 6"/></svg>;
 
 export default function NewArrivals() {
+  const dispatch = useDispatch();
+  const { items: products, loading } = useSelector((s) => s.products.public);
   const scrollRef = useRef(null);
   const ref = useReveal();
+
+  useEffect(() => {
+    dispatch(fetchPublicProducts({ sort: "-createdAt", limit: 8 }));
+  }, [dispatch]);
 
   const scroll = (dir) => {
     if (!scrollRef.current) return;
     scrollRef.current.scrollBy({ left: dir === "left" ? -340 : 340, behavior: "smooth" });
+  };
+
+  const formatPrice = (price) => {
+    if (!price && price !== 0) return "";
+    return `PKR ${price.toLocaleString("en-PK")}`;
   };
 
   return (
@@ -44,34 +48,39 @@ export default function NewArrivals() {
           </div>
         </div>
 
+        {/* Loading */}
+        {loading && <Spinner />}
+
         {/* Horizontal scroll */}
-        <div ref={scrollRef} className="flex gap-6 overflow-x-auto hide-scrollbar pb-4 -mx-6 lg:-mx-10 px-6 lg:px-10 snap-x snap-mandatory">
-          {products.map((p) => (
-            <Link key={p.id} to={`/pieces/${p.id}`}
-              className="group shrink-0 w-[280px] sm:w-[300px] snap-start">
-              {/* Image */}
-              <div className="relative aspect-[3/4] overflow-hidden bg-ivory-100">
-                <img src={p.image} alt={p.name} loading="lazy" decoding="async"
-                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.04]" />
-              </div>
-              {/* Info */}
-              <div className="pt-4 pb-1">
-                <h3 className="font-serif text-base text-charcoal-900 transition-colors duration-500 line-clamp-1">{p.name}</h3>
-                <p className="text-[11px] text-charcoal-400 mt-1 tracking-wide">{p.designer}</p>
-                <p className="text-sm text-charcoal-700 mt-2.5 font-light">{p.price}</p>
+        {!loading && (
+          <div ref={scrollRef} className="flex gap-6 overflow-x-auto hide-scrollbar pb-4 -mx-6 lg:-mx-10 px-6 lg:px-10 snap-x snap-mandatory">
+            {products.map((p) => (
+              <Link key={p._id} to={`/pieces/${p._id}`}
+                className="group shrink-0 w-[280px] sm:w-[300px] snap-start">
+                {/* Image */}
+                <div className="relative aspect-[3/4] overflow-hidden bg-ivory-100">
+                  <img src={p.images?.[0]?.url || "/assets/images/khaddar-modern-suit-adorzia.webp"} alt={p.name} loading="lazy" decoding="async"
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.04]" />
+                </div>
+                {/* Info */}
+                <div className="pt-4 pb-1">
+                  <h3 className="font-serif text-base text-charcoal-900 transition-colors duration-500 line-clamp-1">{p.name}</h3>
+                  <p className="text-[11px] text-charcoal-400 mt-1 tracking-wide">{p.designer?.brandName || p.designer?.name || "Independent Designer"}</p>
+                  <p className="text-sm text-charcoal-700 mt-2.5 font-light">{formatPrice(p.price)}</p>
+                </div>
+              </Link>
+            ))}
+
+            {/* View All card */}
+            <Link to="/shop" className="group shrink-0 w-[280px] sm:w-[300px] snap-start flex items-center justify-center border border-stone-200 hover:border-charcoal-300 transition-colors duration-500 min-h-[380px]">
+              <div className="text-center">
+                <p className="text-[9px] uppercase tracking-[0.35em] text-charcoal-400 mb-4">Browse</p>
+                <p className="font-serif text-2xl text-charcoal-900 font-light">View All</p>
+                <p className="mt-2 text-[11px] text-charcoal-400">{products.length}+ pieces</p>
               </div>
             </Link>
-          ))}
-
-          {/* View All card */}
-          <Link to="/shop" className="group shrink-0 w-[280px] sm:w-[300px] snap-start flex items-center justify-center border border-stone-200 hover:border-charcoal-300 transition-colors duration-500 min-h-[380px]">
-            <div className="text-center">
-              <p className="text-[9px] uppercase tracking-[0.35em] text-charcoal-400 mb-4">Browse</p>
-              <p className="font-serif text-2xl text-charcoal-900 font-light">View All</p>
-              <p className="mt-2 text-[11px] text-charcoal-400">{products.length}+ pieces</p>
-            </div>
-          </Link>
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );

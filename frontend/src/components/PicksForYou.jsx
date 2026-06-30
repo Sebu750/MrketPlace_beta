@@ -1,29 +1,46 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPublicProducts } from "../store/productsSlice";
 import useReveal from "../hooks/useReveal";
-
-const products = [
-  { id: 10, name: "Chikankari Silk Blouse", designer: "Hira Khan", price: "PKR 32,000", image: "/assets/images/pashmina-wrap-dress-adorzia.webp" },
-  { id: 14, name: "Khaddar Oversized Shirt", designer: "Sana Javed", price: "PKR 21,000", image: "/assets/images/mirror-rebel-tee-adorzia.webp" },
-  { id: 16, name: "Rilli Patchwork Jacket", designer: "Hira Khan", price: "PKR 41,000", image: "/assets/images/phulkari-reborn-blazer-adorzia.webp" },
-  { id: 12, name: "Heritage Clutch Box", designer: "Bilal Raza", price: "PKR 22,000", image: "/assets/images/rilli-sculpt-tote-adorzia.webp" },
-  { id: 4, name: "Pashmina Wrap Dress", designer: "Fatima Qureshi", price: "PKR 52,000", image: "/assets/images/pashmina-wrap-dress-adorzia.webp" },
-  { id: 8, name: "Indigo Quilt Cape", designer: "Ayesha Siddiqui", price: "PKR 36,500", image: "/assets/images/phulkari-reborn-blazer-adorzia.webp" },
-];
+import { Spinner } from "./Skeleton";
 
 const IconChevronLeft = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" {...p}><path d="m15 6-6 6 6 6"/></svg>;
 const IconChevronRight = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" {...p}><path d="m9 6 6 6-6 6"/></svg>;
 const IconHeart = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} {...p}><path d="M12 21C12 21 3 13.5 3 8.5 3 5.42 5.42 3 8.5 3c1.74 0 3.41.81 4.5 2.09A6.04 6.04 0 0 1 15.5 3C18.58 3 21 5.42 21 8.5 21 13.5 12 21 12 21z"/></svg>;
 
 export default function PicksForYou() {
+  const dispatch = useDispatch();
+  const { items: products, loading } = useSelector((s) => s.products.public);
   const scrollRef = useRef(null);
   const [wishId, setWishId] = useState(null);
   const ref = useReveal();
+
+  useEffect(() => {
+    dispatch(fetchPublicProducts({ sort: "-createdAt", limit: 8 }));
+  }, [dispatch]);
 
   const scroll = (dir) => {
     if (!scrollRef.current) return;
     scrollRef.current.scrollBy({ left: dir === "left" ? -320 : 320, behavior: "smooth" });
   };
+
+  const formatPrice = (price) => {
+    if (!price && price !== 0) return "";
+    return `PKR ${price.toLocaleString("en-PK")}`;
+  };
+
+  if (loading) {
+    return (
+      <section className="bg-ivory-50 py-20 md:py-28 flex items-center justify-center min-h-[500px]">
+        <Spinner />
+      </section>
+    );
+  }
+
+  if (!products || products.length === 0) {
+    return null;
+  }
 
   return (
     <section className="bg-ivory-50 py-20 md:py-28">
@@ -48,21 +65,21 @@ export default function PicksForYou() {
         {/* Horizontal scroll */}
         <div ref={scrollRef} className="flex gap-5 overflow-x-auto hide-scrollbar pb-4 -mx-6 px-6 snap-x snap-mandatory">
           {products.map((p) => (
-            <Link key={p.id} to={`/pieces/${p.id}`}
+            <Link key={p._id} to={`/pieces/${p._id}`}
               className="group shrink-0 w-[260px] sm:w-[280px] snap-start">
               <div className="relative aspect-[3/4] overflow-hidden bg-stone-50">
-                <img src={p.image} alt={p.name}
+                <img src={p.images?.[0]?.url || "/assets/images/khaddar-modern-suit-adorzia.webp"} alt={p.name}
                   className="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:opacity-100 group-hover:scale-[1.04]" />
                 <button
-                  onClick={(e) => { e.preventDefault(); setWishId(wishId === p.id ? null : p.id); }}
+                  onClick={(e) => { e.preventDefault(); setWishId(wishId === p._id ? null : p._id); }}
                   className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-white/80 backdrop-blur-sm border border-bronze-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <IconHeart className={`w-3.5 h-3.5 ${wishId === p.id ? "text-charcoal-500 fill-charcoal-500" : "text-charcoal-300"}`} />
+                  <IconHeart className={`w-3.5 h-3.5 ${wishId === p._id ? "text-charcoal-500 fill-charcoal-500" : "text-charcoal-300"}`} />
                 </button>
               </div>
               <div className="pt-3 pb-1">
                 <h3 className="font-serif text-sm text-charcoal-900 group-hover:text-charcoal-700 transition-colors duration-300 line-clamp-1">{p.name}</h3>
-                <p className="text-xs text-charcoal-300 mt-0.5">{p.designer}</p>
-                <p className="text-sm text-charcoal-800 mt-2">{p.price}</p>
+                <p className="text-xs text-charcoal-300 mt-0.5">{p.designer?.brandName || p.designer?.name || "Independent Designer"}</p>
+                <p className="text-sm text-charcoal-800 mt-2">{formatPrice(p.price)}</p>
               </div>
             </Link>
           ))}

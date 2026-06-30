@@ -80,6 +80,18 @@ export const updateDesignerProfile = createAsyncThunk(
   }
 );
 
+export const fetchOnboardingStatus = createAsyncThunk(
+  "designer/fetchOnboardingStatus",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await API.get("/designers/onboarding-status");
+      return data.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Failed to check onboarding");
+    }
+  }
+);
+
 /* ── Slice ──────────────────────────────────────────────── */
 const designerSlice = createSlice({
   name: "designer",
@@ -87,6 +99,7 @@ const designerSlice = createSlice({
     profile: null,
     dashboard: null,
     analytics: null,
+    onboarding: null,
     loading: false,
     error: null,
     public: {
@@ -122,7 +135,8 @@ const designerSlice = createSlice({
        s.public.loading = false;
        s.public.current = a.payload.data || a.payload;
      })
-     .addCase(fetchPublicDesigner.rejected, (s, a) => { s.public.loading = false; s.public.error = a.payload; });
+     .addCase(fetchPublicDesigner.rejected, (s, a) => { s.public.loading = false; s.public.error = a.payload; })
+     .addCase(fetchOnboardingStatus.fulfilled, (s, a) => { s.onboarding = a.payload; });
   },
 });
 

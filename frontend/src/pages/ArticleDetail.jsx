@@ -109,8 +109,32 @@ export default function ArticleDetail() {
           )}
 
           {article.content && (
-            <div className="prose-article text-charcoal-500 leading-[1.9] text-base md:text-lg whitespace-pre-line">
-              {article.content}
+            <div className="prose-article text-charcoal-500 leading-[1.9] text-base md:text-lg">
+              {article.content.split('\n').map((paragraph, idx) => {
+                const trimmed = paragraph.trim();
+                if (!trimmed) return <br key={idx} />;
+                
+                // Bold headings (marked with **text**)
+                if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
+                  return (
+                    <h3 key={idx} className="font-display text-xl md:text-2xl text-charcoal-900 mt-12 mb-6 tracking-tight">
+                      {trimmed.replace(/\*\*/g, '')}
+                    </h3>
+                  );
+                }
+                
+                // Regular paragraphs
+                return (
+                  <p key={idx} className="mb-6">
+                    {trimmed.split(/(\*\*[^*]+\*\*)/g).map((part, partIdx) => {
+                      if (part.startsWith('**') && part.endsWith('**')) {
+                        return <strong key={partIdx} className="text-charcoal-900 font-medium">{part.replace(/\*\*/g, '')}</strong>;
+                      }
+                      return <span key={partIdx}>{part}</span>;
+                    })}
+                  </p>
+                );
+              })}
             </div>
           )}
 

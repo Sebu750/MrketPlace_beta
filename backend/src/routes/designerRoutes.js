@@ -10,12 +10,14 @@ const {
   updateProfile,
   getDashboard,
   getAnalytics,
+  checkOnboardingStatus,
 } = require("../controllers/designerController");
 
 router.get("/", listDesigners);
 router.get("/dashboard", protect, authorize("seller"), attachDesigner, getDashboard);
 router.get("/analytics", protect, authorize("seller"), attachDesigner, getAnalytics);
 router.get("/me", protect, authorize("seller"), attachDesigner, getProfile);
+router.get("/onboarding-status", protect, authorize("seller"), attachDesigner, checkOnboardingStatus);
 router.put("/profile", protect, authorize("seller"), attachDesigner, updateProfile);
 router.get("/:slug", getDesigner);
 

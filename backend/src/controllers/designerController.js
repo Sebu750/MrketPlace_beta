@@ -107,3 +107,34 @@ exports.getAnalytics = asyncHandler(async (req, res) => {
     data: { monthlyRevenue, topProducts, profileViews: designer.profileViews },
   });
 });
+
+exports.checkOnboardingStatus = asyncHandler(async (req, res) => {
+  const designer = req.designer;
+  if (!designer) { res.status(404); throw new Error("Designer profile not found"); }
+
+  const collectionCount = await Collection.countDocuments({ designer: designer._id, status: "published" });
+  const hasProfile = !!(designer.bio && designer.studioCity && designer.logo);
+  const hasCollection = collectionCount > 0;
+  const complete = hasProfile && hasCollection;
+
+  if (complete && !designer.onboardingComplete) {
+    designer.onboardingComplete = true;
+    await designer.save();
+  }
+
+  res.json({
+    success: true,
+    data: {
+      onboardingComplete: designer.onboardingComplete,
+      hasProfile,
+      hasCollection,
+      collectionCount,
+      profile: {
+        hasBio: !!designer.bio,
+        hasCity: !!designer.studioCity,
+        hasLogo: !!designer.logo,
+        hasBanner: !!designer.banner,
+      },
+    },
+  });
+});

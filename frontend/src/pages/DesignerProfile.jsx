@@ -5,6 +5,8 @@ import { fetchPublicDesigner, fetchPublicDesigners } from "../store/designerSlic
 import { fetchPublicCollections } from "../store/collectionsSlice";
 import { fetchPublicProducts } from "../store/productsSlice";
 import { Spinner } from "../components/Skeleton";
+import { MasonryGallery, UniformGridGallery, HeroThumbnailsGallery } from "../components/CollectionGallery";
+import { assets } from "../assets";
 
 /* ════════════════════════════════════════════════════════════════
    COMPONENT — Designer Profile (full page, API-driven)
@@ -13,6 +15,7 @@ export default function DesignerProfile() {
   const { slug } = useParams();
   const dispatch = useDispatch();
   const [supporting, setSupporting] = useState(false);
+  const [galleryLayout, setGalleryLayout] = useState('masonry'); // 'masonry' | 'uniform' | 'hero'
 
   /* ── Redux state ──────────────────────────────────────────── */
   const designer = useSelector((s) => s.designer.public.current);
@@ -53,11 +56,19 @@ export default function DesignerProfile() {
   const year = d.joinedDate ? new Date(d.joinedDate).getFullYear() : "";
   const careerStage = d.verified ? "Spotlight Alumni" : "Rising Talent";
   const stageDetail = d.plan === "enterprise" ? "Established Label" : d.plan === "pro" ? "Independent Creative" : "Emerging Designer";
+  const education = d.education || [];
+  const awards = d.awards || [];
+  const exhibitions = d.exhibitions || [];
+  const publications = d.publications || [];
 
   /* Stats from actual data */
   const productCount = products.length;
   const collectionCount = collections.length;
   const craftCount = crafts.length;
+
+  /* Separate latest vs previous collections */
+  const latestCollection = collections.length > 0 ? collections[0] : null;
+  const previousCollections = collections.length > 1 ? collections.slice(1) : [];
 
   /* Filter out current designer from "more designers" */
   const moreDesigners = useMemo(() => {
@@ -88,167 +99,160 @@ export default function DesignerProfile() {
     <div className="bg-white">
 
       {/* ═══════════════════════════════════════════════════════════
-          1. HERO — Cover + Portrait + Identity
+          1. DESIGNER OVERVIEW — Hero with Profile & Social
       ═══════════════════════════════════════════════════════════ */}
       <section className="relative">
-        <div className="h-72 md:h-96 overflow-hidden">
+        {/* Banner */}
+        <div className="h-80 md:h-[500px] overflow-hidden">
           {banner ? (
-            <img src={banner} alt="" className="w-full h-full object-cover opacity-30" />
+            <img src={banner} alt="" className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-ivory-50 via-stone-100 to-stone-200 opacity-30" />
+            <img src={assets.banners.banner3} alt="" className="w-full h-full object-cover" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/50 to-white" />
+          <div className="absolute inset-0 bg-gradient-to-b from-charcoal-950/40 via-charcoal-950/20 to-white" />
+          
+          {/* Social Links on Banner - Bottom Right */}
+          <div className="absolute bottom-10 right-10 z-20">
+            <div className="flex gap-3">
+              {socials.instagram && (
+                <a href={socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                  className="w-11 h-11 flex items-center justify-center bg-charcoal-900/80 backdrop-blur-sm border border-charcoal-700 text-white text-sm font-medium hover:bg-charcoal-900 transition-colors">
+                  I
+                </a>
+              )}
+              {socials.website && (
+                <a href={socials.website} target="_blank" rel="noopener noreferrer" aria-label="Website"
+                  className="w-11 h-11 flex items-center justify-center bg-charcoal-900/80 backdrop-blur-sm border border-charcoal-700 text-white text-sm font-medium hover:bg-charcoal-900 transition-colors">
+                  W
+                </a>
+              )}
+              {socials.facebook && (
+                <a href={socials.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                  className="w-11 h-11 flex items-center justify-center bg-charcoal-900/80 backdrop-blur-sm border border-charcoal-700 text-white text-sm font-medium hover:bg-charcoal-900 transition-colors">
+                  F
+                </a>
+              )}
+            </div>
+          </div>
         </div>
 
+        {/* Profile Section */}
         <div className="relative max-w-7xl mx-auto px-6 -mt-28 md:-mt-32 z-10">
           <div className="flex flex-col md:flex-row md:items-end gap-6 md:gap-8">
-            {/* Portrait */}
+            {/* Profile Picture */}
             <div className="shrink-0">
               <div className="w-32 h-32 md:w-40 md:h-40 overflow-hidden border-4 border-white shadow-xl rounded-full bg-stone-100">
                 {avatar ? (
                   <img src={avatar} alt={name} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="font-display text-5xl text-charcoal-200">{name.charAt(0)}</span>
-                  </div>
+                  <img src={assets.designers.designer1} alt={name} className="w-full h-full object-cover" />
                 )}
               </div>
             </div>
 
-            {/* Identity */}
+            {/* Identity & Bio */}
             <div className="flex-1 pb-1">
-              <div className="flex flex-wrap items-center gap-3 mb-2">
-                <span className="text-[9px] uppercase tracking-[0.2em] bg-bronze-300 text-charcoal-950 px-2.5 py-1 font-medium">
-                  {careerStage}
-                </span>
-                <span className="text-[9px] uppercase tracking-[0.15em] text-charcoal-400 border border-stone-200 px-2 py-0.5">
-                  {stageDetail}
-                </span>
-                {d.verified && (
-                  <span className="text-[9px] uppercase tracking-[0.15em] bg-white/70 backdrop-blur-sm text-bronze-500 px-2 py-0.5 border border-stone-200/50">
-                    Verified
-                  </span>
-                )}
-              </div>
-              <h1 className="font-serif text-4xl md:text-5xl font-medium text-charcoal-900 tracking-tight">{name}</h1>
+              <h1 className="font-serif text-4xl md:text-5xl font-bold text-charcoal-900 tracking-tight">{name}</h1>
               <p className="mt-2 text-sm text-charcoal-400">
                 {city && <>{city}, </>}Pakistan {year && <><span className="text-stone-300 mx-2">·</span> Est. {year}</>}
               </p>
-              {bio && <p className="mt-2 text-sm text-charcoal-500 italic max-w-lg line-clamp-2">{bio}</p>}
-            </div>
-
-            {/* Actions */}
-            <div className="flex flex-wrap items-center gap-3 pb-2">
-              <button
-                onClick={() => setSupporting(!supporting)}
-                className={`px-6 py-2.5 text-xs uppercase tracking-[0.18em] transition-all duration-300 ${
-                  supporting
-                    ? "bg-bronze-300/10 border border-bronze-400 text-bronze-600"
-                    : "bg-charcoal-900 text-white hover:bg-charcoal-800"
-                }`}
-              >
-                {supporting ? "Supporting" : "Support This Designer"}
-              </button>
-              {/* Socials */}
-              <div className="flex gap-2">
-                {socials.instagram && (
-                  <a href={socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-                    className="w-9 h-9 flex items-center justify-center border border-stone-200 text-charcoal-400 text-xs hover:border-bronze-400 hover:text-bronze-500 transition-colors">
-                    I
-                  </a>
-                )}
-                {socials.website && (
-                  <a href={socials.website} target="_blank" rel="noopener noreferrer" aria-label="Website"
-                    className="w-9 h-9 flex items-center justify-center border border-stone-200 text-charcoal-400 text-xs hover:border-bronze-400 hover:text-bronze-500 transition-colors">
-                    W
-                  </a>
-                )}
-                {socials.facebook && (
-                  <a href={socials.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-                    className="w-9 h-9 flex items-center justify-center border border-stone-200 text-charcoal-400 text-xs hover:border-bronze-400 hover:text-bronze-500 transition-colors">
-                    F
-                  </a>
-                )}
-              </div>
+              {bio && <p className="mt-3 text-sm text-charcoal-500 italic max-w-2xl leading-relaxed">{bio}</p>}
             </div>
           </div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          2. STATS BAR — mission-aligned metrics
+          2. LATEST COLLECTION — Featured Drop
       ═══════════════════════════════════════════════════════════ */}
-      <section className="mt-12 border-y border-bronze-200/40 bg-ivory-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-bronze-200/30">
-            {[
-              { value: productCount, label: "Pieces Launched" },
-              { value: craftCount, label: "Craft Traditions Worked With" },
-              { value: collectionCount, label: "Collections on Adorzia" },
-              { value: year || "—", label: "Debut Year" },
-            ].map((stat, i) => (
-              <div key={i} className="py-8 px-4 md:px-6 text-center">
-                <p className="font-serif text-2xl md:text-3xl text-charcoal-900 font-medium">{stat.value}</p>
-                <p className="mt-1.5 text-[10px] uppercase tracking-[0.2em] text-charcoal-400">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════
-          3. ABOUT — Biography
-      ═══════════════════════════════════════════════════════════ */}
-      {bio && (
+      {latestCollection && (
         <section className="py-24 md:py-32 bg-white">
           <div className="max-w-7xl mx-auto px-6">
-            <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">About</p>
-            <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-medium mb-16">The Designer</h2>
+            <div className="flex items-end justify-between mb-12">
+              <div>
+                <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">Latest Collection</p>
+                <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-bold">{latestCollection.name}</h2>
+              </div>
+              <div className="flex items-center gap-6">
+                {/* Layout Selector - Hidden from UI */}
+                <div className="hidden">
+                  <button onClick={() => setGalleryLayout('masonry')}>Masonry</button>
+                  <button onClick={() => setGalleryLayout('uniform')}>Grid</button>
+                  <button onClick={() => setGalleryLayout('hero')}>Hero</button>
+                </div>
+                <Link to={`/collections/${latestCollection.slug || latestCollection._id}`} className="hidden md:inline-flex items-center gap-2 text-sm text-bronze-500 tracking-wide hover:text-bronze-400 transition-colors">
+                  View Collection
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </Link>
+              </div>
+            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
-              <div className="lg:col-span-7">
-                <p className="text-charcoal-500 leading-[1.85] text-base md:text-lg whitespace-pre-line">{bio}</p>
+            {/* Featured Hero Image */}
+            {latestCollection.coverImage && (
+              <div className="relative aspect-[16/9] md:aspect-[21/9] overflow-hidden mb-6 group">
+                <img src={latestCollection.coverImage} alt={latestCollection.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/40 via-transparent to-transparent" />
               </div>
-              <div className="lg:col-span-5 space-y-8">
-                {cats.length > 0 && (
-                  <div className="border-l-2 border-bronze-400 pl-6">
-                    <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500 mb-3">Categories</p>
-                    <div className="flex flex-wrap gap-2">
-                      {cats.map((cat) => (
-                        <span key={cat} className="text-[10px] uppercase tracking-[0.2em] text-charcoal-400 border border-stone-200 px-3 py-1">{cat}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {city && (
-                  <div className="bg-stone-50 border border-stone-200 p-6">
-                    <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500/60 mb-2">Studio Location</p>
-                    <p className="text-sm text-charcoal-500">Adorzia Studio, {city}</p>
-                  </div>
-                )}
-                {d.defaultShippingPolicy && (
-                  <div className="bg-stone-50 border border-stone-200 p-6">
-                    <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500/60 mb-2">Shipping</p>
-                    <p className="text-sm text-charcoal-500">{d.defaultShippingPolicy}</p>
-                  </div>
-                )}
-              </div>
+            )}
+
+            {/* Moodboard Gallery - Lookbook Style */}
+            {latestCollection.lookbookImages && latestCollection.lookbookImages.length > 0 ? (
+              <MasonryGallery images={latestCollection.lookbookImages} collectionName={latestCollection.name} />
+            ) : (
+              /* Fallback to products if no lookbook images */
+              products.length > 0 && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                  {products.filter(p => !latestCollection.products || latestCollection.products.includes(p._id)).slice(0, 4).map((p) => (
+                    <Link key={p._id} to={`/pieces/${p._id}`} className="group cursor-pointer">
+                      <div className="relative aspect-[3/4] overflow-hidden bg-stone-100 mb-3">
+                        {p.images?.[0] ? (
+                          <img src={p.images[0]} alt={p.name} loading="lazy" decoding="async"
+                            className="w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.05]" />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-ivory-50 via-stone-100 to-stone-200 flex items-center justify-center">
+                            <span className="font-display text-3xl text-charcoal-200">{name.charAt(0)}</span>
+                          </div>
+                        )}
+                      </div>
+                      <h3 className="font-serif text-sm text-charcoal-900 group-hover:text-bronze-500 transition-colors">{p.name}</h3>
+                      <p className="text-xs text-bronze-500 mt-1">PKR {p.price?.toLocaleString()}</p>
+                    </Link>
+                  ))}
+                </div>
+              )
+            )}
+
+            {/* Collection Info - Below Gallery */}
+            <div className="mt-12 max-w-3xl">
+              {latestCollection.season && (
+                <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500 mb-3">{latestCollection.season}</p>
+              )}
+              {latestCollection.description && (
+                <p className="text-base md:text-lg text-charcoal-600 leading-[1.85] mb-6">{latestCollection.description}</p>
+              )}
+              {latestCollection.craftTraditions && latestCollection.craftTraditions.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-6">
+                  {latestCollection.craftTraditions.map((craft) => (
+                    <span key={craft} className="text-[10px] uppercase tracking-[0.2em] text-charcoal-400 border border-stone-200 px-3 py-1">{craft}</span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </section>
       )}
 
       {/* ═══════════════════════════════════════════════════════════
-          4. COLLECTIONS — "The Archive"
+          3. PREVIOUS COLLECTIONS — The Archive
       ═══════════════════════════════════════════════════════════ */}
-      {collections.length > 0 && (
+      {previousCollections.length > 0 && (
         <section className="py-24 md:py-32 bg-stone-50 border-t border-bronze-200/40">
           <div className="max-w-7xl mx-auto px-6">
             <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">Body of Work</p>
-            <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-medium mb-14">The Archive</h2>
+            <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-bold mb-14">Previous Collections</h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {collections.map((col) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {previousCollections.map((col) => (
                 <Link key={col._id} to={`/collections/${col.slug || col._id}`} className="group block hover-lift">
                   <div className="relative aspect-[4/5] overflow-hidden">
                     {col.coverImage ? (
@@ -276,13 +280,118 @@ export default function DesignerProfile() {
       )}
 
       {/* ═══════════════════════════════════════════════════════════
-          5. SELECTED WORKS — Products
+          4. ABOUT THE DESIGNER — Biography, Education & Awards
       ═══════════════════════════════════════════════════════════ */}
-      {products.length > 0 && (
+      {bio && (
         <section className="py-24 md:py-32 bg-white">
           <div className="max-w-7xl mx-auto px-6">
+            <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">About</p>
+            <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-bold mb-16">The Designer</h2>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+              {/* Biography */}
+              <div className="lg:col-span-7">
+                <p className="text-charcoal-500 leading-[1.85] text-base md:text-lg whitespace-pre-line">{bio}</p>
+              </div>
+
+              {/* Sidebar Info */}
+              <div className="lg:col-span-5 space-y-8">
+                {/* Education */}
+                {education.length > 0 && (
+                  <div className="border-l-2 border-bronze-400 pl-6">
+                    <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500 mb-4">Education</p>
+                    <div className="space-y-4">
+                      {education.map((edu, idx) => (
+                        <div key={idx}>
+                          <p className="text-sm text-charcoal-900 font-medium">{edu.degree || edu}</p>
+                          {edu.institution && <p className="text-xs text-charcoal-400 mt-0.5">{edu.institution}</p>}
+                          {edu.year && <p className="text-xs text-charcoal-400 mt-0.5">{edu.year}</p>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Awards */}
+                {awards.length > 0 && (
+                  <div className="border-l-2 border-bronze-400 pl-6">
+                    <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500 mb-4">Awards & Recognition</p>
+                    <div className="space-y-3">
+                      {awards.map((award, idx) => (
+                        <div key={idx}>
+                          <p className="text-sm text-charcoal-900">{award.title || award}</p>
+                          {award.year && <p className="text-xs text-charcoal-400 mt-0.5">{award.year}</p>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Exhibitions */}
+                {exhibitions.length > 0 && (
+                  <div className="border-l-2 border-bronze-400 pl-6">
+                    <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500 mb-4">Exhibitions</p>
+                    <div className="space-y-3">
+                      {exhibitions.map((exh, idx) => (
+                        <div key={idx}>
+                          <p className="text-sm text-charcoal-900">{exh.title || exh}</p>
+                          {exh.venue && <p className="text-xs text-charcoal-400 mt-0.5">{exh.venue}</p>}
+                          {exh.year && <p className="text-xs text-charcoal-400 mt-0.5">{exh.year}</p>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Publications */}
+                {publications.length > 0 && (
+                  <div className="border-l-2 border-bronze-400 pl-6">
+                    <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500 mb-4">Publications</p>
+                    <div className="space-y-3">
+                      {publications.map((pub, idx) => (
+                        <div key={idx}>
+                          <p className="text-sm text-charcoal-900">{pub.title || pub}</p>
+                          {pub.publisher && <p className="text-xs text-charcoal-400 mt-0.5">{pub.publisher}</p>}
+                          {pub.year && <p className="text-xs text-charcoal-400 mt-0.5">{pub.year}</p>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Categories */}
+                {cats.length > 0 && (
+                  <div className="border-l-2 border-bronze-400 pl-6">
+                    <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500 mb-3">Categories</p>
+                    <div className="flex flex-wrap gap-2">
+                      {cats.map((cat) => (
+                        <span key={cat} className="text-[10px] uppercase tracking-[0.2em] text-charcoal-400 border border-stone-200 px-3 py-1">{cat}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Studio Location */}
+                {city && (
+                  <div className="bg-stone-50 border border-stone-200 p-6">
+                    <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500/60 mb-2">Studio Location</p>
+                    <p className="text-sm text-charcoal-500">Adorzia Studio, {city}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════════
+          5. SELECTED WORKS — Iconic Pieces
+      ═══════════════════════════════════════════════════════════ */}
+      {products.length > 0 && (
+        <section className="py-24 md:py-32 bg-stone-50 border-t border-bronze-200/40">
+          <div className="max-w-7xl mx-auto px-6">
             <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">Iconic Work</p>
-            <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-medium mb-14">Selected Works</h2>
+            <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-bold mb-14">Selected Works</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {products.slice(0, 8).map((p) => (
@@ -311,13 +420,13 @@ export default function DesignerProfile() {
       )}
 
       {/* ═══════════════════════════════════════════════════════════
-          6. HERITAGE CRAFT USAGE
+          6. HERITAGE CRAFT — Living Traditions
       ═══════════════════════════════════════════════════════════ */}
       {crafts.length > 0 && (
-        <section className="py-24 md:py-32 bg-stone-50 border-t border-bronze-200/40">
+        <section className="py-24 md:py-32 bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">Heritage</p>
-            <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-medium mb-4">Craft Traditions</h2>
+            <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-bold mb-4">Craft Traditions</h2>
             <p className="text-sm text-charcoal-400 max-w-xl mb-14">
               The traditional crafts this designer works with — each one a living heritage practice sustained through contemporary design.
             </p>
@@ -335,70 +444,28 @@ export default function DesignerProfile() {
       )}
 
       {/* ═══════════════════════════════════════════════════════════
-          7. CONTACT & COLLABORATE
+          7. DESIGN PHILOSOPHY — Creative Manifesto
       ═══════════════════════════════════════════════════════════ */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-24 md:py-32 bg-white border-t border-bronze-200/40">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">Get in Touch</p>
-          <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-medium mb-14">Contact & Collaborate</h2>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-            {/* Form */}
-            <div className="lg:col-span-7">
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <input type="text" placeholder="Your Name" required
-                    className="w-full px-5 py-3.5 bg-white border border-stone-200 text-charcoal-900 text-sm placeholder:text-charcoal-300 focus:outline-none focus:border-bronze-400 transition-colors" />
-                  <input type="email" placeholder="Email Address" required
-                    className="w-full px-5 py-3.5 bg-white border border-stone-200 text-charcoal-900 text-sm placeholder:text-charcoal-300 focus:outline-none focus:border-bronze-400 transition-colors" />
-                </div>
-                <select className="w-full px-5 py-3.5 bg-white border border-stone-200 text-charcoal-400 text-sm focus:outline-none focus:border-bronze-400 transition-colors">
-                  <option>Inquiry Type</option>
-                  <option>Press & Stockist Inquiries</option>
-                  <option>Custom & Bespoke Orders</option>
-                </select>
-                <textarea rows={5} placeholder="Your message…" required
-                  className="w-full px-5 py-3.5 bg-white border border-stone-200 text-charcoal-900 text-sm placeholder:text-charcoal-300 focus:outline-none focus:border-bronze-400 transition-colors resize-none" />
-                <button type="submit" className="bg-charcoal-900 text-white px-8 py-3 text-xs uppercase tracking-[0.18em] hover:bg-charcoal-800 transition-colors inline-flex items-center gap-2">
-                  Send Inquiry
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                </button>
-              </form>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div>
+              <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">Philosophy</p>
+              <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-bold">Design Manifesto</h2>
             </div>
-
-            {/* Info panel */}
-            <div className="lg:col-span-5">
-              <div className="border border-stone-100 bg-ivory-50 p-8 space-y-8">
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500/60 mb-2">Response Time</p>
-                  <p className="text-sm text-charcoal-900">Within 48 hours</p>
+            <div className="space-y-6">
+              <p className="text-charcoal-500 leading-relaxed text-base md:text-lg">
+                At Adorzia, design is a dialogue between tradition and innovation. Every piece carries the weight of centuries-old craftsmanship, reimagined for the contemporary wearer.
+              </p>
+              <div className="grid grid-cols-2 gap-4 mt-6">
+                <div className="border-l-2 border-bronze-400 pl-4">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-bronze-500">Approach</p>
+                  <p className="text-sm text-charcoal-600 mt-1">Slow, intentional, and deeply rooted in material wisdom</p>
                 </div>
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500/60 mb-3">Inquiry Categories</p>
-                  <ul className="space-y-2">
-                    <li className="text-sm text-charcoal-500">Press & Stockist Inquiries</li>
-                    <li className="text-sm text-charcoal-500">Custom & Bespoke Orders</li>
-                  </ul>
+                <div className="border-l-2 border-bronze-400 pl-4">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-bronze-500">Ethos</p>
+                  <p className="text-sm text-charcoal-600 mt-1">Sustainability as a practice, not a trend</p>
                 </div>
-                {Object.keys(socials).length > 0 && (
-                  <div className="border-t border-bronze-200/30 pt-6">
-                    <p className="text-[10px] uppercase tracking-[0.25em] text-bronze-500/60 mb-3">Social</p>
-                    <div className="flex gap-3">
-                      {socials.instagram && (
-                        <a href={socials.instagram} target="_blank" rel="noopener noreferrer"
-                          className="w-10 h-10 flex items-center justify-center border border-stone-200 text-charcoal-400 text-xs hover:border-bronze-400 hover:text-bronze-500 transition-colors">I</a>
-                      )}
-                      {socials.website && (
-                        <a href={socials.website} target="_blank" rel="noopener noreferrer"
-                          className="w-10 h-10 flex items-center justify-center border border-stone-200 text-charcoal-400 text-xs hover:border-bronze-400 hover:text-bronze-500 transition-colors">W</a>
-                      )}
-                      {socials.facebook && (
-                        <a href={socials.facebook} target="_blank" rel="noopener noreferrer"
-                          className="w-10 h-10 flex items-center justify-center border border-stone-200 text-charcoal-400 text-xs hover:border-bronze-400 hover:text-bronze-500 transition-colors">F</a>
-                      )}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           </div>
@@ -406,7 +473,57 @@ export default function DesignerProfile() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          8. MORE DESIGNERS
+          8. COLLABORATIONS — Artist Partnerships
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32 bg-stone-50 border-t border-bronze-200/40">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">Collaborations</p>
+          <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-bold mb-4">Artist Partnerships</h2>
+          <p className="text-sm text-charcoal-400 max-w-xl mb-14">
+            Adorzia collaborates with artists and artisans who share a commitment to preserving heritage crafts.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { name: "Akram Textiles", craft: "Handloom Weaving", year: "2022" },
+              { name: "Anokhi Collective", craft: "Block Printing", year: "2023" },
+              { name: "Kutch Embroidery Guild", craft: "Mirror Work", year: "2024" }
+            ].map((colab, i) => (
+              <div key={i} className="bg-white p-6 border border-stone-100 hover:border-bronze-300/50 transition-colors duration-300">
+                <h3 className="font-serif text-lg text-charcoal-900">{colab.name}</h3>
+                <p className="text-sm text-charcoal-500 mt-1">{colab.craft}</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-bronze-400 mt-3">Since {colab.year}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          9. PRESS & FEATURES — Media Mentions
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32 bg-white border-t border-bronze-200/40">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">Press</p>
+          <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-bold mb-14">Featured In</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { publication: "Vogue Pakistan", title: "The New Wave of Heritage Craft" },
+              { publication: "Elle Decoration", title: "Traditional Craft, Modern Form" },
+              { publication: "Architectural Digest", title: "Where Art Meets Wearable Design" }
+            ].map((feature, i) => (
+              <div key={i} className="border-l-2 border-bronze-400 pl-6 py-2">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-bronze-500">{feature.publication}</p>
+                <p className="text-sm text-charcoal-700 mt-1 italic">“{feature.title}”</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          10. MORE DESIGNERS — Discover
       ═══════════════════════════════════════════════════════════ */}
       {moreDesigners.length > 0 && (
         <section className="py-24 md:py-32 bg-stone-50 border-t border-bronze-200/40">
@@ -414,7 +531,7 @@ export default function DesignerProfile() {
             <div className="flex items-end justify-between mb-12">
               <div>
                 <p className="text-xs uppercase tracking-[0.25em] text-bronze-500 mb-4">Discover</p>
-                <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-medium">More Designers</h2>
+                <h2 className="font-serif text-3xl md:text-4xl text-charcoal-900 font-bold">More Designers</h2>
               </div>
               <Link to="/designers" className="hidden md:inline-flex items-center gap-2 text-sm text-bronze-500 tracking-wide hover:text-bronze-400 transition-colors">
                 Browse All
@@ -449,6 +566,25 @@ export default function DesignerProfile() {
                 );
               })}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════════
+          11. SHOP THE COLLECTION — CTA to Explore All Products
+      ═══════════════════════════════════════════════════════════ */}
+      {products.length > 0 && (
+        <section className="py-16 md:py-24 bg-charcoal-950">
+          <div className="max-w-7xl mx-auto px-6 text-center">
+            <h2 className="font-serif text-3xl md:text-4xl text-white font-bold tracking-wide">
+              Explore the Adorzia Collection
+            </h2>
+            <p className="text-charcoal-300 max-w-md mx-auto mt-4 text-sm leading-relaxed">
+              Discover handcrafted pieces that bridge tradition and contemporary design.
+            </p>
+            <Link to={`/${slug}/products`} className="inline-block mt-8 px-10 py-3 border border-bronze-400 text-bronze-400 text-xs uppercase tracking-[0.25em] hover:bg-bronze-400 hover:text-charcoal-950 transition-colors duration-300">
+              Shop All Products
+            </Link>
           </div>
         </section>
       )}

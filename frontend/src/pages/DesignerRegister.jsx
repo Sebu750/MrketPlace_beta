@@ -74,10 +74,10 @@ export default function DesignerRegister() {
           <div className="bg-charcoal-800 border border-charcoal-700 p-4 text-sm text-stone-400">
             <p className="font-medium text-ivory-200 mb-2">What happens next?</p>
             <ul className="space-y-1 text-xs">
-              <li className="text-ivory-300">1. Complete your designer profile</li>
-              <li className="text-ivory-300">2. Submit your first collection for review</li>
-              <li className="text-ivory-300">3. Our curation team reviews within 48 hours</li>
-              <li className="text-ivory-300">4. Once approved, your storefront goes live</li>
+              <li className="text-ivory-300">1. Complete your designer profile — add your bio, studio city, and brand logo</li>
+              <li className="text-ivory-300">2. Create your first collection — upload images and tell your story</li>
+              <li className="text-ivory-300">3. Your collection goes live immediately on Adorzia</li>
+              <li className="text-ivory-300">4. Start receiving orders from our global audience</li>
             </ul>
           </div>
 

@@ -82,7 +82,7 @@ export default function DesignerLayout() {
           <Link to="/" className="font-serif text-[22px] text-white tracking-[0.02em] font-light">
             Adorzia
           </Link>
-          <p className="text-[9px] uppercase tracking-[0.3em] text-bronze-400 mt-1">Designer Studio</p>
+          <p className="text-[9px] uppercase tracking-[0.3em] text-charcoal-500 mt-1">Designer Dashboard</p>
         </div>
 
         {/* Navigation */}

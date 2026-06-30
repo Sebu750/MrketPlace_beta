@@ -90,6 +90,7 @@ const roleRegister = (forcedRole) =>
         password,
         role: "seller",
         slug: name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, ""),
+        onboardingComplete: false,
       });
     }
 

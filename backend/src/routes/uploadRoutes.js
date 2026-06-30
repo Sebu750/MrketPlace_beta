@@ -39,4 +39,10 @@ router.post("/collection", protect, upload("collections").array("lookbook", 6), 
   res.json({ success: true, data: req.files.map((f) => ({ url: fileUrl(f) })) });
 });
 
+// Designer profile upload (logo or banner)
+router.post("/designer", protect, upload("designers").single("image"), (req, res) => {
+  if (!req.file) { res.status(400); throw new Error("No file uploaded"); }
+  res.json({ success: true, data: { url: fileUrl(req.file), publicId: req.file.filename } });
+});
+
 module.exports = router;

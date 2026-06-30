@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDesignerProfile, updateDesignerProfile } from "../store/designerSlice";
+import API from "../services/api";
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
 const IconCheck = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...p}><polyline points="20 6 9 17 4 12"/></svg>;
@@ -29,6 +30,11 @@ export default function DesignerProfileSettings() {
   const [tab, setTab] = useState("Brand");
   const [saved, setSaved] = useState(false);
 
+  /* Upload state */
+  const [uploading, setUploading] = useState({ logo: false, banner: false });
+  const [logoPreview, setLogoPreview] = useState(null);
+  const [bannerPreview, setBannerPreview] = useState(null);
+
   useEffect(() => {
     dispatch(fetchDesignerProfile());
   }, [dispatch]);
@@ -52,7 +58,9 @@ export default function DesignerProfileSettings() {
 
   useEffect(() => {
     if (profile) {
-      setBrand({ name: profile.brandName || profile.name || "", bio: profile.bio || "", instagram: profile.socialLinks?.instagram || "", website: profile.socialLinks?.website || "" });
+      setBrand({ name: profile.brandName || profile.name || "", bio: profile.bio || "", instagram: profile.socialLinks?.instagram || "", website: profile.socialLinks?.website || "", logo: profile.logo || "", banner: profile.banner || "" });
+      setLogoPreview(profile.logo || null);
+      setBannerPreview(profile.banner || null);
       setStore((s) => ({ ...s, city: profile.studioCity || "Lahore" }));
       setAccount({ email: profile.email || "", name: profile.name || "", notifyOrder: profile.notifications?.orders !== false, notifyPayout: true, notifyReview: true, notifyMarketing: profile.notifications?.marketing || false });
     }
@@ -62,6 +70,8 @@ export default function DesignerProfileSettings() {
     dispatch(updateDesignerProfile({
       brandName: brand.name,
       bio: brand.bio,
+      logo: brand.logo,
+      banner: brand.banner,
       socialLinks: { instagram: brand.instagram, website: brand.website },
       studioCity: store.city,
     })).then(() => {
@@ -73,6 +83,32 @@ export default function DesignerProfileSettings() {
   const updateBrand = (k, v) => setBrand((b) => ({ ...b, [k]: v }));
   const updateStore = (k, v) => setStore((s) => ({ ...s, [k]: v }));
   const updateAccount = (k, v) => setAccount((a) => ({ ...a, [k]: v }));
+
+  const handleImageUpload = async (type, file) => {
+    if (!file || !file.type.startsWith("image/")) return;
+    setUploading((u) => ({ ...u, [type]: true }));
+    
+    try {
+      const fd = new FormData();
+      fd.append("image", file);
+      const { data } = await API.post("/upload/designer", fd, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      
+      const url = data.data?.url || "";
+      if (type === "logo") {
+        setLogoPreview(url);
+        setBrand((b) => ({ ...b, logo: url }));
+      } else {
+        setBannerPreview(url);
+        setBrand((b) => ({ ...b, banner: url }));
+      }
+    } catch (err) {
+      console.error(`Failed to upload ${type}:`, err);
+    } finally {
+      setUploading((u) => ({ ...u, [type]: false }));
+    }
+  };
 
   if (loading && !profile) {
     return <div className="flex items-center justify-center py-20"><p className="text-sm text-charcoal-400">Loading settings...</p></div>;
@@ -118,16 +154,60 @@ export default function DesignerProfileSettings() {
 
           <div className="grid grid-cols-2 gap-4">
             <Field label="Logo" hint="Square, min 400×400px">
-              <div className="border-2 border-dashed border-stone-200 bg-stone-50 p-6 text-center hover:border-bronze-300 transition-colors cursor-pointer">
-                <IconUpload className="w-6 h-6 text-charcoal-300 mx-auto mb-2" />
-                <p className="text-[11px] text-charcoal-400">Upload logo</p>
-              </div>
+              <input
+                type="file" accept="image/jpeg,image/png,image/webp"
+                className="hidden" id="logo-upload"
+                onChange={(e) => handleImageUpload("logo", e.target.files?.[0])}
+              />
+              <label htmlFor="logo-upload" className="block cursor-pointer">
+                {logoPreview ? (
+                  <div className="relative group">
+                    <img src={logoPreview} alt="Logo" className="w-full aspect-square object-cover border border-stone-200" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span className="text-white text-xs uppercase tracking-wider">Change</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="border-2 border-dashed border-stone-200 bg-stone-50 p-6 text-center hover:border-bronze-300 transition-colors">
+                    {uploading.logo ? (
+                      <p className="text-[11px] text-charcoal-400">Uploading...</p>
+                    ) : (
+                      <>
+                        <IconUpload className="w-6 h-6 text-charcoal-300 mx-auto mb-2" />
+                        <p className="text-[11px] text-charcoal-400">Upload logo</p>
+                      </>
+                    )}
+                  </div>
+                )}
+              </label>
             </Field>
             <Field label="Banner Image" hint="16:9 ratio, min 1200×675px">
-              <div className="border-2 border-dashed border-stone-200 bg-stone-50 p-6 text-center hover:border-bronze-300 transition-colors cursor-pointer">
-                <IconUpload className="w-6 h-6 text-charcoal-300 mx-auto mb-2" />
-                <p className="text-[11px] text-charcoal-400">Upload banner</p>
-              </div>
+              <input
+                type="file" accept="image/jpeg,image/png,image/webp"
+                className="hidden" id="banner-upload"
+                onChange={(e) => handleImageUpload("banner", e.target.files?.[0])}
+              />
+              <label htmlFor="banner-upload" className="block cursor-pointer">
+                {bannerPreview ? (
+                  <div className="relative group">
+                    <img src={bannerPreview} alt="Banner" className="w-full aspect-[16/9] object-cover border border-stone-200" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span className="text-white text-xs uppercase tracking-wider">Change</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="border-2 border-dashed border-stone-200 bg-stone-50 p-6 text-center hover:border-bronze-300 transition-colors">
+                    {uploading.banner ? (
+                      <p className="text-[11px] text-charcoal-400">Uploading...</p>
+                    ) : (
+                      <>
+                        <IconUpload className="w-6 h-6 text-charcoal-300 mx-auto mb-2" />
+                        <p className="text-[11px] text-charcoal-400">Upload banner</p>
+                      </>
+                    )}
+                  </div>
+                )}
+              </label>
             </Field>
           </div>
 

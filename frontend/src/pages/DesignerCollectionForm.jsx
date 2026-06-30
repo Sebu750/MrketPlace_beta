@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { useState, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { createCollection } from "../store/collectionsSlice";
+import { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createCollection, fetchMyCollections } from "../store/collectionsSlice";
 import API from "../services/api";
 
 /* ── Icons ─────────────────────────────────────────────────────────── */
@@ -29,13 +29,26 @@ const Field = ({ label, children, hint, required }) => (
 /* ───────────────────────────────────────────────────────────────────── */
 export default function DesignerCollectionForm() {
   const dispatch = useDispatch();
+  const { collections } = useSelector((s) => s.collections);
   const [step, setStep] = useState(1);
   const [saved, setSaved] = useState(false);
+  const [isFirstCollection, setIsFirstCollection] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const [form, setForm] = useState({
     name: "", season: "", category: "", description: "", crafts: [],
   });
+
+  /* ── Check if this is the first collection ──────────────────── */
+  useEffect(() => {
+    dispatch(fetchMyCollections());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (collections) {
+      setIsFirstCollection(collections.length === 0);
+    }
+  }, [collections]);
 
   /* ── Image state ──────────────────────────────────────────────── */
   const [coverFile, setCoverFile] = useState(null);
@@ -162,7 +175,7 @@ export default function DesignerCollectionForm() {
           </button>
           <button onClick={() => handleSave("review")} disabled={uploading}
             className="px-5 py-2.5 text-[10px] uppercase tracking-[0.18em] bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors disabled:opacity-50">
-            {uploading ? "Saving…" : saved ? <span className="flex items-center gap-1.5"><IconCheck className="w-3.5 h-3.5" /> Saved</span> : "Submit for Review"}
+            {uploading ? "Saving…" : saved ? <span className="flex items-center gap-1.5"><IconCheck className="w-3.5 h-3.5" /> {isFirstCollection ? "Live on Marketplace!" : "Published"}</span> : "Submit for Review"}
           </button>
         </div>
       </div>
@@ -368,7 +381,7 @@ export default function DesignerCollectionForm() {
               </button>
               <button onClick={() => handleSave("publish")} disabled={uploading}
                 className="px-5 py-2.5 text-[10px] uppercase tracking-[0.18em] bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors disabled:opacity-50">
-                {uploading ? "Publishing…" : saved ? <span className="flex items-center gap-1.5"><IconCheck className="w-3.5 h-3.5" /> Published</span> : "Publish Collection"}
+                {uploading ? "Publishing…" : saved ? <span className="flex items-center gap-1.5"><IconCheck className="w-3.5 h-3.5" /> {isFirstCollection ? "Live on Marketplace!" : "Published"}</span> : "Publish Collection"}
               </button>
             </div>
           </div>
